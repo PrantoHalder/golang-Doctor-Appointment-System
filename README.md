@@ -12,6 +12,8 @@
 ###Requirements
 ###Tables
 #####Doctors Type table
+
+
 |Coulmn name|Data type | Default | key|
 |-----------|----------|---------|----|
 |id         |int       |not null |Primary key|

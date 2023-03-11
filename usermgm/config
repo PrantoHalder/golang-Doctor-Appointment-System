@@ -1,0 +1,11 @@
+[server]
+host = "127.0.0.1"
+port = "4000"
+
+[database]
+host=127.0.0.1
+port=5432
+dbname=doctor_usermgm
+user=postgres
+password=123
+sslmode=disable

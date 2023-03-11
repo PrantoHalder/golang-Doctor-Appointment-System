@@ -1,0 +1,37 @@
+package userpb
+
+type UserService interface {
+	Register(RegisterRequest) RegisterResponse
+	Login(LoginRequest) LoginResponse
+}
+
+type User struct {
+	ID        int    `pb:"1"`
+	FirstName string `pb:"2"`
+	LastName  string `pb:"3"`
+	Username  string `pb:"4"`
+	Email     string `pb:"5"`
+	Status    bool   `pb:"6"`
+	Role      string `pb:"7"`
+}
+
+type RegisterRequest struct {
+	ID        int    `pb:"1"`
+	FirstName string `pb:"2"`
+	LastName  string `pb:"3"`
+	Username  string `pb:"4"`
+	Email     string `pb:"5"`
+	Password  string `pb:"6"`
+}
+
+type RegisterResponse struct {
+	User User `pb:"1"`
+}
+
+type LoginRequest struct {
+	Username string `pb:"1"`
+	Password string `pb:"2"`
+}
+type LoginResponse struct {
+	User User `pb:"1"`
+}
