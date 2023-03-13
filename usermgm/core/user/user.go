@@ -21,7 +21,7 @@ func NewCoreUser (us UserStore) *CoreUser {
 		store: us,
 	}
 }
-
+//user registration function
 func(cu CoreUser) Register (u storage.User) (*storage.User, error) {
 	hashPass, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
 	if err != nil {
@@ -37,3 +37,4 @@ func(cu CoreUser) Register (u storage.User) (*storage.User, error) {
 	}
 	return ru, nil
 }
+

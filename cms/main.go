@@ -9,12 +9,14 @@ import (
 	"net/http"
 	"strings"
 	"time"
-	_ "github.com/lib/pq"
+
 	"github.com/alexedwards/scs/v2"
 	"github.com/go-playground/form"
 	"github.com/justinas/nosurf"
+	_ "github.com/lib/pq"
 	"github.com/pressly/goose/v3"
 	"github.com/spf13/viper"
+	"google.golang.org/grpc"
 	"main.go/cms/handler"
 	"main.go/utility"
 )
@@ -75,7 +77,14 @@ func main (){
 		log.Fatal(err)
 	}
 	
-	chi := handler.NewHandler(sessionManager,decoder,postGresStore,staticFiles,templateFiles)
+    usermgmUrl := config.GetString("usermgm.url")
+	usermgmConn,err := grpc.Dial(usermgmUrl,grpc.WithInsecure())
+	if err != nil {
+		log.Println("the error is in usermgmConn")
+		log.Fatalln(err)
+	}
+
+	chi := handler.NewHandler(sessionManager,decoder,usermgmConn,staticFiles,templateFiles)
 	newChi := nosurf.New(chi)
 
 	p := config.GetInt("server.port")

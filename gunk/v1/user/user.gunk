@@ -3,6 +3,7 @@ package userpb
 type UserService interface {
 	Register(RegisterRequest) RegisterResponse
 	Login(LoginRequest) LoginResponse
+	Status(StatusRequest) StatusResponse
 }
 
 type User struct {
@@ -14,7 +15,9 @@ type User struct {
 	Status    bool   `pb:"6"`
 	Role      string `pb:"7"`
 }
-
+type Status struct {
+	Username  string `pb:"1"`
+}
 type RegisterRequest struct {
 	ID        int    `pb:"1"`
 	FirstName string `pb:"2"`
@@ -34,4 +37,11 @@ type LoginRequest struct {
 }
 type LoginResponse struct {
 	User User `pb:"1"`
+}
+
+type StatusRequest struct {
+	User User `pb:"1"` //TODO :: implemeted later
+	} 
+type StatusResponse struct {
+	User User `pb:"1"` //TODO :: implemeted later
 }

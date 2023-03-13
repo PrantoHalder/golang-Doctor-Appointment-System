@@ -46,3 +46,14 @@ func (u User) Validate() error {
 		),
 	)
 }
+
+type Status struct {
+	Username string `db:"username"`
+	User User
+}
+func (u Status) Validate() error {
+	return validation.ValidateStruct(&u, validation.Field(&u.Username,
+		validation.Required.Error("fast name can not be blank"),
+	),
+	)
+}

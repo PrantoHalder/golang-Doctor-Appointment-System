@@ -9,6 +9,7 @@ import (
 
 type CoreUser interface {
 	Register (storage.User) (*storage.User, error) 
+	
 }
 
 type UserSvc struct {
@@ -49,3 +50,4 @@ func(us UserSvc) Register(ctx context.Context,r *userpb.RegisterRequest) (*userp
    	},
    },nil
 }
+

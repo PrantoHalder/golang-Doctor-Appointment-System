@@ -35,3 +35,4 @@ func(s PostGressStorage) Register(u storage.User) (*storage.User, error){
 	}
 	return &u, nil
 }
+

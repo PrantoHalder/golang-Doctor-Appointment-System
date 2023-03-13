@@ -7,12 +7,13 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/Masterminds/sprig"
 	"github.com/alexedwards/scs/v2"
 	"github.com/go-chi/chi"
-	"github.com/go-playground/form"
 	"github.com/go-chi/chi/middleware"
-	"github.com/Masterminds/sprig"
-
+	"github.com/go-playground/form"
+	"google.golang.org/grpc"
+	userpb "main.go/gunk/v1/user"
 )
 
 
@@ -20,21 +21,21 @@ import (
 type Handler struct {
 	sessionManager *scs.SessionManager
 	decoder        *form.Decoder
-	storage        dbstorage
+	usermgmService  usermgmService
 	Templates      *template.Template
 	staticFiles    fs.FS
 	templateFiles  fs.FS
 }
 
-type dbstorage interface {
-	
+type usermgmService struct {
+	userpb.UserServiceClient
 }
 
-func NewHandler(sm *scs.SessionManager, formDecoder *form.Decoder, storage dbstorage, staticFiles, templateFiles fs.FS) *chi.Mux {
+func NewHandler(sm *scs.SessionManager, formDecoder *form.Decoder, usermgmConn *grpc.ClientConn, staticFiles, templateFiles fs.FS) *chi.Mux {
 	h := &Handler{
 		sessionManager: sm,
 		decoder:        formDecoder,
-		storage:        storage,
+		usermgmService: usermgmService{userpb.NewUserServiceClient(usermgmConn)},
 		staticFiles:    staticFiles,
 		templateFiles:  templateFiles,
 	}
@@ -57,12 +58,16 @@ func NewHandler(sm *scs.SessionManager, formDecoder *form.Decoder, storage dbsto
 	r.Group(func(r chi.Router) {
 		r.Use(sm.LoadAndSave)
 		r.Get("/", h.MainHome)
+		r.Get("/login", h.Login)
+		r.Post("/loginpost", h.LoginPost)
+		r.Get("/register", h.Register)
+		r.Post("/registerpost", h.RegisterPost)
 	})
 
-	r.Route("/users", func(r chi.Router) {
+	r.Route("/patients", func(r chi.Router) {
 		r.Use(sm.LoadAndSave)
 		r.Use(h.Authentication)
-		
+		r.Get("/home", h.PatientHome)
 	})
 	r.Route("/facultys", func(r chi.Router) {
 		r.Use(sm.LoadAndSave)
@@ -116,7 +121,7 @@ func (h *Handler) ParseTemplates() error {
 		},
 	}).Funcs(sprig.FuncMap())
 
-	tmpl := template.Must(templates.ParseFS(h.templateFiles, "*.html"))
+	tmpl := template.Must(templates.ParseFS(h.templateFiles, "*.html,*/*.html"))
 	if tmpl == nil {
 		log.Fatalln("unable to parse templates")
 	}
