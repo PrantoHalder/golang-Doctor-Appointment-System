@@ -16,6 +16,7 @@ type CoreUser interface {
 	RegisterDoctor(storage.User) (*storage.User, error)
 	GetDoctorbyUsernameCore(storage.Login) (*storage.User, error)
 	EditUserCore(int) (*storage.User, error)
+	Registerdoctortype(storage.Doctor_type) (*storage.Doctor_type, error)
 }
 
 type UserSvc struct {
@@ -116,6 +117,28 @@ func (us UserSvc) RegisterDoctor(ctx context.Context, r *userpb.RegisterDoctorRe
 			Username:  u.Username,
 			Email:     u.Email,
 			Role:      u.Role,
+		},
+	}, nil
+}
+//doctor type register
+func (us UserSvc) RegisterDoctorType(ctx context.Context, r *userpb.RegisterDoctorTypeRequest) (*userpb.RegisterDoctorTypeResponse, error) {
+	user := storage.Doctor_type{
+		ID:         int(r.GetID()),
+		DoctorType: r.GetDoctorType(),
+	}
+	if err := user.Validate(); err != nil {
+		fmt.Println("the error is in the serveice layer in Register after user.Validate")
+		return nil, err
+	}
+	u, err := us.core.Registerdoctortype(user)
+	if err != nil {
+		fmt.Println("the error is in the serveice layer in Register after Register(user)")
+		return nil, err
+	}
+	return &userpb.RegisterDoctorTypeResponse{
+		User: &userpb.DoctorType{
+			ID:         int32(u.ID),
+			DoctorType: u.DoctorType,
 		},
 	}, nil
 }

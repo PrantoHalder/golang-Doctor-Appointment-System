@@ -21,6 +21,7 @@ type UserServiceClient interface {
 	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
 	RegisterAdmin(ctx context.Context, in *RegisterAdminRequest, opts ...grpc.CallOption) (*RegisterAdminResponse, error)
 	RegisterDoctor(ctx context.Context, in *RegisterDoctorRequest, opts ...grpc.CallOption) (*RegisterDoctorResponse, error)
+	RegisterDoctorType(ctx context.Context, in *RegisterDoctorTypeRequest, opts ...grpc.CallOption) (*RegisterDoctorTypeResponse, error)
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 	AdminLogin(ctx context.Context, in *AdminLoginRequest, opts ...grpc.CallOption) (*AdminLoginResponse, error)
 	DoctorLogin(ctx context.Context, in *DoctorLoginRequest, opts ...grpc.CallOption) (*DoctorLoginResponse, error)
@@ -56,6 +57,15 @@ func (c *userServiceClient) RegisterAdmin(ctx context.Context, in *RegisterAdmin
 func (c *userServiceClient) RegisterDoctor(ctx context.Context, in *RegisterDoctorRequest, opts ...grpc.CallOption) (*RegisterDoctorResponse, error) {
 	out := new(RegisterDoctorResponse)
 	err := c.cc.Invoke(ctx, "/userpb.UserService/RegisterDoctor", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) RegisterDoctorType(ctx context.Context, in *RegisterDoctorTypeRequest, opts ...grpc.CallOption) (*RegisterDoctorTypeResponse, error) {
+	out := new(RegisterDoctorTypeResponse)
+	err := c.cc.Invoke(ctx, "/userpb.UserService/RegisterDoctorType", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -105,6 +115,7 @@ type UserServiceServer interface {
 	Register(context.Context, *RegisterRequest) (*RegisterResponse, error)
 	RegisterAdmin(context.Context, *RegisterAdminRequest) (*RegisterAdminResponse, error)
 	RegisterDoctor(context.Context, *RegisterDoctorRequest) (*RegisterDoctorResponse, error)
+	RegisterDoctorType(context.Context, *RegisterDoctorTypeRequest) (*RegisterDoctorTypeResponse, error)
 	Login(context.Context, *LoginRequest) (*LoginResponse, error)
 	AdminLogin(context.Context, *AdminLoginRequest) (*AdminLoginResponse, error)
 	DoctorLogin(context.Context, *DoctorLoginRequest) (*DoctorLoginResponse, error)
@@ -124,6 +135,9 @@ func (UnimplementedUserServiceServer) RegisterAdmin(context.Context, *RegisterAd
 }
 func (UnimplementedUserServiceServer) RegisterDoctor(context.Context, *RegisterDoctorRequest) (*RegisterDoctorResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegisterDoctor not implemented")
+}
+func (UnimplementedUserServiceServer) RegisterDoctorType(context.Context, *RegisterDoctorTypeRequest) (*RegisterDoctorTypeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RegisterDoctorType not implemented")
 }
 func (UnimplementedUserServiceServer) Login(context.Context, *LoginRequest) (*LoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
@@ -200,6 +214,24 @@ func _UserService_RegisterDoctor_Handler(srv interface{}, ctx context.Context, d
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserServiceServer).RegisterDoctor(ctx, req.(*RegisterDoctorRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_RegisterDoctorType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RegisterDoctorTypeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).RegisterDoctorType(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/userpb.UserService/RegisterDoctorType",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).RegisterDoctorType(ctx, req.(*RegisterDoctorTypeRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -294,6 +326,10 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RegisterDoctor",
 			Handler:    _UserService_RegisterDoctor_Handler,
+		},
+		{
+			MethodName: "RegisterDoctorType",
+			Handler:    _UserService_RegisterDoctorType_Handler,
 		},
 		{
 			MethodName: "Login",

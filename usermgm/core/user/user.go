@@ -15,6 +15,7 @@ type UserStore interface {
 	RegisterDoctor(storage.User) (*storage.User, error)
 	GetDoctorByUsername(string) (*storage.User, error)
 	EditUser(int) (*storage.User, error)
+	Registerdoctortype(storage.Doctor_type) (*storage.Doctor_type, error)
 }
 
 type CoreUser struct {
@@ -136,4 +137,17 @@ func (cu CoreUser) EditUserCore(id int) (*storage.User, error){
       return nil,err
 	}
 	return user,nil
+}
+//doctor_type create
+func (cu CoreUser)Registerdoctortype(u storage.Doctor_type) (*storage.Doctor_type, error){
+	ru, err := cu.store.Registerdoctortype(u)
+	if err != nil {
+		fmt.Println("the error is in the core layer in Register after cu.store.Register")
+		return nil, err
+	}
+	if ru == nil {
+		fmt.Println("the error is in the core layer in Register after ru == nil")
+		return nil, fmt.Errorf("enable to register")
+	}
+	return ru, nil
 }
