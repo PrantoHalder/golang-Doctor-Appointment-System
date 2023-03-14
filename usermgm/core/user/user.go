@@ -13,7 +13,8 @@ type UserStore interface {
 	GetAdminByUsername(string) (*storage.User, error)
 	RegisterAdmin(storage.User) (*storage.User, error)
 	RegisterDoctor(storage.User) (*storage.User, error)
-	GetDoctorByUsername(username string) (*storage.User, error)
+	GetDoctorByUsername(string) (*storage.User, error)
+	EditUser(int) (*storage.User, error)
 }
 
 type CoreUser struct {
@@ -121,6 +122,18 @@ func (cu CoreUser) GetDoctorbyUsernameCore(login storage.Login) (*storage.User, 
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(login.Password)); err != nil{
 		fmt.Println("the error is in the core layer in GetStatusbyUsernameCore after bcrypt.CompareHashAndPassword ")
 		return nil, err
+	}
+	return user,nil
+}
+//edit user
+func (cu CoreUser) EditUserCore(id int) (*storage.User, error){
+	var usr storage.User
+	user ,err := cu.store.EditUser(usr.ID)
+	if err != nil {
+		return nil,err
+	}
+	if user == nil{
+      return nil,err
 	}
 	return user,nil
 }

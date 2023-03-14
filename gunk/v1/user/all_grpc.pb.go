@@ -24,6 +24,7 @@ type UserServiceClient interface {
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 	AdminLogin(ctx context.Context, in *AdminLoginRequest, opts ...grpc.CallOption) (*AdminLoginResponse, error)
 	DoctorLogin(ctx context.Context, in *DoctorLoginRequest, opts ...grpc.CallOption) (*DoctorLoginResponse, error)
+	UserEdit(ctx context.Context, in *UserEditRequest, opts ...grpc.CallOption) (*UserEditResponse, error)
 }
 
 type userServiceClient struct {
@@ -88,6 +89,15 @@ func (c *userServiceClient) DoctorLogin(ctx context.Context, in *DoctorLoginRequ
 	return out, nil
 }
 
+func (c *userServiceClient) UserEdit(ctx context.Context, in *UserEditRequest, opts ...grpc.CallOption) (*UserEditResponse, error) {
+	out := new(UserEditResponse)
+	err := c.cc.Invoke(ctx, "/userpb.UserService/UserEdit", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
@@ -98,6 +108,7 @@ type UserServiceServer interface {
 	Login(context.Context, *LoginRequest) (*LoginResponse, error)
 	AdminLogin(context.Context, *AdminLoginRequest) (*AdminLoginResponse, error)
 	DoctorLogin(context.Context, *DoctorLoginRequest) (*DoctorLoginResponse, error)
+	UserEdit(context.Context, *UserEditRequest) (*UserEditResponse, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -122,6 +133,9 @@ func (UnimplementedUserServiceServer) AdminLogin(context.Context, *AdminLoginReq
 }
 func (UnimplementedUserServiceServer) DoctorLogin(context.Context, *DoctorLoginRequest) (*DoctorLoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DoctorLogin not implemented")
+}
+func (UnimplementedUserServiceServer) UserEdit(context.Context, *UserEditRequest) (*UserEditResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserEdit not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -244,6 +258,24 @@ func _UserService_DoctorLogin_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_UserEdit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserEditRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).UserEdit(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/userpb.UserService/UserEdit",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).UserEdit(ctx, req.(*UserEditRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -274,6 +306,10 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DoctorLogin",
 			Handler:    _UserService_DoctorLogin_Handler,
+		},
+		{
+			MethodName: "UserEdit",
+			Handler:    _UserService_UserEdit_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

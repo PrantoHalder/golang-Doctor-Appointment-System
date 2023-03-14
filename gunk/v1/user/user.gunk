@@ -7,6 +7,7 @@ type UserService interface {
 	Login(LoginRequest) LoginResponse
 	AdminLogin(AdminLoginRequest) AdminLoginResponse
 	DoctorLogin(DoctorLoginRequest) DoctorLoginResponse
+	UserEdit(UserEditRequest) UserEditResponse
 }
 //user struct
 type User struct {
@@ -18,6 +19,7 @@ type User struct {
 	Is_active bool   `pb:"6"`
 	Role      string `pb:"7"`
 }
+
 //user register
 type RegisterRequest struct {
 	ID        int    `pb:"1"`
@@ -73,7 +75,7 @@ type AdminLoginRequest struct {
 	Username string `pb:"1"`
 	Password string `pb:"2"`
 }
-//amin log in response
+//amin login response
 type AdminLoginResponse struct {
 	User User `pb:"1"`
 }
@@ -82,8 +84,15 @@ type DoctorLoginRequest struct {
 	Username string `pb:"1"`
 	Password string `pb:"2"`
 }
-//doctor log in response
+//doctor login response
 type DoctorLoginResponse struct {
 	User User `pb:"1"`
 }
-
+//user edit request
+type UserEditRequest struct {
+	id int `pb:"1"`
+}
+//user edit response
+type UserEditResponse struct {
+	User User `pb:"1"`
+}

@@ -62,6 +62,16 @@ type Login struct {
 	Password string
 }
 
+type Edit struct {
+	ID int  `db="id"`
+}
+func (u Edit) Validate() error {
+	return validation.ValidateStruct(&u, validation.Field(&u.ID,
+		validation.Required.Error("id can not be blank"),
+	),
+	)
+}
+
 func (l Login) Validate() error  {
 	return validation.ValidateStruct(&l,
 		validation.Field(&l.Username,

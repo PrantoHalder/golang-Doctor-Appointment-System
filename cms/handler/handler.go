@@ -70,16 +70,17 @@ func NewHandler(sm *scs.SessionManager, formDecoder *form.Decoder, usermgmConn *
 		r.Get("/home", h.PatientHome)
 		r.Get("/logout", h.LogoutPatienthandler)
 	})
-	r.Route("/facultys", func(r chi.Router) {
+	r.Route("/admin", func(r chi.Router) {
 		r.Use(sm.LoadAndSave)
 		r.Use(h.Authentication)
-		
+		r.Get("/home", h.AdminHome)
+		r.Get("/logout", h.LogoutAdminhandler)
 	})
-	r.Route("/students", func(r chi.Router) {
+	r.Route("/doctor", func(r chi.Router) {
 		r.Use(sm.LoadAndSave)
 		r.Use(h.Authentication)
-		
-
+		r.Get("/home", h.DoctorHome)
+		r.Get("/logout", h.LogoutDoctorhandler)
 	})
 	r.Group(func(r chi.Router) {
 		r.Use(sm.LoadAndSave)
