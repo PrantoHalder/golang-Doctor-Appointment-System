@@ -74,6 +74,8 @@ func NewHandler(sm *scs.SessionManager, formDecoder *form.Decoder, usermgmConn *
 		r.Use(sm.LoadAndSave)
 		r.Use(h.Authentication)
 		r.Get("/home", h.AdminHome)
+		r.Get("/registerpatient", h.PatientRegister)
+		r.Post("/registerpatientpost", h.PatientRegisterPost)
 		r.Get("/logout", h.LogoutAdminhandler)
 	})
 	r.Route("/doctor", func(r chi.Router) {
