@@ -11,9 +11,10 @@ import (
 	"github.com/pressly/goose/v3"
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 	userpb "main.go/gunk/v1/user"
-	"main.go/usermgm/service/user"
 	cu "main.go/usermgm/core/user"
+	"main.go/usermgm/service/user"
 	"main.go/usermgm/storage/postgres"
 )
 
@@ -56,7 +57,7 @@ func main (){
 	userSvc:= user.NewUserSvc(userCore)
 	userpb.RegisterUserServiceServer(grpcServer,userSvc)
 	
-
+	reflection.Register(grpcServer)
 	fmt.Println("usermgm server running on :",lis.Addr())
 
 	if err := grpcServer.Serve(lis); err != nil {

@@ -68,6 +68,7 @@ func NewHandler(sm *scs.SessionManager, formDecoder *form.Decoder, usermgmConn *
 		r.Use(sm.LoadAndSave)
 		r.Use(h.Authentication)
 		r.Get("/home", h.PatientHome)
+		r.Get("/logout", h.LogoutPatienthandler)
 	})
 	r.Route("/facultys", func(r chi.Router) {
 		r.Use(sm.LoadAndSave)
@@ -121,7 +122,7 @@ func (h *Handler) ParseTemplates() error {
 		},
 	}).Funcs(sprig.FuncMap())
 
-	tmpl := template.Must(templates.ParseFS(h.templateFiles, "*.html,*/*.html"))
+	tmpl := template.Must(templates.ParseFS(h.templateFiles, "*.html"))
 	if tmpl == nil {
 		log.Fatalln("unable to parse templates")
 	}

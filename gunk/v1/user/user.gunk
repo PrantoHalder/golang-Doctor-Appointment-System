@@ -2,22 +2,23 @@ package userpb
 
 type UserService interface {
 	Register(RegisterRequest) RegisterResponse
+	RegisterAdmin(RegisterAdminRequest) RegisterAdminResponse
+	RegisterDoctor(RegisterDoctorRequest) RegisterDoctorResponse
 	Login(LoginRequest) LoginResponse
-	Status(StatusRequest) StatusResponse
+	AdminLogin(AdminLoginRequest) AdminLoginResponse
+	DoctorLogin(DoctorLoginRequest) DoctorLoginResponse
 }
-
+//user struct
 type User struct {
 	ID        int    `pb:"1"`
 	FirstName string `pb:"2"`
 	LastName  string `pb:"3"`
 	Username  string `pb:"4"`
 	Email     string `pb:"5"`
-	Status    bool   `pb:"6"`
+	Is_active bool   `pb:"6"`
 	Role      string `pb:"7"`
 }
-type Status struct {
-	Username  string `pb:"1"`
-}
+//user register
 type RegisterRequest struct {
 	ID        int    `pb:"1"`
 	FirstName string `pb:"2"`
@@ -26,22 +27,63 @@ type RegisterRequest struct {
 	Email     string `pb:"5"`
 	Password  string `pb:"6"`
 }
-
+//admin register
+type RegisterAdminRequest struct {
+	ID        int    `pb:"1"`
+	FirstName string `pb:"2"`
+	LastName  string `pb:"3"`
+	Username  string `pb:"4"`
+	Role      string `pb:"5"`
+	Email     string `pb:"6"`
+	Password  string `pb:"7"`
+}
+//doctor register
+type RegisterDoctorRequest struct {
+	ID        int    `pb:"1"`
+	FirstName string `pb:"2"`
+	LastName  string `pb:"3"`
+	Username  string `pb:"4"`
+	Role      string `pb:"5"`
+	Email     string `pb:"6"`
+	Password  string `pb:"7"`
+}
+//user register response
 type RegisterResponse struct {
 	User User `pb:"1"`
 }
-
+//doctor register response
+type RegisterDoctorResponse struct {
+	User User `pb:"1"`
+}
+//admin register response
+type RegisterAdminResponse struct {
+	User User `pb:"1"`
+}
+// user login request
 type LoginRequest struct {
 	Username string `pb:"1"`
 	Password string `pb:"2"`
 }
+//user login response
 type LoginResponse struct {
 	User User `pb:"1"`
 }
-
-type StatusRequest struct {
-	User User `pb:"1"` //TODO :: implemeted later
-	} 
-type StatusResponse struct {
-	User User `pb:"1"` //TODO :: implemeted later
+//admin login request
+type AdminLoginRequest struct {
+	Username string `pb:"1"`
+	Password string `pb:"2"`
 }
+//amin log in response
+type AdminLoginResponse struct {
+	User User `pb:"1"`
+}
+//doctor login request
+type DoctorLoginRequest struct {
+	Username string `pb:"1"`
+	Password string `pb:"2"`
+}
+//doctor log in response
+type DoctorLoginResponse struct {
+	User User `pb:"1"`
+}
+

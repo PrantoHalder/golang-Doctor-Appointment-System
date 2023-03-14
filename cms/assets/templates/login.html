@@ -4,7 +4,7 @@
 <head>
   <style>
     body {
-      background-image:url("/static/log.png");
+      background-image:url("/static/login.jpg");
       background-size: cover;
     }
   </style>
@@ -29,9 +29,11 @@
       value="{{.Username}}" />
       <p style="color: red;">{{ .FormError.Username}}</p>
       <br>
+
       <label class="block text-gray-700 font-medium mb-2" for="password">
       Password
       </label>
+
       <input class="w-full p-2 border border-gray-400 rounded-lg" type="Password" id="Password" name="Password"
       value="{{.Password}}"/>
       <p style="color: red;">{{ .FormError.Password}}</p>
@@ -39,20 +41,14 @@
       <br>
       <input type="radio" id="Admin" name="Loginas" value="Admin">
       <label for="Admin">Admin</label> 
-      <input type="radio" id="Faculty" name="Loginas" value="Faculty">
-      <label for="Faculty">Faculty</label>
+      <input type="radio" id="Faculty" name="Loginas" value="Doctor">
+      <label for="Faculty">Doctor</label>
       <input type="radio" id="patient" name="Loginas" value="Patient">
       <label for="Student">Patient</label>
       <p style="color: red;">{{ .FormError.Loginas}}</p>
       <br>
       <button class="bg-indigo-500 text-white py-2 px-4 rounded-lg hover:bg-indigo-600">
         Login
-      </button>
-      <button class="bg-indigo-500 text-white py-2 px-4 rounded-lg hover:bg-indigo-600">
-        <a href="/mainhome">Home</a>
-      </button> 
-      <button class="bg-indigo-500 text-white py-2 px-4 rounded-lg hover:bg-indigo-600">
-        <a href="/register">Registration</a>
       </button>
     </form>
   </div>

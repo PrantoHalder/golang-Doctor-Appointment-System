@@ -61,7 +61,7 @@ func main (){
 	sessionManager := scs.New()
 	sessionManager.Lifetime = lifeTime * time.Hour
 	sessionManager.IdleTimeout = idleTime * time.Minute
-	sessionManager.Cookie.Name = "web-session"
+	sessionManager.Cookie.Name = "doctor-session"
 	sessionManager.Cookie.HttpOnly = true
 	sessionManager.Cookie.Secure = true
 	sessionManager.Store = utility.NewSQLXStore(postGresStore.DB)

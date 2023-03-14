@@ -16,7 +16,7 @@ type User struct {
 	Username  string       `form:"Username" db:"username"`
 	Password  string       `form:"Password" db:"password"`
 	Role      string       `form:"Role" db:"role"`
-	Status    bool         `form:"Status" db:"status"`
+	Is_active    bool      `form:"Is_active" db:"is_active"`
 	CreatedAt time.Time    `form:"Created_at" db:"created_at"`
 	UpdatedAt time.Time    `form:"Updated_at" db:"updated_at"`
 	DeletedAt sql.NullTime `form:"Deleted_at" db:"deleted_at"`
@@ -55,5 +55,20 @@ func (u Status) Validate() error {
 	return validation.ValidateStruct(&u, validation.Field(&u.Username,
 		validation.Required.Error("fast name can not be blank"),
 	),
+	)
+}
+type Login struct {
+	Username string
+	Password string
+}
+
+func (l Login) Validate() error  {
+	return validation.ValidateStruct(&l,
+		validation.Field(&l.Username,
+			validation.Required.Error("The username field is required."),
+		),
+		validation.Field(&l.Password,
+			validation.Required.Error("The password field is required."),
+		),
 	)
 }
