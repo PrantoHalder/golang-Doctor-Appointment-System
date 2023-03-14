@@ -68,7 +68,7 @@
                 <td>n/a</td>
             </tr>
             <tr>
-                <td>Status</td>
+                <td>Is_active</td>
                 <td>(bool)</td>
                 <td>default active</td>
                 <td>n/a</td>

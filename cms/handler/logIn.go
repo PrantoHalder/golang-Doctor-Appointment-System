@@ -75,6 +75,38 @@ func (h Handler) LoginPost (w http.ResponseWriter, r *http.Request){
 			h.sessionManager.Put(r.Context(), "userID", strconv.Itoa(int(u.GetUser().ID)))
 	        http.Redirect(w, r, "/patients/home", http.StatusSeeOther)
 		}
+	}
+	
+	for _, value := range lf.Loginas {
+		if value == "Admin" {
+			u,err := h.usermgmService.AdminLogin(r.Context(),&userpb.AdminLoginRequest{
+				Username: lf.Username,
+				Password: lf.Password,
+			})
+			if err != nil {
+				log.Println("the error is in the login section of cms in patient after h.usermgmService.Login")
+				http.Error(w, "internal server error", http.StatusInternalServerError)
+				return
+			}
+			h.sessionManager.Put(r.Context(), "userID", strconv.Itoa(int(u.GetUser().ID)))
+	        http.Redirect(w, r, "/admin/home", http.StatusSeeOther)
+		}
+	}
+
+	for _, value := range lf.Loginas {
+		if value == "Doctor" {
+			u,err := h.usermgmService.DoctorLogin(r.Context(),&userpb.DoctorLoginRequest{
+				Username: lf.Username,
+				Password: lf.Password,
+			})
+			if err != nil {
+				log.Println("the error is in the login section of cms in patient after h.usermgmService.Login")
+				http.Error(w, "internal server error", http.StatusInternalServerError)
+				return
+			}
+			h.sessionManager.Put(r.Context(), "userID", strconv.Itoa(int(u.GetUser().ID)))
+	        http.Redirect(w, r, "/doctor/home", http.StatusSeeOther)
+		}
 	}	
 	h.ParseLoginTemplates(w, nil)
 }
@@ -91,6 +123,18 @@ func (lu LoginUser) Validate() error {
 	)
 }
 func (h Handler) LogoutPatienthandler (w http.ResponseWriter, r *http.Request){
+	if err := h.sessionManager.Destroy(r.Context());err!=nil{
+		log.Fatal(err)
+	}
+	http.Redirect(w,r,"/login",http.StatusSeeOther)
+}
+func (h Handler) LogoutDoctorhandler (w http.ResponseWriter, r *http.Request){
+	if err := h.sessionManager.Destroy(r.Context());err!=nil{
+		log.Fatal(err)
+	}
+	http.Redirect(w,r,"/login",http.StatusSeeOther)
+}
+func (h Handler) LogoutAdminhandler (w http.ResponseWriter, r *http.Request){
 	if err := h.sessionManager.Destroy(r.Context());err!=nil{
 		log.Fatal(err)
 	}

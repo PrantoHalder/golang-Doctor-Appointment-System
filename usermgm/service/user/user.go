@@ -15,6 +15,7 @@ type CoreUser interface {
 	GetAdminbyUsernameCore(storage.Login) (*storage.User, error)
 	RegisterDoctor(storage.User) (*storage.User, error)
 	GetDoctorbyUsernameCore(storage.Login) (*storage.User, error)
+	EditUserCore(int) (*storage.User, error)
 }
 
 type UserSvc struct {
@@ -207,6 +208,29 @@ func (us UserSvc) DoctorLogin(ctx context.Context, r *userpb.DoctorLoginRequest)
 			Username:  u.Username,
 			Email:     u.Email,
 			Role:      u.Role,
+		},
+	}, nil
+}
+//edit user
+func (us UserSvc) UserEdit(cxt context.Context,r *userpb.UserEditRequest) (*userpb.UserEditResponse, error){
+	user := storage.Edit{
+		ID: int(r.GetId()),
+	}
+	if err := user.Validate(); err != nil {
+		fmt.Println("the error is in the serveice layer in Login after login.Validate()")
+		return nil, err
+	}
+	u, err := us.core.EditUserCore(user.ID)
+	if err != nil {
+		fmt.Println("the error is in the serveice layer in Login after us.core.EditUserCore(user.ID)")
+		return nil, err
+	}
+	return &userpb.UserEditResponse{
+		User: &userpb.User{
+			ID: int32(u.ID),
+			FirstName: u.FirstName,
+			LastName:  u.LastName,
+			IsActive:  u.Is_active,
 		},
 	}, nil
 }

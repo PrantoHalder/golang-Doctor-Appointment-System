@@ -174,3 +174,25 @@ func (s PostGressStorage) GetDoctorByUsername(username string) (*storage.User, e
 	}
 	return &listUser, nil
 }
+//user edit
+const EditUserQuery = `SELECT id,first_name,last_name,email,is_active
+FROM users
+WHERE
+id =$1
+AND
+role ='user'
+AND
+deleted_at IS NULL`
+
+func (s PostGressStorage) EditUser(id int) (*storage.User, error) {
+	var listUser storage.User
+	if err := s.DB.Get(&listUser,EditUserQuery,id); err != nil {
+		log.Println("error is in the query section of usermgm edit user section")
+		return nil, err
+	}
+	if listUser.ID == 0 {
+	 log.Println("error is in the query section of usermgm ID==0 admin edit user section")
+     return nil,fmt.Errorf("unable to find username")
+	}
+	return &listUser, nil
+}
