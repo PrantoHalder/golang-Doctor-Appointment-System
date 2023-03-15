@@ -118,3 +118,8 @@ func (u UpdateUser) Validate() error {
 		),
 	)
 }
+type UserFilter struct {
+	SearchTerm string  `pb:"1"`
+	Offset     int     `pb:"1"`
+	Limit      int     `pb:"1"`
+}
