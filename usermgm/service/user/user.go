@@ -15,6 +15,7 @@ type CoreUser interface {
 	EditUserCore(storage.Edit) (*storage.User, error)
 	UpdatePatient(storage.UpdateUser) (*storage.UpdateUser, error)
 	DeleteUserByID(storage.Edit) error
+	ListUser(u storage.UserFilter) ([]storage.User,error)
 }
 
 type UserSvc struct {
@@ -172,6 +173,7 @@ func (us UserSvc) UserUpdate(ctx context.Context, r *userpb.UserUpdateRequest) (
 		},
 	}, nil
 }
+//delete user
 func (us UserSvc) UserDelete(ctx context.Context, r *userpb.UserDeleteRequest) (*userpb.UserDeleteResponse, error) {
 	user := storage.Edit{
 		ID: int(r.GetId()),
@@ -184,4 +186,34 @@ func (us UserSvc) UserDelete(ctx context.Context, r *userpb.UserDeleteRequest) (
 		return nil,err
 	}
     return &userpb.UserDeleteResponse{},nil
+}
+//list user
+func (us UserSvc)UserList(ctx context.Context,r *userpb.UserlistRequest) (*userpb.UserListResponse, error){
+	user := storage.UserFilter{
+		SearchTerm: r.GetSearchTerm(),
+	}
+	u,err := us.core.ListUser(user)
+	if err != nil {
+		return nil,err
+	}
+	var totalusers []*userpb.User
+	for _,value := range u {
+		user:=&userpb.User{
+			ID:        int32(value.ID),
+			FirstName: value.FirstName,
+			LastName:  value.LastName,
+			Username:  value.Username,
+			Email:     value.Email,
+			IsActive:  value.Is_active,
+			Role:      value.Role,
+		}
+		totalusers = append(totalusers,user)
+	}
+	return &userpb.UserListResponse{
+		UserFilterList: &userpb.UserFilterList{
+			TotalUser:  totalusers,
+			SearchTerm: user.SearchTerm,
+		},
+	},nil
+  
 }

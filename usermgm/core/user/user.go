@@ -11,9 +11,10 @@ type UserStore interface {
 	Register(storage.User) (*storage.User, error)
 	GetUserByUsername(string) (*storage.User, error)
 	EditUser(int) (*storage.User, error)
-	RegisterPatient(u storage.User) (*storage.User, error)
+	RegisterPatient(storage.User) (*storage.User, error)
 	UpdateUser(storage.UpdateUser) (*storage.UpdateUser, error)
 	DeleteUserByID(int) error
+	ListUser(storage.UserFilter) ([]storage.User, error)
 }
 
 type CoreUser struct {
@@ -106,3 +107,14 @@ func (cu CoreUser)DeleteUserByID(u storage.Edit) error{
 	}
 	return nil
 } 
+//list user
+func (cu CoreUser)ListUser(u storage.UserFilter) ([]storage.User,error){
+	user,err := cu.store.ListUser(u)
+	if err != nil {
+		return nil,err
+	}
+	if user == nil{
+		return nil,err
+	}
+	return user,nil
+}

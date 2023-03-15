@@ -163,3 +163,23 @@ func (s PostGressStorage) DeleteUserByID(id int) error {
 
 	return nil
 }
+//user list
+const listUserQuery = `
+
+SELECT id,first_name,last_name,email,is_active
+FROM users
+WHERE
+	deleted_at IS NULL
+	AND 
+    (first_name ILIKE '%%' || $1 || '%%' OR last_name ILIKE '%%' || $1 || '%%' OR email ILIKE '%%' || $1 || '%%')
+	ORDER BY id DESC
+`
+
+func (s PostGressStorage) ListUser(uf storage.UserFilter) ([]storage.User, error) {
+	var listUser []storage.User
+	if err := s.DB.Select(&listUser, listUserQuery, uf.SearchTerm); err != nil {
+		log.Fatalln(err)
+		return nil, err
+	}
+	return listUser, nil
+}
