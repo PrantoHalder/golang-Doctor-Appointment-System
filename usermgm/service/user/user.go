@@ -10,13 +10,11 @@ import (
 
 type CoreUser interface {
 	Register(storage.User) (*storage.User, error)
-	RegisterAdmin(storage.User) (*storage.User, error)
+	RegisterPatient(storage.User) (*storage.User, error)
 	GetUserbyUsernameCore(storage.Login) (*storage.User, error)
-	GetAdminbyUsernameCore(storage.Login) (*storage.User, error)
-	RegisterDoctor(storage.User) (*storage.User, error)
-	GetDoctorbyUsernameCore(storage.Login) (*storage.User, error)
-	EditUserCore(int) (*storage.User, error)
-	Registerdoctortype(storage.Doctor_type) (*storage.Doctor_type, error)
+	EditUserCore(storage.Edit) (*storage.User, error)
+	UpdatePatient(storage.UpdateUser) (*storage.UpdateUser, error)
+	DeleteUserByID(storage.Edit) error
 }
 
 type UserSvc struct {
@@ -29,7 +27,8 @@ func NewUserSvc(cu CoreUser) *UserSvc {
 		core: cu,
 	}
 }
-//user register
+
+// user register
 func (us UserSvc) Register(ctx context.Context, r *userpb.RegisterRequest) (*userpb.RegisterResponse, error) {
 	user := storage.User{
 		FirstName: r.GetFirstName(),
@@ -59,91 +58,7 @@ func (us UserSvc) Register(ctx context.Context, r *userpb.RegisterRequest) (*use
 	}, nil
 }
 
-//admin register
-func (us UserSvc) RegisterAdmin(ctx context.Context, r *userpb.RegisterAdminRequest) (*userpb.RegisterAdminResponse, error) {
-	user := storage.User{
-		FirstName: r.GetFirstName(),
-		LastName:  r.GetLastName(),
-		Email:     r.GetEmail(),
-		Username:  r.GetUsername(),
-		Password:  r.GetPassword(),
-		Role:      r.GetRole(),
-	}
-	if err := user.Validate(); err != nil {
-		fmt.Println("the error is in the serveice layer in Register after user.Validate")
-		return nil, err
-	}
-	u, err := us.core.RegisterAdmin(user)
-	if err != nil {
-		fmt.Println("the error is in the serveice layer in Register after Register(user)")
-		return nil, err
-	}
-	return &userpb.RegisterAdminResponse{
-		User: &userpb.User{
-			ID:        int32(u.ID),
-			FirstName: u.FirstName,
-			LastName:  u.LastName,
-			Username:  u.Username,
-			Email:     u.Email,
-			Role:      u.Role,
-		},
-	}, nil
-}
-
-//doctor register
-func (us UserSvc) RegisterDoctor(ctx context.Context, r *userpb.RegisterDoctorRequest) (*userpb.RegisterDoctorResponse, error) {
-	user := storage.User{
-		FirstName: r.GetFirstName(),
-		LastName:  r.GetLastName(),
-		Email:     r.GetEmail(),
-		Username:  r.GetUsername(),
-		Password:  r.GetPassword(),
-		Role:      r.GetRole(),
-	}
-	if err := user.Validate(); err != nil {
-		fmt.Println("the error is in the serveice layer in Register after user.Validate")
-		return nil, err
-	}
-	u, err := us.core.RegisterDoctor(user)
-	if err != nil {
-		fmt.Println("the error is in the serveice layer in Register after Register(user)")
-		return nil, err
-	}
-	return &userpb.RegisterDoctorResponse{
-		User: &userpb.User{
-			ID:        int32(u.ID),
-			FirstName: u.FirstName,
-			LastName:  u.LastName,
-			Username:  u.Username,
-			Email:     u.Email,
-			Role:      u.Role,
-		},
-	}, nil
-}
-//doctor type register
-func (us UserSvc) RegisterDoctorType(ctx context.Context, r *userpb.RegisterDoctorTypeRequest) (*userpb.RegisterDoctorTypeResponse, error) {
-	user := storage.Doctor_type{
-		ID:         int(r.GetID()),
-		DoctorType: r.GetDoctorType(),
-	}
-	if err := user.Validate(); err != nil {
-		fmt.Println("the error is in the serveice layer in Register after user.Validate")
-		return nil, err
-	}
-	u, err := us.core.Registerdoctortype(user)
-	if err != nil {
-		fmt.Println("the error is in the serveice layer in Register after Register(user)")
-		return nil, err
-	}
-	return &userpb.RegisterDoctorTypeResponse{
-		User: &userpb.DoctorType{
-			ID:         int32(u.ID),
-			DoctorType: u.DoctorType,
-		},
-	}, nil
-}
-
-//user login
+// user login
 func (us UserSvc) Login(ctx context.Context, r *userpb.LoginRequest) (*userpb.LoginResponse, error) {
 	login := storage.Login{
 		Username: r.GetUsername(),
@@ -163,7 +78,7 @@ func (us UserSvc) Login(ctx context.Context, r *userpb.LoginRequest) (*userpb.Lo
 
 	return &userpb.LoginResponse{
 		User: &userpb.User{
-			ID: int32(u.ID),
+			ID:        int32(u.ID),
 			FirstName: u.FirstName,
 			LastName:  u.LastName,
 			IsActive:  u.Is_active,
@@ -174,68 +89,8 @@ func (us UserSvc) Login(ctx context.Context, r *userpb.LoginRequest) (*userpb.Lo
 	}, nil
 }
 
-//admin login
-func (us UserSvc) AdminLogin(ctx context.Context, r *userpb.AdminLoginRequest) (*userpb.AdminLoginResponse, error) {
-	login := storage.Login{
-		Username: r.GetUsername(),
-		Password: r.GetPassword(),
-	}
-
-	if err := login.Validate(); err != nil {
-		fmt.Println("the error is in the serveice layer in Login after login.Validate()")
-		return nil, err
-	}
-
-	u, err := us.core.GetAdminbyUsernameCore(login)
-	if err != nil {
-		fmt.Println("the error is in the serveice layer in Login after us.core.GetStatusbyUsernameCore(login)")
-		return nil, err
-	}
-
-	return &userpb.AdminLoginResponse{
-		User: &userpb.User{
-			ID: int32(u.ID),
-			FirstName: u.FirstName,
-			LastName:  u.LastName,
-			IsActive:  u.Is_active,
-			Username:  u.Username,
-			Email:     u.Email,
-			Role:      u.Role,
-		},
-	}, nil
-}
-//doctor login
-func (us UserSvc) DoctorLogin(ctx context.Context, r *userpb.DoctorLoginRequest) (*userpb.DoctorLoginResponse, error) {
-	login := storage.Login{
-		Username: r.GetUsername(),
-		Password: r.GetPassword(),
-	}
-
-	if err := login.Validate(); err != nil {
-		fmt.Println("the error is in the serveice layer in Login after login.Validate()")
-		return nil, err
-	}
-
-	u, err := us.core.GetDoctorbyUsernameCore(login)
-	if err != nil {
-		fmt.Println("the error is in the serveice layer in Login after us.core.GetStatusbyUsernameCore(login)")
-		return nil, err
-	}
-
-	return &userpb.DoctorLoginResponse{
-		User: &userpb.User{
-			ID: int32(u.ID),
-			FirstName: u.FirstName,
-			LastName:  u.LastName,
-			IsActive:  u.Is_active,
-			Username:  u.Username,
-			Email:     u.Email,
-			Role:      u.Role,
-		},
-	}, nil
-}
-//edit user
-func (us UserSvc) UserEdit(cxt context.Context,r *userpb.UserEditRequest) (*userpb.UserEditResponse, error){
+// edit user
+func (us UserSvc) UserEdit(cxt context.Context, r *userpb.UserEditRequest) (*userpb.UserEditResponse, error) {
 	user := storage.Edit{
 		ID: int(r.GetId()),
 	}
@@ -243,17 +98,90 @@ func (us UserSvc) UserEdit(cxt context.Context,r *userpb.UserEditRequest) (*user
 		fmt.Println("the error is in the serveice layer in Login after login.Validate()")
 		return nil, err
 	}
-	u, err := us.core.EditUserCore(user.ID)
+	u, err := us.core.EditUserCore(user)
 	if err != nil {
 		fmt.Println("the error is in the serveice layer in Login after us.core.EditUserCore(user.ID)")
 		return nil, err
 	}
 	return &userpb.UserEditResponse{
 		User: &userpb.User{
-			ID: int32(u.ID),
+			ID:        int32(u.ID),
 			FirstName: u.FirstName,
 			LastName:  u.LastName,
 			IsActive:  u.Is_active,
 		},
 	}, nil
+}
+
+// user register by admin
+func (us UserSvc) RegisterPatient(ctx context.Context, r *userpb.RegisterPatientRequest) (*userpb.RegisterPatientResponse, error) {
+	user := storage.User{
+		FirstName: r.GetFirstName(),
+		LastName:  r.GetLastName(),
+		Email:     r.GetEmail(),
+		Username:  r.GetUsername(),
+		Password:  r.GetPassword(),
+		Role:      r.GetRole(),
+	}
+	if err := user.Validate(); err != nil {
+		fmt.Println("the error is in the serveice layer in Register after user.Validate")
+		return nil, err
+	}
+	u, err := us.core.RegisterPatient(user)
+	if err != nil {
+		fmt.Println("the error is in the serveice layer in Register after Register(user)")
+		return nil, err
+	}
+	return &userpb.RegisterPatientResponse{
+		User: &userpb.User{
+			ID:        int32(u.ID),
+			FirstName: u.FirstName,
+			LastName:  u.LastName,
+			Username:  u.Username,
+			Email:     u.Email,
+			Role:      u.Role,
+		},
+	}, nil
+}
+
+// user update section
+func (us UserSvc) UserUpdate(ctx context.Context, r *userpb.UserUpdateRequest) (*userpb.UserUpdateResponse, error) {
+	user := storage.UpdateUser{
+		ID:        int(r.GetID()),
+		FirstName: r.GetFirstName(),
+		LastName:  r.GetLastName(),
+		Email:     r.GetEmail(),
+		Is_active: r.GetIsActive(),
+	}
+	if err := user.Validate(); err != nil {
+		fmt.Println("the error is in the serveice layer in Register after user.Validate")
+		return nil, err
+	}
+	u, err := us.core.UpdatePatient(user)
+	if err != nil {
+		fmt.Println("the error is in the serveice layer in Register after Register(user)")
+		return nil, err
+	}
+	return &userpb.UserUpdateResponse{
+		User: &userpb.User{
+			ID:        int32(u.ID),
+			FirstName: u.FirstName,
+			LastName:  u.LastName,
+			Email:     u.Email,
+			IsActive:  u.Is_active,
+		},
+	}, nil
+}
+func (us UserSvc) UserDelete(ctx context.Context, r *userpb.UserDeleteRequest) (*userpb.UserDeleteResponse, error) {
+	user := storage.Edit{
+		ID: int(r.GetId()),
+	}
+	if err := user.Validate(); err != nil {
+		fmt.Println("the error is in the serveice layer in Register after user.Validate")
+		return nil, err
+	}
+	if err := us.core.DeleteUserByID(user);err != nil{
+		return nil,err
+	}
+    return &userpb.UserDeleteResponse{},nil
 }

@@ -55,7 +55,8 @@ func (h Handler) PatientRegisterPost (w http.ResponseWriter, r *http.Request){
 			CSRFToken: nosurf.Token(r),})
 		return
 	}
-	h.usermgmService.RegisterDoctor(r.Context(),&userpb.RegisterDoctorRequest{
+
+	h.usermgmService.RegisterPatient(r.Context(),&userpb.RegisterPatientRequest{
 		ID:        int32(user.ID),
 		FirstName: user.FirstName,
 		LastName:  user.LastName,

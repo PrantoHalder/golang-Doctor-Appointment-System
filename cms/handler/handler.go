@@ -13,15 +13,15 @@ import (
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-playground/form"
 	"google.golang.org/grpc"
+	adminpb "main.go/gunk/v1/admin"
+	doctorpb "main.go/gunk/v1/doctor"
 	userpb "main.go/gunk/v1/user"
 )
-
-
 
 type Handler struct {
 	sessionManager *scs.SessionManager
 	decoder        *form.Decoder
-	usermgmService  usermgmService
+	usermgmService usermgmService
 	Templates      *template.Template
 	staticFiles    fs.FS
 	templateFiles  fs.FS
@@ -29,15 +29,20 @@ type Handler struct {
 
 type usermgmService struct {
 	userpb.UserServiceClient
+	adminpb.AdminServiceClient
+	doctorpb.DoctorServiceClient
 }
 
 func NewHandler(sm *scs.SessionManager, formDecoder *form.Decoder, usermgmConn *grpc.ClientConn, staticFiles, templateFiles fs.FS) *chi.Mux {
 	h := &Handler{
 		sessionManager: sm,
 		decoder:        formDecoder,
-		usermgmService: usermgmService{userpb.NewUserServiceClient(usermgmConn)},
-		staticFiles:    staticFiles,
-		templateFiles:  templateFiles,
+		usermgmService: usermgmService{userpb.NewUserServiceClient(usermgmConn),
+			                           adminpb.NewAdminServiceClient(usermgmConn),
+			                           doctorpb.NewDoctorServiceClient(usermgmConn),
+		                              },
+		staticFiles:   staticFiles,
+		templateFiles: templateFiles,
 	}
 
 	h.ParseTemplates()
@@ -49,11 +54,10 @@ func NewHandler(sm *scs.SessionManager, formDecoder *form.Decoder, usermgmConn *
 	r.Use(middleware.Recoverer)
 	r.Group(func(r chi.Router) {
 		r.Use(sm.LoadAndSave)
-		
+
 	})
 
 	r.Handle("/static/*", http.StripPrefix("/static", http.FileServer(http.FS(h.staticFiles))))
-    
 
 	r.Group(func(r chi.Router) {
 		r.Use(sm.LoadAndSave)

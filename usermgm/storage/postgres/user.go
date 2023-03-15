@@ -39,97 +39,6 @@ func(s PostGressStorage) Register(u storage.User) (*storage.User, error){
 	return &u, nil
 }
 
-//insert into doctor_type
-const registerdoctor_typeQuery = `INSERT INTO doctor_type (
-	doctor_type
-) values(
-	:doctor_type
-)RETURNING *`
-func(s PostGressStorage) Registerdoctortype(u storage.Doctor_type) (*storage.Doctor_type, error){
-	stmt, err := s.DB.PrepareNamed(registerdoctor_typeQuery)
-	if err != nil {
-		return nil, err
-	}
-
-	if err := stmt.Get(&u, u); err != nil {
-		log.Println("error is in the query section of registration section")
-		return nil, err
-	}
-	if u.ID == 0 {
-		log.Println("error is in the query section of registration section u.ID == 0")
-		log.Println("unable to create user")
-		return &u, fmt.Errorf("unable to create user")
-	}
-	return &u, nil
-}
-
-//admin register
-const registerAdminQuery = `INSERT INTO users (
-	first_name,
-	last_name,
-	username,
-	email,
-	password,
-	role
-) values(
-	:first_name,
-	:last_name,
-	:username,
-	:email,
-	:password,
-	:role
-)RETURNING *`
-func(s PostGressStorage) RegisterAdmin(u storage.User) (*storage.User, error){
-	stmt, err := s.DB.PrepareNamed(registerAdminQuery)
-	if err != nil {
-		return nil, err
-	}
-
-	if err := stmt.Get(&u, u); err != nil {
-		log.Println("error is in the query section of registration section")
-		return nil, err
-	}
-	if u.ID == 0 {
-		log.Println("error is in the query section of registration section u.ID == 0")
-		log.Println("unable to create user")
-		return &u, fmt.Errorf("unable to create user")
-	}
-	return &u, nil
-}
-//doctor register
-const registerdoctorQuery = `INSERT INTO users (
-	first_name,
-	last_name,
-	username,
-	email,
-	password,
-	role
-) values(
-	:first_name,
-	:last_name,
-	:username,
-	:email,
-	:password,
-	:role
-)RETURNING *`
-func(s PostGressStorage) RegisterDoctor(u storage.User) (*storage.User, error){
-	stmt, err := s.DB.PrepareNamed(registerdoctorQuery)
-	if err != nil {
-		return nil, err
-	}
-
-	if err := stmt.Get(&u, u); err != nil {
-		log.Println("error is in the query section of registration section")
-		return nil, err
-	}
-	if u.ID == 0 {
-		log.Println("error is in the query section of registration section u.ID == 0")
-		log.Println("unable to create user")
-		return &u, fmt.Errorf("unable to create user")
-	}
-	return &u, nil
-}
-
 //login
 const getUserByUsernameQuery=`SELECT *  
 FROM users
@@ -152,52 +61,6 @@ func (s PostGressStorage) GetUserByUsername(username string) (*storage.User, err
 	return &listUser, nil
 }
 
-//admin login
-const getAdminByUsernameQuery=`SELECT *  
-FROM users
-WHERE
-username = $1
-AND
-role ='admin'
-AND
-is_active = true
-AND
-deleted_at IS NULL`
-func (s PostGressStorage) GetAdminByUsername(username string) (*storage.User, error) {
-	var listUser storage.User
-	if err := s.DB.Get(&listUser,getAdminByUsernameQuery,username); err != nil {
-		log.Println("error is in the query section of usermgm login section")
-		return nil, err
-	}
-	if listUser.ID == 0 {
-	 log.Println("error is in the query section of usermgm ID==0 admin login section")
-     return nil,fmt.Errorf("unable to find username")
-	}
-	return &listUser, nil
-}
-//admin login
-const getDoctorByUsernameQuery=`SELECT *  
-FROM users
-WHERE
-username = $1
-AND
-role ='doctor'
-AND
-is_active = true
-AND
-deleted_at IS NULL`
-func (s PostGressStorage) GetDoctorByUsername(username string) (*storage.User, error) {
-	var listUser storage.User
-	if err := s.DB.Get(&listUser,getDoctorByUsernameQuery,username); err != nil {
-		log.Println("error is in the query section of usermgm login section")
-		return nil, err
-	}
-	if listUser.ID == 0 {
-	 log.Println("error is in the query section of usermgm ID==0 admin login section")
-     return nil,fmt.Errorf("unable to find username")
-	}
-	return &listUser, nil
-}
 //user edit
 const EditUserQuery = `SELECT id,first_name,last_name,email,is_active
 FROM users
@@ -219,4 +82,84 @@ func (s PostGressStorage) EditUser(id int) (*storage.User, error) {
      return nil,fmt.Errorf("unable to find username")
 	}
 	return &listUser, nil
+}
+//update user
+const UpdateuserQuery = `
+	UPDATE users SET
+		first_name = :first_name,
+		last_name = :last_name,
+		email = :email
+	WHERE id = :id 
+	AND 
+	deleted_at is NULL
+	RETURNING id;
+	`
+
+func (s PostGressStorage) UpdateUser(u storage.UpdateUser) (*storage.UpdateUser, error) {
+	stmt, err := s.DB.PrepareNamed(UpdateuserQuery)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	if err := stmt.Get(&u, u); err != nil {
+		log.Fatalln(err)
+		return nil, err
+	}
+	return &u, nil
+
+}
+//user register by admin
+const registerpatientByAdminQuery = `INSERT INTO users (
+	first_name,
+	last_name,
+	username,
+	email,
+	password,
+	role
+) values(
+	:first_name,
+	:last_name,
+	:username,
+	:email,
+	:password,
+	:role
+)RETURNING *`
+func(s PostGressStorage) RegisterPatient(u storage.User) (*storage.User, error){
+	stmt, err := s.DB.PrepareNamed(registerpatientByAdminQuery)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := stmt.Get(&u, u); err != nil {
+		log.Println("error is in the query section of registration section")
+		return nil, err
+	}
+	if u.ID == 0 {
+		log.Println("error is in the query section of registration section u.ID == 0")
+		log.Println("unable to create user")
+		return &u, fmt.Errorf("unable to create user")
+	}
+	return &u, nil
+}
+//delete user
+const deleteUserbyID = `UPDATE users SET deleted_at = CURRENT_TIMESTAMP WHERE id = $1 AND deleted_at IS NULL ;`
+
+func (s PostGressStorage) DeleteUserByID(id int) error {
+	res, err := s.DB.Exec(deleteUserbyID, id)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+
+	rowCount, err := res.RowsAffected()
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	if rowCount <= 0 {
+		return nil
+	}
+
+	return nil
 }
