@@ -10,7 +10,6 @@ import (
 
 type CoreDoctor interface {
 	GetDoctorbyUsernameCore(storage.Login) (*storage.User, error)
-	Registerdoctortype(storage.Doctor_type) (*storage.Doctor_type, error)
 }
 
 type DoctorSvc struct {
@@ -51,28 +50,6 @@ func (us DoctorSvc) DoctorLogin(ctx context.Context, r *doctorpb.DoctorLoginRequ
 			Username:  u.Username,
 			Email:     u.Email,
 			Role:      u.Role,
-		},
-	}, nil
-}
-//doctor type register
-func (us DoctorSvc) RegisterDoctorType(ctx context.Context, r *doctorpb.RegisterDoctorTypeRequest) (*doctorpb.RegisterDoctorTypeResponse, error) {
-	user := storage.Doctor_type{
-		ID:         int(r.GetID()),
-		DoctorType: r.GetDoctorType(),
-	}
-	if err := user.Validate(); err != nil {
-		fmt.Println("the error is in the serveice layer in Register after user.Validate")
-		return nil, err
-	}
-	u, err := us.core.Registerdoctortype(user)
-	if err != nil {
-		fmt.Println("the error is in the serveice layer in Register after Register(user)")
-		return nil, err
-	}
-	return &doctorpb.RegisterDoctorTypeResponse{
-		User: &doctorpb.DoctorType{
-			ID:         int32(u.ID),
-			DoctorType: u.DoctorType,
 		},
 	}, nil
 }

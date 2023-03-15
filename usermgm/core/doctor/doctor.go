@@ -1,4 +1,4 @@
-package user
+package doctor
 
 import (
 	"fmt"
@@ -9,7 +9,6 @@ import (
 
 type DoctorStore interface {
 	GetDoctorByUsername(string) (*storage.User, error)
-	Registerdoctortype(storage.Doctor_type) (*storage.Doctor_type, error)
 }
 
 type CoreDoctor struct {
@@ -37,16 +36,3 @@ func (cu CoreDoctor) GetDoctorbyUsernameCore(login storage.Login) (*storage.User
 	return user,nil
 }
 
-//doctor_type create
-func (cu CoreDoctor)Registerdoctortype(u storage.Doctor_type) (*storage.Doctor_type, error){
-	ru, err := cu.store.Registerdoctortype(u)
-	if err != nil {
-		fmt.Println("the error is in the core layer in Register after cu.store.Register")
-		return nil, err
-	}
-	if ru == nil {
-		fmt.Println("the error is in the core layer in Register after ru == nil")
-		return nil, fmt.Errorf("enable to register")
-	}
-	return ru, nil
-}
