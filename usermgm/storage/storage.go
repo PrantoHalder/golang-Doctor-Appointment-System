@@ -63,7 +63,7 @@ type Login struct {
 }
 
 type Edit struct {
-	ID int  `db="id"`
+	ID        int          `form:"ID" db:"id"`
 }
 func (u Edit) Validate() error {
 	return validation.ValidateStruct(&u, validation.Field(&u.ID,
@@ -79,6 +79,42 @@ func (l Login) Validate() error  {
 		),
 		validation.Field(&l.Password,
 			validation.Required.Error("The password field is required."),
+		),
+	)
+}
+type Doctor_type struct {
+	ID int                 `db:"id"`
+	DoctorType string       `form:"DoctorType" db:"doctor_type"`
+	CreatedAt time.Time    `form:"Created_at" db:"created_at"`
+	UpdatedAt time.Time    `form:"Updated_at" db:"updated_at"`
+	DeletedAt sql.NullTime `form:"Deleted_at" db:"deleted_at"`
+}
+func (u Doctor_type) Validate() error {
+	return validation.ValidateStruct(&u, validation.Field(&u.DoctorType,
+		validation.Required.Error("id can not be blank"),
+	),
+	)
+}
+type UpdateUser struct {
+	ID        int          `form:"ID" db:"id"`
+	FirstName string       `form:"FirstName" db:"first_name"`
+	LastName  string       `form:"LastName" db:"last_name"`
+	Email     string       `form:"Email" db:"email"`
+	Is_active    bool      `form:"Is_active" db:"is_active"`
+}
+
+func (u UpdateUser) Validate() error {
+	return validation.ValidateStruct(&u, validation.Field(&u.FirstName,
+		validation.Required.Error("fast name can not be blank"),
+		validation.Length(3, 45).Error("fast name must be between 3 to 45 characters"),
+	),
+		validation.Field(&u.LastName,
+			validation.Required.Error("last name can not be blank"),
+			validation.Length(3, 45).Error("last name must be between 3 to 45 characters"),
+		),
+		validation.Field(&u.Email,
+			validation.Required.Error("Email cannot be blank"),
+			is.Email.Error("email should be in valid format"),
 		),
 	)
 }

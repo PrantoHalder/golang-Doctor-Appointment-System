@@ -7,6 +7,8 @@ import (
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/justinas/nosurf"
+	adminpb "main.go/gunk/v1/admin"
+	doctorpb "main.go/gunk/v1/doctor"
 	userpb "main.go/gunk/v1/user"
 )
 
@@ -79,7 +81,7 @@ func (h Handler) LoginPost (w http.ResponseWriter, r *http.Request){
 	
 	for _, value := range lf.Loginas {
 		if value == "Admin" {
-			u,err := h.usermgmService.AdminLogin(r.Context(),&userpb.AdminLoginRequest{
+			u,err := h.usermgmService.AdminLogin(r.Context(),&adminpb.AdminLoginRequest{
 				Username: lf.Username,
 				Password: lf.Password,
 			})
@@ -95,7 +97,7 @@ func (h Handler) LoginPost (w http.ResponseWriter, r *http.Request){
 
 	for _, value := range lf.Loginas {
 		if value == "Doctor" {
-			u,err := h.usermgmService.DoctorLogin(r.Context(),&userpb.DoctorLoginRequest{
+			u,err := h.usermgmService.DoctorLogin(r.Context(),&doctorpb.DoctorLoginRequest{
 				Username: lf.Username,
 				Password: lf.Password,
 			})

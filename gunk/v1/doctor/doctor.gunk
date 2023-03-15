@@ -1,0 +1,42 @@
+package doctorpb
+
+type DoctorService interface {
+	RegisterDoctorType(RegisterDoctorTypeRequest) RegisterDoctorTypeResponse
+	DoctorLogin(DoctorLoginRequest) DoctorLoginResponse
+}
+//user struct
+type User struct {
+	ID        int    `pb:"1"`
+	FirstName string `pb:"2"`
+	LastName  string `pb:"3"`
+	Username  string `pb:"4"`
+	Email     string `pb:"5"`
+	Is_active bool   `pb:"6"`
+	Role      string `pb:"7"`
+}
+//doctor type struct
+type DoctorType struct {
+	ID         int    `pb:"1"`
+	DoctorType string `pb:"2"`
+}
+
+//Doctor type register request
+type RegisterDoctorTypeRequest struct {
+	ID        int    `pb:"1"`
+	DoctorType string `pb:"2"`
+}
+
+//Doctor type register response
+type RegisterDoctorTypeResponse struct {
+	User DoctorType `pb:"1"`
+}
+
+//doctor login request
+type DoctorLoginRequest struct {
+	Username string `pb:"1"`
+	Password string `pb:"2"`
+}
+//doctor login response
+type DoctorLoginResponse struct {
+	User User `pb:"1"`
+}

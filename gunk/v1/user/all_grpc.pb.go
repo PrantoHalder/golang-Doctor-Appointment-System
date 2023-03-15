@@ -19,12 +19,11 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserServiceClient interface {
 	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
-	RegisterAdmin(ctx context.Context, in *RegisterAdminRequest, opts ...grpc.CallOption) (*RegisterAdminResponse, error)
-	RegisterDoctor(ctx context.Context, in *RegisterDoctorRequest, opts ...grpc.CallOption) (*RegisterDoctorResponse, error)
+	RegisterPatient(ctx context.Context, in *RegisterPatientRequest, opts ...grpc.CallOption) (*RegisterPatientResponse, error)
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
-	AdminLogin(ctx context.Context, in *AdminLoginRequest, opts ...grpc.CallOption) (*AdminLoginResponse, error)
-	DoctorLogin(ctx context.Context, in *DoctorLoginRequest, opts ...grpc.CallOption) (*DoctorLoginResponse, error)
 	UserEdit(ctx context.Context, in *UserEditRequest, opts ...grpc.CallOption) (*UserEditResponse, error)
+	UserUpdate(ctx context.Context, in *UserUpdateRequest, opts ...grpc.CallOption) (*UserUpdateResponse, error)
+	UserDelete(ctx context.Context, in *UserDeleteRequest, opts ...grpc.CallOption) (*UserDeleteResponse, error)
 }
 
 type userServiceClient struct {
@@ -44,18 +43,9 @@ func (c *userServiceClient) Register(ctx context.Context, in *RegisterRequest, o
 	return out, nil
 }
 
-func (c *userServiceClient) RegisterAdmin(ctx context.Context, in *RegisterAdminRequest, opts ...grpc.CallOption) (*RegisterAdminResponse, error) {
-	out := new(RegisterAdminResponse)
-	err := c.cc.Invoke(ctx, "/userpb.UserService/RegisterAdmin", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userServiceClient) RegisterDoctor(ctx context.Context, in *RegisterDoctorRequest, opts ...grpc.CallOption) (*RegisterDoctorResponse, error) {
-	out := new(RegisterDoctorResponse)
-	err := c.cc.Invoke(ctx, "/userpb.UserService/RegisterDoctor", in, out, opts...)
+func (c *userServiceClient) RegisterPatient(ctx context.Context, in *RegisterPatientRequest, opts ...grpc.CallOption) (*RegisterPatientResponse, error) {
+	out := new(RegisterPatientResponse)
+	err := c.cc.Invoke(ctx, "/userpb.UserService/RegisterPatient", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -71,27 +61,27 @@ func (c *userServiceClient) Login(ctx context.Context, in *LoginRequest, opts ..
 	return out, nil
 }
 
-func (c *userServiceClient) AdminLogin(ctx context.Context, in *AdminLoginRequest, opts ...grpc.CallOption) (*AdminLoginResponse, error) {
-	out := new(AdminLoginResponse)
-	err := c.cc.Invoke(ctx, "/userpb.UserService/AdminLogin", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userServiceClient) DoctorLogin(ctx context.Context, in *DoctorLoginRequest, opts ...grpc.CallOption) (*DoctorLoginResponse, error) {
-	out := new(DoctorLoginResponse)
-	err := c.cc.Invoke(ctx, "/userpb.UserService/DoctorLogin", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *userServiceClient) UserEdit(ctx context.Context, in *UserEditRequest, opts ...grpc.CallOption) (*UserEditResponse, error) {
 	out := new(UserEditResponse)
 	err := c.cc.Invoke(ctx, "/userpb.UserService/UserEdit", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) UserUpdate(ctx context.Context, in *UserUpdateRequest, opts ...grpc.CallOption) (*UserUpdateResponse, error) {
+	out := new(UserUpdateResponse)
+	err := c.cc.Invoke(ctx, "/userpb.UserService/UserUpdate", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *userServiceClient) UserDelete(ctx context.Context, in *UserDeleteRequest, opts ...grpc.CallOption) (*UserDeleteResponse, error) {
+	out := new(UserDeleteResponse)
+	err := c.cc.Invoke(ctx, "/userpb.UserService/UserDelete", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -103,12 +93,11 @@ func (c *userServiceClient) UserEdit(ctx context.Context, in *UserEditRequest, o
 // for forward compatibility
 type UserServiceServer interface {
 	Register(context.Context, *RegisterRequest) (*RegisterResponse, error)
-	RegisterAdmin(context.Context, *RegisterAdminRequest) (*RegisterAdminResponse, error)
-	RegisterDoctor(context.Context, *RegisterDoctorRequest) (*RegisterDoctorResponse, error)
+	RegisterPatient(context.Context, *RegisterPatientRequest) (*RegisterPatientResponse, error)
 	Login(context.Context, *LoginRequest) (*LoginResponse, error)
-	AdminLogin(context.Context, *AdminLoginRequest) (*AdminLoginResponse, error)
-	DoctorLogin(context.Context, *DoctorLoginRequest) (*DoctorLoginResponse, error)
 	UserEdit(context.Context, *UserEditRequest) (*UserEditResponse, error)
+	UserUpdate(context.Context, *UserUpdateRequest) (*UserUpdateResponse, error)
+	UserDelete(context.Context, *UserDeleteRequest) (*UserDeleteResponse, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -119,23 +108,20 @@ type UnimplementedUserServiceServer struct {
 func (UnimplementedUserServiceServer) Register(context.Context, *RegisterRequest) (*RegisterResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
 }
-func (UnimplementedUserServiceServer) RegisterAdmin(context.Context, *RegisterAdminRequest) (*RegisterAdminResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RegisterAdmin not implemented")
-}
-func (UnimplementedUserServiceServer) RegisterDoctor(context.Context, *RegisterDoctorRequest) (*RegisterDoctorResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RegisterDoctor not implemented")
+func (UnimplementedUserServiceServer) RegisterPatient(context.Context, *RegisterPatientRequest) (*RegisterPatientResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RegisterPatient not implemented")
 }
 func (UnimplementedUserServiceServer) Login(context.Context, *LoginRequest) (*LoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
 }
-func (UnimplementedUserServiceServer) AdminLogin(context.Context, *AdminLoginRequest) (*AdminLoginResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AdminLogin not implemented")
-}
-func (UnimplementedUserServiceServer) DoctorLogin(context.Context, *DoctorLoginRequest) (*DoctorLoginResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DoctorLogin not implemented")
-}
 func (UnimplementedUserServiceServer) UserEdit(context.Context, *UserEditRequest) (*UserEditResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserEdit not implemented")
+}
+func (UnimplementedUserServiceServer) UserUpdate(context.Context, *UserUpdateRequest) (*UserUpdateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserUpdate not implemented")
+}
+func (UnimplementedUserServiceServer) UserDelete(context.Context, *UserDeleteRequest) (*UserDeleteResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UserDelete not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -168,38 +154,20 @@ func _UserService_Register_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserService_RegisterAdmin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RegisterAdminRequest)
+func _UserService_RegisterPatient_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RegisterPatientRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(UserServiceServer).RegisterAdmin(ctx, in)
+		return srv.(UserServiceServer).RegisterPatient(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/userpb.UserService/RegisterAdmin",
+		FullMethod: "/userpb.UserService/RegisterPatient",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).RegisterAdmin(ctx, req.(*RegisterAdminRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserService_RegisterDoctor_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RegisterDoctorRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServiceServer).RegisterDoctor(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/userpb.UserService/RegisterDoctor",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).RegisterDoctor(ctx, req.(*RegisterDoctorRequest))
+		return srv.(UserServiceServer).RegisterPatient(ctx, req.(*RegisterPatientRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -222,42 +190,6 @@ func _UserService_Login_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserService_AdminLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AdminLoginRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServiceServer).AdminLogin(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/userpb.UserService/AdminLogin",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).AdminLogin(ctx, req.(*AdminLoginRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserService_DoctorLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DoctorLoginRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServiceServer).DoctorLogin(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/userpb.UserService/DoctorLogin",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).DoctorLogin(ctx, req.(*DoctorLoginRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _UserService_UserEdit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(UserEditRequest)
 	if err := dec(in); err != nil {
@@ -276,6 +208,42 @@ func _UserService_UserEdit_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_UserUpdate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserUpdateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).UserUpdate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/userpb.UserService/UserUpdate",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).UserUpdate(ctx, req.(*UserUpdateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _UserService_UserDelete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UserDeleteRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).UserDelete(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/userpb.UserService/UserDelete",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).UserDelete(ctx, req.(*UserDeleteRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -288,28 +256,24 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _UserService_Register_Handler,
 		},
 		{
-			MethodName: "RegisterAdmin",
-			Handler:    _UserService_RegisterAdmin_Handler,
-		},
-		{
-			MethodName: "RegisterDoctor",
-			Handler:    _UserService_RegisterDoctor_Handler,
+			MethodName: "RegisterPatient",
+			Handler:    _UserService_RegisterPatient_Handler,
 		},
 		{
 			MethodName: "Login",
 			Handler:    _UserService_Login_Handler,
 		},
 		{
-			MethodName: "AdminLogin",
-			Handler:    _UserService_AdminLogin_Handler,
-		},
-		{
-			MethodName: "DoctorLogin",
-			Handler:    _UserService_DoctorLogin_Handler,
-		},
-		{
 			MethodName: "UserEdit",
 			Handler:    _UserService_UserEdit_Handler,
+		},
+		{
+			MethodName: "UserUpdate",
+			Handler:    _UserService_UserUpdate_Handler,
+		},
+		{
+			MethodName: "UserDelete",
+			Handler:    _UserService_UserDelete_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

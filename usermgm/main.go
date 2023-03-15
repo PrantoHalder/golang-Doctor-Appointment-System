@@ -12,8 +12,14 @@ import (
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
+	adminpb "main.go/gunk/v1/admin"
+	doctorpb "main.go/gunk/v1/doctor"
 	userpb "main.go/gunk/v1/user"
+	ca "main.go/usermgm/core/admin"
+	cd "main.go/usermgm/core/doctor"
 	cu "main.go/usermgm/core/user"
+	"main.go/usermgm/service/admin"
+	"main.go/usermgm/service/doctor"
 	"main.go/usermgm/service/user"
 	"main.go/usermgm/storage/postgres"
 )
@@ -53,9 +59,21 @@ func main (){
 	}
 	
     grpcServer := grpc.NewServer()
+	
+	//register user
     userCore := cu.NewCoreUser(postGresStore)
 	userSvc:= user.NewUserSvc(userCore)
 	userpb.RegisterUserServiceServer(grpcServer,userSvc)
+
+	//register admin
+	adminCore := ca.NewCoreAdmin(postGresStore)
+	adminSvc := admin.NewAdminSvc(adminCore)
+	adminpb.RegisterAdminServiceServer(grpcServer,adminSvc)
+
+	//register doctor
+	doctorCore := cd.NewCoreDoctor(postGresStore)
+	doctorSvc := doctor.NewDoctorSvc(doctorCore)
+	doctorpb.RegisterDoctorServiceServer(grpcServer,doctorSvc)
 	
 	reflection.Register(grpcServer)
 	fmt.Println("usermgm server running on :",lis.Addr())
