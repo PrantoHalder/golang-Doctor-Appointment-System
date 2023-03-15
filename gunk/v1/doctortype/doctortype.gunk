@@ -1,0 +1,22 @@
+package doctortypepb
+
+type DoctorService interface {
+	RegisterDoctorType(RegisterDoctorTypeRequest) RegisterDoctorTypeResponse
+}
+
+//doctor type struct
+type DoctorType struct {
+	ID         int    `pb:"1"`
+	DoctorType string `pb:"2"`
+}
+
+//Doctor type register request
+type RegisterDoctorTypeRequest struct {
+	ID        int    `pb:"1"`
+	DoctorType string `pb:"2"`
+}
+
+//Doctor type register response
+type RegisterDoctorTypeResponse struct {
+	User DoctorType `pb:"1"`
+}

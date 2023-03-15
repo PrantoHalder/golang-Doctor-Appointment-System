@@ -14,9 +14,12 @@ import (
 	"google.golang.org/grpc/reflection"
 	adminpb "main.go/gunk/v1/admin"
 	doctorpb "main.go/gunk/v1/doctor"
+	doctortypepb "main.go/gunk/v1/doctortype"
 	userpb "main.go/gunk/v1/user"
 	ca "main.go/usermgm/core/admin"
 	cd "main.go/usermgm/core/doctor"
+	dt "main.go/usermgm/core/doctortype"
+	sts "main.go/usermgm/service/doctortype"
 	cu "main.go/usermgm/core/user"
 	"main.go/usermgm/service/admin"
 	"main.go/usermgm/service/doctor"
@@ -75,6 +78,11 @@ func main (){
 	doctorSvc := doctor.NewDoctorSvc(doctorCore)
 	doctorpb.RegisterDoctorServiceServer(grpcServer,doctorSvc)
 	
+	//register doctor_type 
+	doctortypeCore := dt.NewCoreDoctorType(postGresStore)
+	doctortypeSvc := sts.NewDoctorTypeSvc(doctortypeCore)
+    doctortypepb.RegisterDoctorServiceServer(grpcServer,doctortypeSvc)
+
 	reflection.Register(grpcServer)
 	fmt.Println("usermgm server running on :",lis.Addr())
 
