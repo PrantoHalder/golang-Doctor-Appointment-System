@@ -1,17 +1,17 @@
 -- +goose Up
 -- +goose StatementBegin
-CREATE TABLE IF NOT EXISTS doctor_type (
+CREATE TABLE IF NOT EXISTS doctorType (
 	id BIGSERIAL,
-	doctor_type TEXT NOT NULL,
+	doctortype TEXT NOT NULL,
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	deleted_at TIMESTAMP DEFAULT NULL,
 	PRIMARY KEY (id),
-	UNIQUE (doctor_type)
+	UNIQUE (doctortype)
 );
 -- +goose StatementEnd
 
 -- +goose Down
 -- +goose StatementBegin
-DROP TABLE IF EXISTS doctor_type;
+DROP TABLE IF EXISTS doctorType;
 -- +goose StatementEnd

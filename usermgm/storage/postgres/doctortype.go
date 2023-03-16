@@ -8,12 +8,11 @@ import (
 )
 
 //insert into doctor_type
-const registerdoctor_typeQuery = `INSERT INTO doctor_type (
-	doctor_type
-) values(
-	:doctor_type
-)RETURNING *`
-func(s PostGressStorage) Registerdoctortype(u storage.Doctor_type) (*storage.Doctor_type, error){
+const registerdoctor_typeQuery = `INSERT INTO doctorType (doctortype)
+VALUES (:doctortype)
+ON CONFLICT (doctortype) DO NOTHING
+RETURNING *;`
+func(s PostGressStorage) Registerdoctortype(u storage.DoctorType) (*storage.DoctorType, error){
 	stmt, err := s.DB.PrepareNamed(registerdoctor_typeQuery)
 	if err != nil {
 		return nil, err
@@ -29,4 +28,90 @@ func(s PostGressStorage) Registerdoctortype(u storage.Doctor_type) (*storage.Doc
 		return &u, fmt.Errorf("unable to create user")
 	}
 	return &u, nil
+}
+//edit doctor type
+const EditDcotorTypeQuery = `SELECT id,doctorType
+FROM doctortype
+WHERE
+id =$1
+AND
+deleted_at IS NULL`
+
+func (s PostGressStorage) EditDoctorType(id int) (*storage.DoctorType, error) {
+	var listUser storage.DoctorType
+	if err := s.DB.Get(&listUser,EditDcotorTypeQuery,id); err != nil {
+		log.Println("error is in the query section of usermgm edit Doctortype section")
+		return nil, err
+	}
+	if listUser.ID == 0 {
+	 log.Println("error is in the query section of usermgm ID==0 admin Doctortype section")
+     return nil,fmt.Errorf("unable to find username")
+	}
+	return &listUser, nil
+}
+//update doctor type
+const UpdateDoctorTypeQuery = `
+	UPDATE doctorType SET
+		doctortype = :doctortype
+	WHERE id = :id 
+	AND 
+	deleted_at is NULL
+	RETURNING id;
+	`
+
+func (s PostGressStorage) UpdateDoctorType(u storage.DoctorType) (*storage.DoctorType, error) {
+	stmt, err := s.DB.PrepareNamed(UpdateDoctorTypeQuery)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	if err := stmt.Get(&u, u); err != nil {
+		log.Fatalln(err)
+		return nil, err
+	}
+	return &u, nil
+
+}
+//delete doctor type
+const deleteDoctorTypeID = `UPDATE doctorType SET deleted_at = CURRENT_TIMESTAMP WHERE id = $1 AND deleted_at IS NULL ;`
+
+func (s PostGressStorage) DeleteDoctorTypeID(id int) error {
+	res, err := s.DB.Exec(deleteDoctorTypeID,id)
+	if err != nil {
+		fmt.Println(err)
+		return nil
+	}
+
+	rowCount, err := res.RowsAffected()
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	if rowCount <= 0 {
+		return nil
+	}
+
+	return nil
+}
+//list doctor list
+//user list
+const listDoctorListQuery = `
+
+SELECT id,doctortype
+FROM doctorType
+WHERE
+	deleted_at IS NULL
+	AND 
+    (doctortype ILIKE '%%' || $1 || '%%')
+	ORDER BY id DESC
+`
+
+func (s PostGressStorage) ListDoctorType(uf storage.UserFilter) ([]storage.DoctorType, error) {
+	var listUser []storage.DoctorType
+	if err := s.DB.Select(&listUser, listDoctorListQuery, uf.SearchTerm); err != nil {
+		log.Fatalln(err)
+		return nil, err
+	}
+	return listUser, nil
 }

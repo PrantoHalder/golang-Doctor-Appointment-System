@@ -82,14 +82,14 @@ func (l Login) Validate() error  {
 		),
 	)
 }
-type Doctor_type struct {
+type DoctorType struct {
 	ID int                 `db:"id"`
-	DoctorType string       `form:"DoctorType" db:"doctor_type"`
+	DoctorType string       `form:"DoctorType" db:"doctortype"`
 	CreatedAt time.Time    `form:"Created_at" db:"created_at"`
 	UpdatedAt time.Time    `form:"Updated_at" db:"updated_at"`
 	DeletedAt sql.NullTime `form:"Deleted_at" db:"deleted_at"`
 }
-func (u Doctor_type) Validate() error {
+func (u DoctorType) Validate() error {
 	return validation.ValidateStruct(&u, validation.Field(&u.DoctorType,
 		validation.Required.Error("id can not be blank"),
 	),
