@@ -2,8 +2,9 @@ package doctorpb
 
 type DoctorService interface {
 	DoctorLogin(DoctorLoginRequest) DoctorLoginResponse
+	RegisterDoctor(RegisterDoctorRequest) RegisterDoctorResponse
 }
-//user struct
+
 type User struct {
 	ID        int    `pb:"1"`
 	FirstName string `pb:"2"`
@@ -13,13 +14,32 @@ type User struct {
 	Is_active bool   `pb:"6"`
 	Role      string `pb:"7"`
 }
+//doctor struct
+type Doctor struct {
+	ID            int    `pb:"1"`
+	UserID        int    `pb:"2"`
+	DoctorTypeID  int    `pb:"3"`
+	Degree        string `pb:"4"`
+	Gender        string `pb:"5"`
+}
 
-//doctor login request
+//doctor login request by user table
 type DoctorLoginRequest struct {
 	Username string `pb:"1"`
 	Password string `pb:"2"`
 }
-//doctor login response
+//doctor login response by user table
 type DoctorLoginResponse struct {
 	User User `pb:"1"`
+}
+//doctor register request
+type RegisterDoctorRequest struct {
+    UserID        int    `pb:"1"`
+	DoctorTypeID  int    `pb:"2"`
+	Degree        string `pb:"3"`
+	Gender        string `pb:"4"`
+}
+//doctor register response
+type RegisterDoctorResponse struct {
+	User Doctor `pb:"1"`
 }

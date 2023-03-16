@@ -20,6 +20,8 @@ const _ = grpc.SupportPackageIsVersion7
 type AdminServiceClient interface {
 	RegisterAdmin(ctx context.Context, in *RegisterAdminRequest, opts ...grpc.CallOption) (*RegisterAdminResponse, error)
 	AdminLogin(ctx context.Context, in *AdminLoginRequest, opts ...grpc.CallOption) (*AdminLoginResponse, error)
+	RegisterDoctorAdmin(ctx context.Context, in *RegisterDoctorAdminRequest, opts ...grpc.CallOption) (*RegisterDoctorAdminResponse, error)
+	RegisterPatient(ctx context.Context, in *RegisterPatientRequest, opts ...grpc.CallOption) (*RegisterPatientResponse, error)
 }
 
 type adminServiceClient struct {
@@ -48,12 +50,32 @@ func (c *adminServiceClient) AdminLogin(ctx context.Context, in *AdminLoginReque
 	return out, nil
 }
 
+func (c *adminServiceClient) RegisterDoctorAdmin(ctx context.Context, in *RegisterDoctorAdminRequest, opts ...grpc.CallOption) (*RegisterDoctorAdminResponse, error) {
+	out := new(RegisterDoctorAdminResponse)
+	err := c.cc.Invoke(ctx, "/adminpb.AdminService/RegisterDoctorAdmin", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) RegisterPatient(ctx context.Context, in *RegisterPatientRequest, opts ...grpc.CallOption) (*RegisterPatientResponse, error) {
+	out := new(RegisterPatientResponse)
+	err := c.cc.Invoke(ctx, "/adminpb.AdminService/RegisterPatient", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AdminServiceServer is the server API for AdminService service.
 // All implementations must embed UnimplementedAdminServiceServer
 // for forward compatibility
 type AdminServiceServer interface {
 	RegisterAdmin(context.Context, *RegisterAdminRequest) (*RegisterAdminResponse, error)
 	AdminLogin(context.Context, *AdminLoginRequest) (*AdminLoginResponse, error)
+	RegisterDoctorAdmin(context.Context, *RegisterDoctorAdminRequest) (*RegisterDoctorAdminResponse, error)
+	RegisterPatient(context.Context, *RegisterPatientRequest) (*RegisterPatientResponse, error)
 	mustEmbedUnimplementedAdminServiceServer()
 }
 
@@ -66,6 +88,12 @@ func (UnimplementedAdminServiceServer) RegisterAdmin(context.Context, *RegisterA
 }
 func (UnimplementedAdminServiceServer) AdminLogin(context.Context, *AdminLoginRequest) (*AdminLoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AdminLogin not implemented")
+}
+func (UnimplementedAdminServiceServer) RegisterDoctorAdmin(context.Context, *RegisterDoctorAdminRequest) (*RegisterDoctorAdminResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RegisterDoctorAdmin not implemented")
+}
+func (UnimplementedAdminServiceServer) RegisterPatient(context.Context, *RegisterPatientRequest) (*RegisterPatientResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RegisterPatient not implemented")
 }
 func (UnimplementedAdminServiceServer) mustEmbedUnimplementedAdminServiceServer() {}
 
@@ -116,6 +144,42 @@ func _AdminService_AdminLogin_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AdminService_RegisterDoctorAdmin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RegisterDoctorAdminRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).RegisterDoctorAdmin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/adminpb.AdminService/RegisterDoctorAdmin",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).RegisterDoctorAdmin(ctx, req.(*RegisterDoctorAdminRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_RegisterPatient_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RegisterPatientRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).RegisterPatient(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/adminpb.AdminService/RegisterPatient",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).RegisterPatient(ctx, req.(*RegisterPatientRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AdminService_ServiceDesc is the grpc.ServiceDesc for AdminService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -130,6 +194,14 @@ var AdminService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AdminLogin",
 			Handler:    _AdminService_AdminLogin_Handler,
+		},
+		{
+			MethodName: "RegisterDoctorAdmin",
+			Handler:    _AdminService_RegisterDoctorAdmin_Handler,
+		},
+		{
+			MethodName: "RegisterPatient",
+			Handler:    _AdminService_RegisterPatient_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -8,10 +8,9 @@ import (
 )
 
 type UserStore interface {
-	Register(storage.User) (*storage.User, error)
+	Register(u storage.Patient) (*storage.Patient, error)
 	GetUserByUsername(string) (*storage.User, error)
 	EditUser(int) (*storage.User, error)
-	RegisterPatient(storage.User) (*storage.User, error)
 	UpdateUser(storage.UpdateUser) (*storage.UpdateUser, error)
 	DeleteUserByID(int) error
 	ListUser(storage.UserFilter) ([]storage.User, error)
@@ -28,7 +27,7 @@ func NewCoreUser(us UserStore) *CoreUser {
 }
 
 // user registration function
-func (cu CoreUser) Register(u storage.User) (*storage.User, error) {
+func (cu CoreUser) Register(u storage.Patient) (*storage.Patient, error) {
 	hashPass, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
 	if err != nil {
 		fmt.Println("the error is in the core layer in Register after GenerateFromPassword")
@@ -70,25 +69,7 @@ func (cu CoreUser) EditUserCore(us storage.Edit) (*storage.User, error){
 	}
 	return user,nil
 }
-//register user by admin
-func (cu CoreUser) RegisterPatient(u storage.User) (*storage.User, error) {
-	hashPass, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
-	if err != nil {
-		fmt.Println("the error is in the core layer in Register after GenerateFromPassword")
-		return nil, err
-	}
-	u.Password = string(hashPass)
-	ru, err := cu.store.RegisterPatient(u)
-	if err != nil {
-		fmt.Println("the error is in the core layer in Register after cu.store.Register")
-		return nil, err
-	}
-	if ru == nil {
-		fmt.Println("the error is in the core layer in Register after ru == nil")
-		return nil, fmt.Errorf("enable to register")
-	}
-	return ru, nil
-}
+
 //update user
 func (cu CoreUser) UpdatePatient(u storage.UpdateUser) (*storage.UpdateUser, error) {
 	user ,err := cu.store.UpdateUser(u)

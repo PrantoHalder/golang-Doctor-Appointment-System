@@ -10,6 +10,7 @@ import (
 
 type CoreDoctor interface {
 	GetDoctorbyUsernameCore(storage.Login) (*storage.User, error)
+	RegisterDoctorCore(storage.Doctor)(*storage.Doctor,error)
 }
 
 type DoctorSvc struct {
@@ -43,13 +44,43 @@ func (us DoctorSvc) DoctorLogin(ctx context.Context, r *doctorpb.DoctorLoginRequ
 
 	return &doctorpb.DoctorLoginResponse{
 		User: &doctorpb.User{
-			ID: int32(u.ID),
 			FirstName: u.FirstName,
 			LastName:  u.LastName,
 			IsActive:  u.Is_active,
 			Username:  u.Username,
 			Email:     u.Email,
-			Role:      u.Role,
+		},
+	}, nil
+}
+// register doctor
+func (us DoctorSvc) RegisterDoctor(ctx context.Context,r *doctorpb.RegisterDoctorRequest) (*doctorpb.RegisterDoctorResponse, error){
+	fmt.Println("req service", r)
+	user :=storage.Doctor{
+		UserID:       int(r.GetUserID()),
+		DoctorTypeID: int(r.GetUserID()),
+		Degree:       r.GetDegree(),
+		Gender:       r.GetGender(),
+	}
+	if err := user.Validate(); err != nil {
+		fmt.Println("the error is in the serveice layer in Login after RegisterDoctor")
+		return nil, err
+	}
+
+	u, err := us.core.RegisterDoctorCore(user)
+	fmt.Println("req response", u)
+	if err != nil {
+		fmt.Println("response error", err.Error())
+		fmt.Println("the error is in the serveice layer in Login after RegisterDoctorCore(user)")
+		return nil, err
+	}
+
+	return &doctorpb.RegisterDoctorResponse{
+		User: &doctorpb.Doctor{
+			ID:           int32(u.ID),
+			UserID:       int32(u.UserID),
+			DoctorTypeID: int32(u.DoctorTypeID),
+			Degree:       u.Degree,
+			Gender:       u.Gender,
 		},
 	}, nil
 }

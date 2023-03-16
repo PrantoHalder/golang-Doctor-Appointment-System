@@ -19,6 +19,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type DoctorServiceClient interface {
 	DoctorLogin(ctx context.Context, in *DoctorLoginRequest, opts ...grpc.CallOption) (*DoctorLoginResponse, error)
+	RegisterDoctor(ctx context.Context, in *RegisterDoctorRequest, opts ...grpc.CallOption) (*RegisterDoctorResponse, error)
 }
 
 type doctorServiceClient struct {
@@ -38,11 +39,21 @@ func (c *doctorServiceClient) DoctorLogin(ctx context.Context, in *DoctorLoginRe
 	return out, nil
 }
 
+func (c *doctorServiceClient) RegisterDoctor(ctx context.Context, in *RegisterDoctorRequest, opts ...grpc.CallOption) (*RegisterDoctorResponse, error) {
+	out := new(RegisterDoctorResponse)
+	err := c.cc.Invoke(ctx, "/doctorpb.DoctorService/RegisterDoctor", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // DoctorServiceServer is the server API for DoctorService service.
 // All implementations must embed UnimplementedDoctorServiceServer
 // for forward compatibility
 type DoctorServiceServer interface {
 	DoctorLogin(context.Context, *DoctorLoginRequest) (*DoctorLoginResponse, error)
+	RegisterDoctor(context.Context, *RegisterDoctorRequest) (*RegisterDoctorResponse, error)
 	mustEmbedUnimplementedDoctorServiceServer()
 }
 
@@ -52,6 +63,9 @@ type UnimplementedDoctorServiceServer struct {
 
 func (UnimplementedDoctorServiceServer) DoctorLogin(context.Context, *DoctorLoginRequest) (*DoctorLoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DoctorLogin not implemented")
+}
+func (UnimplementedDoctorServiceServer) RegisterDoctor(context.Context, *RegisterDoctorRequest) (*RegisterDoctorResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RegisterDoctor not implemented")
 }
 func (UnimplementedDoctorServiceServer) mustEmbedUnimplementedDoctorServiceServer() {}
 
@@ -84,6 +98,24 @@ func _DoctorService_DoctorLogin_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _DoctorService_RegisterDoctor_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RegisterDoctorRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DoctorServiceServer).RegisterDoctor(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/doctorpb.DoctorService/RegisterDoctor",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DoctorServiceServer).RegisterDoctor(ctx, req.(*RegisterDoctorRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // DoctorService_ServiceDesc is the grpc.ServiceDesc for DoctorService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -94,6 +126,10 @@ var DoctorService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DoctorLogin",
 			Handler:    _DoctorService_DoctorLogin_Handler,
+		},
+		{
+			MethodName: "RegisterDoctor",
+			Handler:    _DoctorService_RegisterDoctor_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

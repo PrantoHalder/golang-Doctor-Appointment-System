@@ -55,7 +55,6 @@ func (h Handler) RegisterPost (w http.ResponseWriter, r *http.Request){
 		return
 	}
 	h.usermgmService.Register(r.Context(),&userpb.RegisterRequest{
-		ID:        int32(user.ID),
 		FirstName: user.FirstName,
 		LastName:  user.LastName,
 		Username:  user.Username,

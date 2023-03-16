@@ -9,8 +9,7 @@ import (
 )
 
 type CoreUser interface {
-	Register(storage.User) (*storage.User, error)
-	RegisterPatient(storage.User) (*storage.User, error)
+	Register(storage.Patient) (*storage.Patient, error)
 	GetUserbyUsernameCore(storage.Login) (*storage.User, error)
 	EditUserCore(storage.Edit) (*storage.User, error)
 	UpdatePatient(storage.UpdateUser) (*storage.UpdateUser, error)
@@ -31,7 +30,7 @@ func NewUserSvc(cu CoreUser) *UserSvc {
 
 // user register
 func (us UserSvc) Register(ctx context.Context, r *userpb.RegisterRequest) (*userpb.RegisterResponse, error) {
-	user := storage.User{
+	user := storage.Patient{
 		FirstName: r.GetFirstName(),
 		LastName:  r.GetLastName(),
 		Email:     r.GetEmail(),
@@ -110,37 +109,6 @@ func (us UserSvc) UserEdit(cxt context.Context, r *userpb.UserEditRequest) (*use
 			FirstName: u.FirstName,
 			LastName:  u.LastName,
 			IsActive:  u.Is_active,
-		},
-	}, nil
-}
-
-// user register by admin
-func (us UserSvc) RegisterPatient(ctx context.Context, r *userpb.RegisterPatientRequest) (*userpb.RegisterPatientResponse, error) {
-	user := storage.User{
-		FirstName: r.GetFirstName(),
-		LastName:  r.GetLastName(),
-		Email:     r.GetEmail(),
-		Username:  r.GetUsername(),
-		Password:  r.GetPassword(),
-		Role:      r.GetRole(),
-	}
-	if err := user.Validate(); err != nil {
-		fmt.Println("the error is in the serveice layer in Register after user.Validate")
-		return nil, err
-	}
-	u, err := us.core.RegisterPatient(user)
-	if err != nil {
-		fmt.Println("the error is in the serveice layer in Register after Register(user)")
-		return nil, err
-	}
-	return &userpb.RegisterPatientResponse{
-		User: &userpb.User{
-			ID:        int32(u.ID),
-			FirstName: u.FirstName,
-			LastName:  u.LastName,
-			Username:  u.Username,
-			Email:     u.Email,
-			Role:      u.Role,
 		},
 	}, nil
 }

@@ -9,6 +9,7 @@ import (
 
 type DoctorStore interface {
 	GetDoctorByUsername(string) (*storage.User, error)
+	RegisterDoctor(u storage.Doctor) (*storage.Doctor, error)
 }
 
 type CoreDoctor struct {
@@ -21,18 +22,25 @@ func NewCoreDoctor(us DoctorStore) *CoreDoctor {
 	}
 }
 
-
 //Doctor login
 func (cu CoreDoctor) GetDoctorbyUsernameCore(login storage.Login) (*storage.User, error){
     user,err := cu.store.GetDoctorByUsername(login.Username) 
 	if err != nil {
-		fmt.Println("the error is in the core layer in GetStatusbyUsernameCore after cu.store.GetUserByUsername(login) ")
 		return nil, err
 	}
 	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(login.Password)); err != nil{
-		fmt.Println("the error is in the core layer in GetStatusbyUsernameCore after bcrypt.CompareHashAndPassword ")
 		return nil, err
 	}
 	return user,nil
 }
-
+//register doctor
+func (cu CoreDoctor) RegisterDoctorCore(u storage.Doctor)(*storage.Doctor,error){
+	ru, err := cu.store.RegisterDoctor(u)
+	if err != nil {
+		return nil, err
+	}
+	if ru == nil {
+		return nil, fmt.Errorf("enable to register")
+	}
+	return ru, nil
+}
