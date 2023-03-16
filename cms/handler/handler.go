@@ -15,6 +15,7 @@ import (
 	"google.golang.org/grpc"
 	adminpb "main.go/gunk/v1/admin"
 	doctorpb "main.go/gunk/v1/doctor"
+	doctortypepb "main.go/gunk/v1/doctortype"
 	userpb "main.go/gunk/v1/user"
 )
 
@@ -31,6 +32,7 @@ type usermgmService struct {
 	userpb.UserServiceClient
 	adminpb.AdminServiceClient
 	doctorpb.DoctorServiceClient
+	doctortypepb.DoctorTypeServiceClient
 }
 
 func NewHandler(sm *scs.SessionManager, formDecoder *form.Decoder, usermgmConn *grpc.ClientConn, staticFiles, templateFiles fs.FS) *chi.Mux {
@@ -40,6 +42,7 @@ func NewHandler(sm *scs.SessionManager, formDecoder *form.Decoder, usermgmConn *
 		usermgmService: usermgmService{userpb.NewUserServiceClient(usermgmConn),
 			                           adminpb.NewAdminServiceClient(usermgmConn),
 			                           doctorpb.NewDoctorServiceClient(usermgmConn),
+									   doctortypepb.NewDoctorTypeServiceClient(usermgmConn),
 		                              },
 		staticFiles:   staticFiles,
 		templateFiles: templateFiles,

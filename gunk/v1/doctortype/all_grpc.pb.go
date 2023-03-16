@@ -14,86 +14,86 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// DoctorServiceClient is the client API for DoctorService service.
+// DoctorTypeServiceClient is the client API for DoctorTypeService service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type DoctorServiceClient interface {
+type DoctorTypeServiceClient interface {
 	RegisterDoctorType(ctx context.Context, in *RegisterDoctorTypeRequest, opts ...grpc.CallOption) (*RegisterDoctorTypeResponse, error)
 }
 
-type doctorServiceClient struct {
+type doctorTypeServiceClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewDoctorServiceClient(cc grpc.ClientConnInterface) DoctorServiceClient {
-	return &doctorServiceClient{cc}
+func NewDoctorTypeServiceClient(cc grpc.ClientConnInterface) DoctorTypeServiceClient {
+	return &doctorTypeServiceClient{cc}
 }
 
-func (c *doctorServiceClient) RegisterDoctorType(ctx context.Context, in *RegisterDoctorTypeRequest, opts ...grpc.CallOption) (*RegisterDoctorTypeResponse, error) {
+func (c *doctorTypeServiceClient) RegisterDoctorType(ctx context.Context, in *RegisterDoctorTypeRequest, opts ...grpc.CallOption) (*RegisterDoctorTypeResponse, error) {
 	out := new(RegisterDoctorTypeResponse)
-	err := c.cc.Invoke(ctx, "/doctortypepb.DoctorService/RegisterDoctorType", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/doctortypepb.DoctorTypeService/RegisterDoctorType", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// DoctorServiceServer is the server API for DoctorService service.
-// All implementations must embed UnimplementedDoctorServiceServer
+// DoctorTypeServiceServer is the server API for DoctorTypeService service.
+// All implementations must embed UnimplementedDoctorTypeServiceServer
 // for forward compatibility
-type DoctorServiceServer interface {
+type DoctorTypeServiceServer interface {
 	RegisterDoctorType(context.Context, *RegisterDoctorTypeRequest) (*RegisterDoctorTypeResponse, error)
-	mustEmbedUnimplementedDoctorServiceServer()
+	mustEmbedUnimplementedDoctorTypeServiceServer()
 }
 
-// UnimplementedDoctorServiceServer must be embedded to have forward compatible implementations.
-type UnimplementedDoctorServiceServer struct {
+// UnimplementedDoctorTypeServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedDoctorTypeServiceServer struct {
 }
 
-func (UnimplementedDoctorServiceServer) RegisterDoctorType(context.Context, *RegisterDoctorTypeRequest) (*RegisterDoctorTypeResponse, error) {
+func (UnimplementedDoctorTypeServiceServer) RegisterDoctorType(context.Context, *RegisterDoctorTypeRequest) (*RegisterDoctorTypeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegisterDoctorType not implemented")
 }
-func (UnimplementedDoctorServiceServer) mustEmbedUnimplementedDoctorServiceServer() {}
+func (UnimplementedDoctorTypeServiceServer) mustEmbedUnimplementedDoctorTypeServiceServer() {}
 
-// UnsafeDoctorServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to DoctorServiceServer will
+// UnsafeDoctorTypeServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to DoctorTypeServiceServer will
 // result in compilation errors.
-type UnsafeDoctorServiceServer interface {
-	mustEmbedUnimplementedDoctorServiceServer()
+type UnsafeDoctorTypeServiceServer interface {
+	mustEmbedUnimplementedDoctorTypeServiceServer()
 }
 
-func RegisterDoctorServiceServer(s grpc.ServiceRegistrar, srv DoctorServiceServer) {
-	s.RegisterService(&DoctorService_ServiceDesc, srv)
+func RegisterDoctorTypeServiceServer(s grpc.ServiceRegistrar, srv DoctorTypeServiceServer) {
+	s.RegisterService(&DoctorTypeService_ServiceDesc, srv)
 }
 
-func _DoctorService_RegisterDoctorType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _DoctorTypeService_RegisterDoctorType_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RegisterDoctorTypeRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(DoctorServiceServer).RegisterDoctorType(ctx, in)
+		return srv.(DoctorTypeServiceServer).RegisterDoctorType(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/doctortypepb.DoctorService/RegisterDoctorType",
+		FullMethod: "/doctortypepb.DoctorTypeService/RegisterDoctorType",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(DoctorServiceServer).RegisterDoctorType(ctx, req.(*RegisterDoctorTypeRequest))
+		return srv.(DoctorTypeServiceServer).RegisterDoctorType(ctx, req.(*RegisterDoctorTypeRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// DoctorService_ServiceDesc is the grpc.ServiceDesc for DoctorService service.
+// DoctorTypeService_ServiceDesc is the grpc.ServiceDesc for DoctorTypeService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var DoctorService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "doctortypepb.DoctorService",
-	HandlerType: (*DoctorServiceServer)(nil),
+var DoctorTypeService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "doctortypepb.DoctorTypeService",
+	HandlerType: (*DoctorTypeServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "RegisterDoctorType",
-			Handler:    _DoctorService_RegisterDoctorType_Handler,
+			Handler:    _DoctorTypeService_RegisterDoctorType_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

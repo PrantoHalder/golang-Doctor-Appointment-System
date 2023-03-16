@@ -1,6 +1,6 @@
 package doctortypepb
 
-type DoctorService interface {
+type DoctorTypeService interface {
 	RegisterDoctorType(RegisterDoctorTypeRequest) RegisterDoctorTypeResponse
 }
 

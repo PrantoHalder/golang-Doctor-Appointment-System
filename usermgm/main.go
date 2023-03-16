@@ -81,7 +81,7 @@ func main (){
 	//register doctor_type 
 	doctortypeCore := dt.NewCoreDoctorType(postGresStore)
 	doctortypeSvc := sts.NewDoctorTypeSvc(doctortypeCore)
-    doctortypepb.RegisterDoctorServiceServer(grpcServer,doctortypeSvc)
+    doctortypepb.RegisterDoctorTypeServiceServer(grpcServer,doctortypeSvc)
 
 	reflection.Register(grpcServer)
 	fmt.Println("usermgm server running on :",lis.Addr())
