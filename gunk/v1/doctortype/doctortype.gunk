@@ -19,8 +19,7 @@ type DoctorType struct {
 
 //Doctor type register request
 type RegisterDoctorTypeRequest struct {
-	ID        int    `pb:"1"`
-	DoctorType string `pb:"2"`
+	DoctorType string `pb:"1"`
 }
 
 //Doctor type register response

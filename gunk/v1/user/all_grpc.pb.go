@@ -19,7 +19,6 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type UserServiceClient interface {
 	Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error)
-	RegisterPatient(ctx context.Context, in *RegisterPatientRequest, opts ...grpc.CallOption) (*RegisterPatientResponse, error)
 	Login(ctx context.Context, in *LoginRequest, opts ...grpc.CallOption) (*LoginResponse, error)
 	UserEdit(ctx context.Context, in *UserEditRequest, opts ...grpc.CallOption) (*UserEditResponse, error)
 	UserUpdate(ctx context.Context, in *UserUpdateRequest, opts ...grpc.CallOption) (*UserUpdateResponse, error)
@@ -38,15 +37,6 @@ func NewUserServiceClient(cc grpc.ClientConnInterface) UserServiceClient {
 func (c *userServiceClient) Register(ctx context.Context, in *RegisterRequest, opts ...grpc.CallOption) (*RegisterResponse, error) {
 	out := new(RegisterResponse)
 	err := c.cc.Invoke(ctx, "/userpb.UserService/Register", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *userServiceClient) RegisterPatient(ctx context.Context, in *RegisterPatientRequest, opts ...grpc.CallOption) (*RegisterPatientResponse, error) {
-	out := new(RegisterPatientResponse)
-	err := c.cc.Invoke(ctx, "/userpb.UserService/RegisterPatient", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -103,7 +93,6 @@ func (c *userServiceClient) UserList(ctx context.Context, in *UserlistRequest, o
 // for forward compatibility
 type UserServiceServer interface {
 	Register(context.Context, *RegisterRequest) (*RegisterResponse, error)
-	RegisterPatient(context.Context, *RegisterPatientRequest) (*RegisterPatientResponse, error)
 	Login(context.Context, *LoginRequest) (*LoginResponse, error)
 	UserEdit(context.Context, *UserEditRequest) (*UserEditResponse, error)
 	UserUpdate(context.Context, *UserUpdateRequest) (*UserUpdateResponse, error)
@@ -118,9 +107,6 @@ type UnimplementedUserServiceServer struct {
 
 func (UnimplementedUserServiceServer) Register(context.Context, *RegisterRequest) (*RegisterResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
-}
-func (UnimplementedUserServiceServer) RegisterPatient(context.Context, *RegisterPatientRequest) (*RegisterPatientResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method RegisterPatient not implemented")
 }
 func (UnimplementedUserServiceServer) Login(context.Context, *LoginRequest) (*LoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Login not implemented")
@@ -164,24 +150,6 @@ func _UserService_Register_Handler(srv interface{}, ctx context.Context, dec fun
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(UserServiceServer).Register(ctx, req.(*RegisterRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _UserService_RegisterPatient_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RegisterPatientRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServiceServer).RegisterPatient(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/userpb.UserService/RegisterPatient",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).RegisterPatient(ctx, req.(*RegisterPatientRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -286,10 +254,6 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Register",
 			Handler:    _UserService_Register_Handler,
-		},
-		{
-			MethodName: "RegisterPatient",
-			Handler:    _UserService_RegisterPatient_Handler,
 		},
 		{
 			MethodName: "Login",

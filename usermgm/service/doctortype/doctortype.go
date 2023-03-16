@@ -30,7 +30,6 @@ func NewDoctorTypeSvc(cu CoreDoctorType) *DoctorTypeSvc {
 //doctor type register
 func (us DoctorTypeSvc) RegisterDoctorType(ctx context.Context, r *doctortypepb.RegisterDoctorTypeRequest) (*doctortypepb.RegisterDoctorTypeResponse, error) {
 	user := storage.DoctorType{
-		ID:         int(r.GetID()),
 		DoctorType: r.GetDoctorType(),
 	}
 	if err := user.Validate(); err != nil {

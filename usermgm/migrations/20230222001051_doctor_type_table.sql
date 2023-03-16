@@ -2,7 +2,7 @@
 -- +goose StatementBegin
 CREATE TABLE IF NOT EXISTS doctorType (
 	id BIGSERIAL,
-	doctortype TEXT NOT NULL,
+	doctortype VARCHAR(20) NOT NULL,
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	deleted_at TIMESTAMP DEFAULT NULL,

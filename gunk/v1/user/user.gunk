@@ -2,7 +2,6 @@ package userpb
 
 type UserService interface {
 	Register(RegisterRequest) RegisterResponse
-	RegisterPatient(RegisterPatientRequest) RegisterPatientResponse
 	Login(LoginRequest) LoginResponse
 	UserEdit(UserEditRequest) UserEditResponse
 	UserUpdate(UserUpdateRequest) UserUpdateResponse
@@ -25,12 +24,11 @@ type UserFilterList struct{
 }
 //user register
 type RegisterRequest struct {
-	ID        int    `pb:"1"`
-	FirstName string `pb:"2"`
-	LastName  string `pb:"3"`
-	Username  string `pb:"4"`
-	Email     string `pb:"5"`
-	Password  string `pb:"6"`
+	FirstName string `pb:"1"`
+	LastName  string `pb:"2"`
+	Username  string `pb:"3"`
+	Email     string `pb:"4"`
+	Password  string `pb:"5"`
 }
 
 //user register response
@@ -65,22 +63,6 @@ type UserUpdateRequest struct {
 }
 //user update response
 type UserUpdateResponse struct {
-	User User `pb:"1"`
-}
-
-//patient register by admin request
-type RegisterPatientRequest struct {
-	ID        int    `pb:"1"`
-	FirstName string `pb:"2"`
-	LastName  string `pb:"3"`
-	Username  string `pb:"4"`
-	Role      string `pb:"5"`
-	Email     string `pb:"6"`
-	Password  string `pb:"7"`
-}
-
-//patient register by admin response
-type RegisterPatientResponse struct {
 	User User `pb:"1"`
 }
 

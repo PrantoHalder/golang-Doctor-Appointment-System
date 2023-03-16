@@ -3,6 +3,8 @@ package adminpb
 type AdminService interface {
 	RegisterAdmin(RegisterAdminRequest) RegisterAdminResponse
 	AdminLogin(AdminLoginRequest) AdminLoginResponse
+	RegisterDoctorAdmin(RegisterDoctorAdminRequest) RegisterDoctorAdminResponse
+	RegisterPatient(RegisterPatientRequest) RegisterPatientResponse
 }
 //user struct
 type User struct {
@@ -14,16 +16,14 @@ type User struct {
 	Is_active bool   `pb:"6"`
 	Role      string `pb:"7"`
 }
-
 //admin register
 type RegisterAdminRequest struct {
-	ID        int    `pb:"1"`
-	FirstName string `pb:"2"`
-	LastName  string `pb:"3"`
-	Username  string `pb:"4"`
-	Role      string `pb:"5"`
-	Email     string `pb:"6"`
-	Password  string `pb:"7"`
+	FirstName string `pb:"1"`
+	LastName  string `pb:"2"`
+	Username  string `pb:"3"`
+	Role      string `pb:"4"`
+	Email     string `pb:"5"`
+	Password  string `pb:"6"`
 }
 
 //admin register response
@@ -38,5 +38,33 @@ type AdminLoginRequest struct {
 }
 //amin login response
 type AdminLoginResponse struct {
+	User User `pb:"1"`
+}
+// docter added by admin request
+type RegisterDoctorAdminRequest struct {
+	FirstName string `pb:"1"`
+	LastName  string `pb:"2"`
+	Username  string `pb:"3"`
+	Role      string `pb:"4"`
+	Email     string `pb:"5"`
+	Password  string `pb:"6"`
+}
+
+// docter added by admin response
+type RegisterDoctorAdminResponse struct {
+	User User `pb:"1"`
+}
+//patient register by admin request
+type RegisterPatientRequest struct {
+	FirstName string `pb:"1"`
+	LastName  string `pb:"2"`
+	Username  string `pb:"3"`
+	Role      string `pb:"4"`
+	Email     string `pb:"5"`
+	Password  string `pb:"6"`
+}
+
+//patient register by admin response
+type RegisterPatientResponse struct {
 	User User `pb:"1"`
 }

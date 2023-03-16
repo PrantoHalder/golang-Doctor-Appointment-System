@@ -21,7 +21,7 @@ const registerQuery = `INSERT INTO users (
 	:email,
 	:password
 )RETURNING *`
-func(s PostGressStorage) Register(u storage.User) (*storage.User, error){
+func(s PostGressStorage) Register(u storage.Patient) (*storage.Patient, error){
 	stmt, err := s.DB.PrepareNamed(registerQuery)
 	if err != nil {
 		return nil, err
@@ -107,39 +107,6 @@ func (s PostGressStorage) UpdateUser(u storage.UpdateUser) (*storage.UpdateUser,
 	}
 	return &u, nil
 
-}
-//user register by admin
-const registerpatientByAdminQuery = `INSERT INTO users (
-	first_name,
-	last_name,
-	username,
-	email,
-	password,
-	role
-) values(
-	:first_name,
-	:last_name,
-	:username,
-	:email,
-	:password,
-	:role
-)RETURNING *`
-func(s PostGressStorage) RegisterPatient(u storage.User) (*storage.User, error){
-	stmt, err := s.DB.PrepareNamed(registerpatientByAdminQuery)
-	if err != nil {
-		return nil, err
-	}
-
-	if err := stmt.Get(&u, u); err != nil {
-		log.Println("error is in the query section of registration section")
-		return nil, err
-	}
-	if u.ID == 0 {
-		log.Println("error is in the query section of registration section u.ID == 0")
-		log.Println("unable to create user")
-		return &u, fmt.Errorf("unable to create user")
-	}
-	return &u, nil
 }
 //delete user
 const deleteUserbyID = `UPDATE users SET deleted_at = CURRENT_TIMESTAMP WHERE id = $1 AND deleted_at IS NULL ;`
