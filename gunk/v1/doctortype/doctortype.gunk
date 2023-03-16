@@ -2,8 +2,15 @@ package doctortypepb
 
 type DoctorTypeService interface {
 	RegisterDoctorType(RegisterDoctorTypeRequest) RegisterDoctorTypeResponse
+	EditDoctorType(EditDoctorTypeRequest)(EditDoctorTypeResponse)
+	UpdateDoctorType(UpdateDoctorTypeRequest) UpdateDoctorTypeResponse
+	DeleteDoctorType(DeleteDoctorTypeRequest) DeleteDoctorTypeResponse
+	DoctorTypeList(DoctorTypeListRequest) DoctorTypeListResponse
 }
-
+type DcotorTypeFilterList struct{
+	TotalUser []DoctorType  `pb:"1"`
+	SearchTerm string `pb:"2"`
+}
 //doctor type struct
 type DoctorType struct {
 	ID         int    `pb:"1"`
@@ -19,4 +26,37 @@ type RegisterDoctorTypeRequest struct {
 //Doctor type register response
 type RegisterDoctorTypeResponse struct {
 	User DoctorType `pb:"1"`
+}
+// edit doctor type request
+type EditDoctorTypeRequest struct {
+	id int `pb:"1"`
+}
+// edit doctor type response
+type EditDoctorTypeResponse struct {
+	User DoctorType `pb:"1"`
+}
+//update doctor type request
+type UpdateDoctorTypeRequest struct {
+	ID int `pb:"1"`
+	DcotorType string `pb:"2"`
+}
+//update doctor type response
+type UpdateDoctorTypeResponse struct {
+	User DoctorType  `pb:"1"`
+}
+//delete doctor type request
+type DeleteDoctorTypeRequest struct {
+	id int `pb:"1"`
+}
+//delete doctor type response
+type DeleteDoctorTypeResponse struct {
+	
+}
+//list user request
+type DoctorTypeListRequest struct {
+	SearchTerm string `pb:"1"`
+}
+// list user response
+type DoctorTypeListResponse struct {
+	DcotorTypeFilterList DcotorTypeFilterList `pb:"1"`
 }
