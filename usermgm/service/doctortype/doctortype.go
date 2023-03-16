@@ -13,7 +13,7 @@ type CoreDoctorType interface {
 }
 
 type DoctorTypeSvc struct {
-	doctortypepb.UnimplementedDoctorServiceServer
+	doctortypepb.UnimplementedDoctorTypeServiceServer
 	core CoreDoctorType
 }
 
