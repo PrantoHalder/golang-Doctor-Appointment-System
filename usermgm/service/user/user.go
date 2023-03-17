@@ -14,7 +14,8 @@ type CoreUser interface {
 	EditUserCore(storage.Edit) (*storage.User, error)
 	UpdatePatient(storage.UpdateUser) (*storage.UpdateUser, error)
 	DeleteUserByID(storage.Edit) error
-	ListUser(u storage.UserFilter) ([]storage.User,error)
+	ListUser(storage.UserFilter) ([]storage.User,error)
+	RegisterAppointmentCore(storage.Appointment) (*storage.Appointment, error)
 }
 
 type UserSvc struct {
@@ -27,7 +28,6 @@ func NewUserSvc(cu CoreUser) *UserSvc {
 		core: cu,
 	}
 }
-
 // user register
 func (us UserSvc) Register(ctx context.Context, r *userpb.RegisterRequest) (*userpb.RegisterResponse, error) {
 	user := storage.Patient{
@@ -184,4 +184,30 @@ func (us UserSvc)UserList(ctx context.Context,r *userpb.UserlistRequest) (*userp
 		},
 	},nil
   
+}
+// register appointment
+func (us UserSvc) RegisterAppointment(ctx context.Context,r *userpb.RegisterAppointmentRequest) (*userpb.RegisterAppointmentResponse, error){
+	user := storage.Appointment{
+		UserID:          int(r.GetUserID()),
+		DoctorDetailsID: int(r.GetDoctorDetailsID()),
+		ScheduleID:      int(r.GetScheduleID()),
+	}
+	if err := user.Validate(); err != nil {
+		fmt.Println("the error is in the serveice layer in Register after user.Validate")
+		return nil, err
+	}
+	u, err := us.core.RegisterAppointmentCore(user)
+	if err != nil {
+		fmt.Println("the error is in the serveice layer in Register after Register(user)")
+		return nil, err
+	}
+	return &userpb.RegisterAppointmentResponse{
+		Appointment: &userpb.Appointment{
+			ID:              int32(u.ID),
+			UserID:          int32(u.UserID),
+			DoctorDetailsID: int32(u.DoctorDetailsID),
+			ScheduleID:      int32(u.ScheduleID),
+			Is_Appointed:    u.Is_Appointed,
+		},
+	}, nil
 }

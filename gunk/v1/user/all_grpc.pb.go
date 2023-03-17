@@ -24,6 +24,7 @@ type UserServiceClient interface {
 	UserUpdate(ctx context.Context, in *UserUpdateRequest, opts ...grpc.CallOption) (*UserUpdateResponse, error)
 	UserDelete(ctx context.Context, in *UserDeleteRequest, opts ...grpc.CallOption) (*UserDeleteResponse, error)
 	UserList(ctx context.Context, in *UserlistRequest, opts ...grpc.CallOption) (*UserListResponse, error)
+	RegisterAppointment(ctx context.Context, in *RegisterAppointmentRequest, opts ...grpc.CallOption) (*RegisterAppointmentResponse, error)
 }
 
 type userServiceClient struct {
@@ -88,6 +89,15 @@ func (c *userServiceClient) UserList(ctx context.Context, in *UserlistRequest, o
 	return out, nil
 }
 
+func (c *userServiceClient) RegisterAppointment(ctx context.Context, in *RegisterAppointmentRequest, opts ...grpc.CallOption) (*RegisterAppointmentResponse, error) {
+	out := new(RegisterAppointmentResponse)
+	err := c.cc.Invoke(ctx, "/userpb.UserService/RegisterAppointment", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
@@ -98,6 +108,7 @@ type UserServiceServer interface {
 	UserUpdate(context.Context, *UserUpdateRequest) (*UserUpdateResponse, error)
 	UserDelete(context.Context, *UserDeleteRequest) (*UserDeleteResponse, error)
 	UserList(context.Context, *UserlistRequest) (*UserListResponse, error)
+	RegisterAppointment(context.Context, *RegisterAppointmentRequest) (*RegisterAppointmentResponse, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -122,6 +133,9 @@ func (UnimplementedUserServiceServer) UserDelete(context.Context, *UserDeleteReq
 }
 func (UnimplementedUserServiceServer) UserList(context.Context, *UserlistRequest) (*UserListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UserList not implemented")
+}
+func (UnimplementedUserServiceServer) RegisterAppointment(context.Context, *RegisterAppointmentRequest) (*RegisterAppointmentResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RegisterAppointment not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -244,6 +258,24 @@ func _UserService_UserList_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_RegisterAppointment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RegisterAppointmentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).RegisterAppointment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/userpb.UserService/RegisterAppointment",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).RegisterAppointment(ctx, req.(*RegisterAppointmentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -274,6 +306,10 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UserList",
 			Handler:    _UserService_UserList_Handler,
+		},
+		{
+			MethodName: "RegisterAppointment",
+			Handler:    _UserService_RegisterAppointment_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

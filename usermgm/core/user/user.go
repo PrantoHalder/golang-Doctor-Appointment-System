@@ -14,6 +14,7 @@ type UserStore interface {
 	UpdateUser(storage.UpdateUser) (*storage.UpdateUser, error)
 	DeleteUserByID(int) error
 	ListUser(storage.UserFilter) ([]storage.User, error)
+	RegisterAppointment(u storage.Appointment) (*storage.Appointment, error)
 }
 
 type CoreUser struct {
@@ -98,4 +99,15 @@ func (cu CoreUser)ListUser(u storage.UserFilter) ([]storage.User,error){
 		return nil,err
 	}
 	return user,nil
+}
+//register appointments
+func (cu CoreUser)RegisterAppointmentCore(u storage.Appointment) (*storage.Appointment, error) {
+	ru, err := cu.store.RegisterAppointment(u)
+	if err != nil {
+		return nil, err
+	}
+	if ru == nil {
+		return nil, fmt.Errorf("enable to register")
+	}
+	return ru, nil
 }

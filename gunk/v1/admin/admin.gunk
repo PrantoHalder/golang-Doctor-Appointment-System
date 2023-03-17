@@ -3,8 +3,32 @@ package adminpb
 type AdminService interface {
 	RegisterAdmin(RegisterAdminRequest) RegisterAdminResponse
 	AdminLogin(AdminLoginRequest) AdminLoginResponse
+	AdminEdit(AdminEditRequest) AdminEditResponse
+	AdminUpdate(AdminUpdateRequest) AdminUpdateResponse
+	AdminDelete(AdminDeleteRequest) AdminDeleteResponse
 	RegisterDoctorAdmin(RegisterDoctorAdminRequest) RegisterDoctorAdminResponse
+	EditDoctorAdmin(EditDoctorAdminRequest) EditDoctorAdminResponse
+	UpdateDoctorAdmin(UpdateDoctorAdminRequest) UpdateDoctorAdminResponse
+	DeleteDoctorByID(DeleteAdminByIDRequest) DeleteAdminByIDResponse
 	RegisterPatient(RegisterPatientRequest) RegisterPatientResponse
+	EditPatient(EditPatientRequest) EditPatientResponse
+	UpdatePatient(UpdatePatientRequest) UpdatePatientResponse
+	DeletePatient(DeletePatientRequest) DeletePatientResponse
+}
+//Edit user struct
+type Edit struct {
+	ID        int    `pb:"1"`
+	FirstName string `pb:"2"`
+	LastName  string `pb:"3"`
+	Email     string `pb:"4"`
+	Is_active bool   `pb:"5"`
+}
+//Edit user struct
+type Update struct {
+	FirstName string `pb:"2"`
+	LastName  string `pb:"3"`
+	Email     string `pb:"4"`
+	Is_active bool   `pb:"5"`
 }
 //user struct
 type User struct {
@@ -67,4 +91,88 @@ type RegisterPatientRequest struct {
 //patient register by admin response
 type RegisterPatientResponse struct {
 	User User `pb:"1"`
+}
+// edit admin request
+type AdminEditRequest struct {
+	ID int `pb:"1"`
+}
+// edit admin response
+type AdminEditResponse struct {
+  User Edit `pb:"1"`
+}
+//update admin request
+type AdminUpdateRequest struct {
+	ID        int    `pb:"1"`
+	FirstName string `pb:"2"`
+	LastName  string `pb:"3"`
+	Email     string `pb:"4"`
+	Is_active bool   `pb:"5"`
+}
+//update admin response
+type AdminUpdateResponse struct {
+	User Update `pb:"1"`
+}
+// delete admin request
+type AdminDeleteRequest struct {
+	ID int `pb:"1"`
+}
+// delete admin response
+type AdminDeleteResponse struct {
+	
+}
+//edit doctor request 
+type EditDoctorAdminRequest struct {
+	ID int `pb:"1"`
+}
+//edit doctor response
+type EditDoctorAdminResponse struct {
+	User Edit `pb:"1"`
+}
+//update doctor request
+type UpdateDoctorAdminRequest struct {
+	ID        int    `pb:"1"`
+	FirstName string `pb:"2"`
+	LastName  string `pb:"3"`
+	Email     string `pb:"4"`
+	Is_active bool   `pb:"5"`
+}
+//update doctor response
+type UpdateDoctorAdminResponse struct{
+	User Update `pb:"1"`
+}
+// delete doctor request
+type DeleteAdminByIDRequest struct {
+	ID int `pb:"1"`
+}
+//delete doctor response
+type DeleteAdminByIDResponse struct{
+
+}
+//edit patient request
+type EditPatientRequest struct {
+	ID int `pb:"1"`
+}
+//edit patient response
+type EditPatientResponse struct {
+	User Edit `pb:"1"`
+}
+//update patient request
+type UpdatePatientRequest struct {
+	ID        int    `pb:"1"`
+	FirstName string `pb:"2"`
+	LastName  string `pb:"3"`
+	Email     string `pb:"4"`
+	Is_active bool   `pb:"5"`
+}
+//update patient response
+type UpdatePatientResponse struct {
+	User Update `pb:"1"`
+}
+//delete patient request
+type DeletePatientRequest struct {
+	ID int `pb:"1"`
+}
+//delete patient response
+type DeletePatientResponse struct {
+	
 }

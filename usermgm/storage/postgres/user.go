@@ -38,6 +38,33 @@ func(s PostGressStorage) Register(u storage.Patient) (*storage.Patient, error){
 	}
 	return &u, nil
 }
+//insert into users
+const registerAppointmentQuery = `INSERT INTO appointment (
+	userid,
+	doctordetailsid,
+	schduleid
+) values(
+	:userid,
+	:doctordetailsid,
+	:schduleid
+)RETURNING *`
+func(s PostGressStorage) RegisterAppointment(u storage.Appointment) (*storage.Appointment, error){
+	stmt, err := s.DB.PrepareNamed(registerAppointmentQuery)
+	if err != nil {
+		return nil, err
+	}
+
+	if err := stmt.Get(&u, u); err != nil {
+		log.Println("error is in the query section of registration section")
+		return nil, err
+	}
+	if u.ID == 0 {
+		log.Println("error is in the query section of registration section u.ID == 0")
+		log.Println("unable to create user")
+		return &u, fmt.Errorf("unable to create user")
+	}
+	return &u, nil
+}
 
 //login
 const getUserByUsernameQuery=`SELECT *  

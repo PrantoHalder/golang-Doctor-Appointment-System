@@ -58,7 +58,6 @@ func (us DoctorSvc) DoctorLogin(ctx context.Context, r *doctorpb.DoctorLoginRequ
 
 // register doctor
 func (us DoctorSvc) RegisterDoctor(ctx context.Context, r *doctorpb.RegisterDoctorRequest) (*doctorpb.RegisterDoctorResponse, error) {
-	fmt.Println("req service", r)
 	user := storage.Doctor{
 		UserID:       int(r.GetUserID()),
 		DoctorTypeID: int(r.GetUserID()),
@@ -88,7 +87,6 @@ func (us DoctorSvc) RegisterDoctor(ctx context.Context, r *doctorpb.RegisterDoct
 
 // register doctor schedule
 func (us DoctorSvc) DoctorScheduleRegister(ctx context.Context, r *doctorpb.DoctorScheduleRegisterRequest) (*doctorpb.DoctorScheduleRegisterResponse, error) {
-	fmt.Println("req service", r)
 	workday, err := json.Marshal(r.WorkDays)
 	if err != nil {
 		return nil, err
