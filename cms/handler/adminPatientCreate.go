@@ -10,7 +10,7 @@ import (
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/go-ozzo/ozzo-validation/v4/is"
 	"github.com/justinas/nosurf"
-	userpb "main.go/gunk/v1/user"
+	adminpb "main.go/gunk/v1/admin"
 )
 
 type PatientCreate struct {
@@ -56,8 +56,7 @@ func (h Handler) PatientRegisterPost (w http.ResponseWriter, r *http.Request){
 		return
 	}
 
-	h.usermgmService.RegisterPatient(r.Context(),&userpb.RegisterPatientRequest{
-		ID:        int32(user.ID),
+	h.usermgmService.RegisterPatient(r.Context(),&adminpb.RegisterPatientRequest{
 		FirstName: user.FirstName,
 		LastName:  user.LastName,
 		Role :user.Role,

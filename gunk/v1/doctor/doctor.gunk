@@ -1,8 +1,20 @@
 package doctorpb
 
+import "time"
+
 type DoctorService interface {
 	DoctorLogin(DoctorLoginRequest) DoctorLoginResponse
 	RegisterDoctor(RegisterDoctorRequest) RegisterDoctorResponse
+	DoctorScheduleRegister(DoctorScheduleRegisterRequest) DoctorScheduleRegisterResponse
+}
+type Schedule struct {
+	ID              int        `pb:"1"`
+	DoctorDetailsID int        `pb:"2"`
+	StartAt         time.Time  `pb:"3"`
+	EndAt           time.Time  `pb:"4"`
+	WorkDays        string     `pb:"5"`
+	Address         string     `pb:"6"`
+	Phone           string     `pb:"7"`
 }
 
 type User struct {
@@ -42,4 +54,17 @@ type RegisterDoctorRequest struct {
 //doctor register response
 type RegisterDoctorResponse struct {
 	User Doctor `pb:"1"`
+}
+// schedule register by a doctor request
+type DoctorScheduleRegisterRequest struct {
+	DoctorDetailsID int               `pb:"1"`
+	StartAt         time.Time         `pb:"2"`
+	EndAt           time.Time         `pb:"3"`
+	WorkDays        string            `pb:"4"`
+	Address         string            `pb:"5"`
+	Phone           string            `pb:"6"`
+}
+// schedule register by a doctor response
+type DoctorScheduleRegisterResponse struct {
+	Schedule Schedule `pb:"1"`
 }

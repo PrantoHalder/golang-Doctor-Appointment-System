@@ -10,6 +10,7 @@ import (
 type DoctorStore interface {
 	GetDoctorByUsername(string) (*storage.User, error)
 	RegisterDoctor(u storage.Doctor) (*storage.Doctor, error)
+	RegisterDoctorSchedule(u storage.Schedule) (*storage.Schedule, error)
 }
 
 type CoreDoctor struct {
@@ -36,6 +37,17 @@ func (cu CoreDoctor) GetDoctorbyUsernameCore(login storage.Login) (*storage.User
 //register doctor
 func (cu CoreDoctor) RegisterDoctorCore(u storage.Doctor)(*storage.Doctor,error){
 	ru, err := cu.store.RegisterDoctor(u)
+	if err != nil {
+		return nil, err
+	}
+	if ru == nil {
+		return nil, fmt.Errorf("enable to register")
+	}
+	return ru, nil
+}
+//register doctor schedule 
+func (cu CoreDoctor) RegisterDoctorScheduleCore(u storage.Schedule)(*storage.Schedule,error){
+	ru, err := cu.store.RegisterDoctorSchedule(u)
 	if err != nil {
 		return nil, err
 	}
