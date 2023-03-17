@@ -331,3 +331,22 @@ func (u Schedule) Validate() error {
 		),
 	)
 }
+type Appointment struct {
+	ID              int  `db:"id"`
+	UserID          int  `db:"userid"`
+	DoctorDetailsID int  `db:"doctordetailsid"`
+	ScheduleID      int  `db:"schduleid"`
+	Is_Appointed    bool `db:"is_appointed"`
+}
+func (u Appointment) Validate() error {
+	return validation.ValidateStruct(&u, validation.Field(&u.DoctorDetailsID,
+		validation.Required.Error("DoctorDetailsID can not be blank"),
+	),
+		validation.Field(&u.UserID,
+			validation.Required.Error("UserID can not be blank"),
+		),
+		validation.Field(&u.ScheduleID,
+			validation.Required.Error("ScheduleID cannot be blank"),
+		),
+	)
+}

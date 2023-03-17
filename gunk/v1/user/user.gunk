@@ -7,8 +7,17 @@ type UserService interface {
 	UserUpdate(UserUpdateRequest) UserUpdateResponse
 	UserDelete(UserDeleteRequest) UserDeleteResponse
 	UserList(UserlistRequest) UserListResponse
+	RegisterAppointment(RegisterAppointmentRequest) RegisterAppointmentResponse
 }
-//user struct
+// Register appointment struct
+type Appointment struct {
+	ID              int  `pb:"1"`
+	UserID          int  `pb:"2"`
+	DoctorDetailsID int  `pb:"3"`
+	ScheduleID      int  `pb:"4"`
+	Is_Appointed    bool `pb:"5"`
+} 
+// user struct
 type User struct {
 	ID        int    `pb:"1"`
 	FirstName string `pb:"2"`
@@ -81,4 +90,14 @@ type UserlistRequest struct {
 // list user response
 type UserListResponse struct {
 	UserFilterList UserFilterList `pb:"1"`
+}
+// register apponitment request
+type RegisterAppointmentRequest struct {
+	UserID          int  `pb:"1"`
+	DoctorDetailsID int  `pb:"2"`
+	ScheduleID      int  `pb:"3"`
+}
+// register apponitment response
+type RegisterAppointmentResponse struct {
+	Appointment Appointment `pb:"1"`
 }
