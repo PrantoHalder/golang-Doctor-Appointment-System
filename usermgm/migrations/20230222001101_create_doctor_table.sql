@@ -1,6 +1,6 @@
 -- +goose Up
 -- +goose StatementBegin
-CREATE TABLE IF NOT EXISTS doctor (
+CREATE TABLE IF NOT EXISTS doctordetails (
 	id BIGSERIAL,
 	userid INT NOT NULL,
     doctortypeID INT NOT NULL,

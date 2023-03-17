@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 type DoctorServiceClient interface {
 	DoctorLogin(ctx context.Context, in *DoctorLoginRequest, opts ...grpc.CallOption) (*DoctorLoginResponse, error)
 	RegisterDoctor(ctx context.Context, in *RegisterDoctorRequest, opts ...grpc.CallOption) (*RegisterDoctorResponse, error)
+	DoctorScheduleRegister(ctx context.Context, in *DoctorScheduleRegisterRequest, opts ...grpc.CallOption) (*DoctorScheduleRegisterResponse, error)
 }
 
 type doctorServiceClient struct {
@@ -48,12 +49,22 @@ func (c *doctorServiceClient) RegisterDoctor(ctx context.Context, in *RegisterDo
 	return out, nil
 }
 
+func (c *doctorServiceClient) DoctorScheduleRegister(ctx context.Context, in *DoctorScheduleRegisterRequest, opts ...grpc.CallOption) (*DoctorScheduleRegisterResponse, error) {
+	out := new(DoctorScheduleRegisterResponse)
+	err := c.cc.Invoke(ctx, "/doctorpb.DoctorService/DoctorScheduleRegister", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // DoctorServiceServer is the server API for DoctorService service.
 // All implementations must embed UnimplementedDoctorServiceServer
 // for forward compatibility
 type DoctorServiceServer interface {
 	DoctorLogin(context.Context, *DoctorLoginRequest) (*DoctorLoginResponse, error)
 	RegisterDoctor(context.Context, *RegisterDoctorRequest) (*RegisterDoctorResponse, error)
+	DoctorScheduleRegister(context.Context, *DoctorScheduleRegisterRequest) (*DoctorScheduleRegisterResponse, error)
 	mustEmbedUnimplementedDoctorServiceServer()
 }
 
@@ -66,6 +77,9 @@ func (UnimplementedDoctorServiceServer) DoctorLogin(context.Context, *DoctorLogi
 }
 func (UnimplementedDoctorServiceServer) RegisterDoctor(context.Context, *RegisterDoctorRequest) (*RegisterDoctorResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegisterDoctor not implemented")
+}
+func (UnimplementedDoctorServiceServer) DoctorScheduleRegister(context.Context, *DoctorScheduleRegisterRequest) (*DoctorScheduleRegisterResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DoctorScheduleRegister not implemented")
 }
 func (UnimplementedDoctorServiceServer) mustEmbedUnimplementedDoctorServiceServer() {}
 
@@ -116,6 +130,24 @@ func _DoctorService_RegisterDoctor_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _DoctorService_DoctorScheduleRegister_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DoctorScheduleRegisterRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DoctorServiceServer).DoctorScheduleRegister(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/doctorpb.DoctorService/DoctorScheduleRegister",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DoctorServiceServer).DoctorScheduleRegister(ctx, req.(*DoctorScheduleRegisterRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // DoctorService_ServiceDesc is the grpc.ServiceDesc for DoctorService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -130,6 +162,10 @@ var DoctorService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RegisterDoctor",
 			Handler:    _DoctorService_RegisterDoctor_Handler,
+		},
+		{
+			MethodName: "DoctorScheduleRegister",
+			Handler:    _DoctorService_DoctorScheduleRegister_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -17,7 +17,7 @@ type User struct {
 	Username  string       `form:"Username" db:"username"`
 	Password  string       `form:"Password" db:"password"`
 	Role      string       `form:"Role" db:"role"`
-	Is_active    bool      `form:"Is_active" db:"is_active"`
+	Is_active bool         `form:"Is_active" db:"is_active"`
 	CreatedAt time.Time    `form:"Created_at" db:"created_at"`
 	UpdatedAt time.Time    `form:"Updated_at" db:"updated_at"`
 	DeletedAt sql.NullTime `form:"Deleted_at" db:"deleted_at"`
@@ -43,7 +43,7 @@ func (u User) Validate() error {
 		validation.Field(&u.Role,
 			validation.Required.Error("Role cannot be blank"),
 			validation.Match(regexp.MustCompile(`^user$`)).
-			Error("Role should be user"),
+				Error("Role should be user"),
 		),
 		validation.Field(&u.Password,
 			validation.Required.Error("password cannot be blank"),
@@ -52,6 +52,7 @@ func (u User) Validate() error {
 		),
 	)
 }
+
 type Patient struct {
 	ID        int          `form:"ID" db:"id"`
 	FirstName string       `form:"FirstName" db:"first_name"`
@@ -60,7 +61,7 @@ type Patient struct {
 	Username  string       `form:"Username" db:"username"`
 	Password  string       `form:"Password" db:"password"`
 	Role      string       `form:"Role" db:"role"`
-	Is_active    bool      `form:"Is_active" db:"is_active"`
+	Is_active bool         `form:"Is_active" db:"is_active"`
 	CreatedAt time.Time    `form:"Created_at" db:"created_at"`
 	UpdatedAt time.Time    `form:"Updated_at" db:"updated_at"`
 	DeletedAt sql.NullTime `form:"Deleted_at" db:"deleted_at"`
@@ -99,7 +100,7 @@ type Admin struct {
 	Username  string       `form:"Username" db:"username"`
 	Password  string       `form:"Password" db:"password"`
 	Role      string       `form:"Role" db:"role"`
-	Is_active    bool      `form:"Is_active" db:"is_active"`
+	Is_active bool         `form:"Is_active" db:"is_active"`
 	CreatedAt time.Time    `form:"Created_at" db:"created_at"`
 	UpdatedAt time.Time    `form:"Updated_at" db:"updated_at"`
 	DeletedAt sql.NullTime `form:"Deleted_at" db:"deleted_at"`
@@ -125,11 +126,10 @@ func (u Admin) Validate() error {
 		validation.Field(&u.Role,
 			validation.Required.Error("Role cannot be blank"),
 			validation.Match(regexp.MustCompile(`^admin$`)).
-			Error("Role should be admin"),
+				Error("Role should be admin"),
 		),
 		validation.Field(&u.Role,
 			validation.Required.Error("Role cannot be blank"),
-			
 		),
 		validation.Field(&u.Password,
 			validation.Required.Error("password cannot be blank"),
@@ -147,7 +147,7 @@ type DoctorU struct {
 	Username  string       `form:"Username" db:"username"`
 	Password  string       `form:"Password" db:"password"`
 	Role      string       `form:"Role" db:"role"`
-	Is_active    bool      `form:"Is_active" db:"is_active"`
+	Is_active bool         `form:"Is_active" db:"is_active"`
 	CreatedAt time.Time    `form:"Created_at" db:"created_at"`
 	UpdatedAt time.Time    `form:"Updated_at" db:"updated_at"`
 	DeletedAt sql.NullTime `form:"Deleted_at" db:"deleted_at"`
@@ -173,11 +173,10 @@ func (u DoctorU) Validate() error {
 		validation.Field(&u.Role,
 			validation.Required.Error("Role cannot be blank"),
 			validation.Match(regexp.MustCompile(`^doctor$`)).
-			Error("Role should be doctor"),
+				Error("Role should be doctor"),
 		),
 		validation.Field(&u.Role,
 			validation.Required.Error("Role cannot be blank"),
-			
 		),
 		validation.Field(&u.Password,
 			validation.Required.Error("password cannot be blank"),
@@ -186,6 +185,7 @@ func (u DoctorU) Validate() error {
 		),
 	)
 }
+
 type Doctor struct {
 	ID           int          `db:"id"`
 	UserID       int          `db:"userid"`
@@ -207,7 +207,7 @@ func (u Doctor) Validate() error {
 		validation.Field(&u.Gender,
 			validation.Required.Error("Gender cannot be blank"),
 			validation.Match(regexp.MustCompile(`^Male$|^Female$|^Others$`)).
-			Error("Gender should be Male or Female or Others"),
+				Error("Gender should be Male or Female or Others"),
 		),
 
 		validation.Field(&u.UserID,
@@ -218,22 +218,25 @@ func (u Doctor) Validate() error {
 
 type Status struct {
 	Username string `db:"username"`
-	User User
+	User     User
 }
+
 func (u Status) Validate() error {
 	return validation.ValidateStruct(&u, validation.Field(&u.Username,
 		validation.Required.Error("fast name can not be blank"),
 	),
 	)
 }
+
 type Login struct {
 	Username string
 	Password string
 }
 
 type Edit struct {
-	ID        int          `form:"ID" db:"id"`
+	ID int `form:"ID" db:"id"`
 }
+
 func (u Edit) Validate() error {
 	return validation.ValidateStruct(&u, validation.Field(&u.ID,
 		validation.Required.Error("id can not be blank"),
@@ -241,7 +244,7 @@ func (u Edit) Validate() error {
 	)
 }
 
-func (l Login) Validate() error  {
+func (l Login) Validate() error {
 	return validation.ValidateStruct(&l,
 		validation.Field(&l.Username,
 			validation.Required.Error("The username field is required."),
@@ -251,25 +254,28 @@ func (l Login) Validate() error  {
 		),
 	)
 }
+
 type DoctorType struct {
-	ID int                 `db:"id"`
+	ID         int          `db:"id"`
 	DoctorType string       `form:"DoctorType" db:"doctortype"`
-	CreatedAt time.Time    `form:"Created_at" db:"created_at"`
-	UpdatedAt time.Time    `form:"Updated_at" db:"updated_at"`
-	DeletedAt sql.NullTime `form:"Deleted_at" db:"deleted_at"`
+	CreatedAt  time.Time    `form:"Created_at" db:"created_at"`
+	UpdatedAt  time.Time    `form:"Updated_at" db:"updated_at"`
+	DeletedAt  sql.NullTime `form:"Deleted_at" db:"deleted_at"`
 }
+
 func (u DoctorType) Validate() error {
 	return validation.ValidateStruct(&u, validation.Field(&u.DoctorType,
 		validation.Required.Error("id can not be blank"),
 	),
 	)
 }
+
 type UpdateUser struct {
-	ID        int          `form:"ID" db:"id"`
-	FirstName string       `form:"FirstName" db:"first_name"`
-	LastName  string       `form:"LastName" db:"last_name"`
-	Email     string       `form:"Email" db:"email"`
-	Is_active    bool      `form:"Is_active" db:"is_active"`
+	ID        int    `form:"ID" db:"id"`
+	FirstName string `form:"FirstName" db:"first_name"`
+	LastName  string `form:"LastName" db:"last_name"`
+	Email     string `form:"Email" db:"email"`
+	Is_active bool   `form:"Is_active" db:"is_active"`
 }
 
 func (u UpdateUser) Validate() error {
@@ -287,8 +293,41 @@ func (u UpdateUser) Validate() error {
 		),
 	)
 }
+
 type UserFilter struct {
-	SearchTerm string  `pb:"1"`
-	Offset     int     `pb:"1"`
-	Limit      int     `pb:"1"`
+	SearchTerm string `pb:"1"`
+	Offset     int    `pb:"1"`
+	Limit      int    `pb:"1"`
+}
+type Schedule struct {
+	ID              int       `db:"id"`
+	DoctorDetailsID int       `db:"doctorid"`
+	StartAt         time.Time `db:"startat"`
+	EndAt           time.Time `db:"endat"`
+	WorkDays        string    `db:"workdays"`
+	Address         string    `db:"address"`
+	Phone           string    `db:"phone"`
+	CreatedAt       time.Time `db:"created_at"`
+	UpdatedAt       time.Time `db:"updated_at"`
+}
+func (u Schedule) Validate() error {
+	return validation.ValidateStruct(&u, validation.Field(&u.DoctorDetailsID,
+		validation.Required.Error("DoctorDetailsID can not be blank"),
+	),
+		validation.Field(&u.StartAt,
+			validation.Required.Error("StartAt can not be blank"),
+		),
+		validation.Field(&u.EndAt,
+			validation.Required.Error("EndAt cannot be blank"),
+		),
+		validation.Field(&u.WorkDays,
+			validation.Required.Error("WorkDays cannot be blank"),
+		),
+		validation.Field(&u.Address,
+			validation.Required.Error("Address cannot be blank"),
+		),
+		validation.Field(&u.Phone,
+			validation.Required.Error("Phone cannot be blank"),
+		),
+	)
 }

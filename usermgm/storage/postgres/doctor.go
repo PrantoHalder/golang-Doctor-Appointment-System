@@ -30,9 +30,9 @@ func (s PostGressStorage) GetDoctorByUsername(username string) (*storage.User, e
 	}
 	return &listUser, nil
 }
-//register doctor into doctor table
 
-const registerDoctorQuery = `INSERT INTO doctor (
+//register doctor into doctor table
+const registerDoctorQuery = `INSERT INTO doctordetails (
 	userid,
 	doctortypeid,
 	degree,
@@ -62,5 +62,39 @@ func(s PostGressStorage) RegisterDoctor(u storage.Doctor) (*storage.Doctor, erro
 	}
 
 	fmt.Println("doctor res", u)
+	return &u, nil
+}
+//register doctor schedule into doctor schedule table
+const registerDoctorScheduleQuery = `INSERT INTO doctor_schedule (
+	doctorid,
+	startat,
+	endat,
+    workdays,
+	address,
+	phone
+) values(
+	:doctorid,
+	:startat,
+	:endat,
+    :workdays,
+	:address,
+	:phone
+)RETURNING *`
+func(s PostGressStorage) RegisterDoctorSchedule(u storage.Schedule) (*storage.Schedule, error){
+	stmt, err := s.DB.PrepareNamed(registerDoctorScheduleQuery)
+	if err != nil {
+		fmt.Println("prepared error", err.Error())
+		return nil, err
+	}
+
+	if err := stmt.Get(&u, u); err != nil {
+		fmt.Println("stmt error", err.Error())
+		return nil, err
+	}
+	if u.ID == 0 {
+		log.Println("unable to create user")
+		return &u, fmt.Errorf("unable to create user")
+	}
+
 	return &u, nil
 }
