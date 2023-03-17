@@ -165,6 +165,8 @@ FROM users
 WHERE
 	deleted_at IS NULL
 	AND 
+	role = 'user'
+	AND 
     (first_name ILIKE '%%' || $1 || '%%' OR last_name ILIKE '%%' || $1 || '%%' OR email ILIKE '%%' || $1 || '%%')
 	ORDER BY id DESC
 `
