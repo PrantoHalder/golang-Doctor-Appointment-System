@@ -75,6 +75,7 @@ func NewHandler(sm *scs.SessionManager, formDecoder *form.Decoder, usermgmConn *
 		r.Use(sm.LoadAndSave)
 		r.Use(h.Authentication)
 		r.Get("/home", h.PatientHome)
+		r.Get("/showdoctortype", h.ShowDoctorType)
 		r.Get("/logout", h.LogoutPatienthandler)
 	})
 	r.Route("/admin", func(r chi.Router) {
@@ -85,6 +86,7 @@ func NewHandler(sm *scs.SessionManager, formDecoder *form.Decoder, usermgmConn *
 		r.Get("/registeradmin", h.AdminRegister)
 		r.Get("/registerdoctor", h.DoctorRegister)
 		r.Get("/registerdoctortype", h.DoctorTypeRegister)
+		r.Get("/registerdoctorschedule", h.CreateSchedule)
 		r.Post("/registerpatientpost", h.PatientRegisterPost)
 		r.Post("/registeradminpost", h.AdminRegisterPost)
 		r.Post("/registerdoctorpost", h.DoctorRegisterPost)

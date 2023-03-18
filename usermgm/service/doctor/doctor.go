@@ -33,12 +33,10 @@ func (us DoctorSvc) DoctorLogin(ctx context.Context, r *doctorpb.DoctorLoginRequ
 		Username: r.GetUsername(),
 		Password: r.GetPassword(),
 	}
-
 	if err := login.Validate(); err != nil {
 		fmt.Println("the error is in the serveice layer in Login after login.Validate()")
 		return nil, err
 	}
-
 	u, err := us.core.GetDoctorbyUsernameCore(login)
 	if err != nil {
 		fmt.Println("the error is in the serveice layer in Login after us.core.GetStatusbyUsernameCore(login)")
@@ -47,11 +45,13 @@ func (us DoctorSvc) DoctorLogin(ctx context.Context, r *doctorpb.DoctorLoginRequ
 
 	return &doctorpb.DoctorLoginResponse{
 		User: &doctorpb.User{
+			ID: int32(u.ID),
 			FirstName: u.FirstName,
 			LastName:  u.LastName,
 			IsActive:  u.Is_active,
 			Username:  u.Username,
 			Email:     u.Email,
+			Role:      u.Role,
 		},
 	}, nil
 }

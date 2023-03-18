@@ -109,9 +109,10 @@ func (h Handler) LoginPost (w http.ResponseWriter, r *http.Request){
 			h.sessionManager.Put(r.Context(), "userID", strconv.Itoa(int(u.GetUser().ID)))
 	        http.Redirect(w, r, "/doctor/home", http.StatusSeeOther)
 		}
-	}	
+	}
 	h.ParseLoginTemplates(w, nil)
 }
+
 func (lu LoginUser) Validate() error {
 	return validation.ValidateStruct(&lu, validation.Field(&lu.Username,
 		validation.Required.Error("username can not be blank"),
