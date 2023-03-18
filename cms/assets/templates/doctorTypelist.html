@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <style>
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 30vh;
+    }
+
+    .center {
+      margin: auto;
+      width: 70%;
+      padding: 70px;
+      height: 20vh;
+      right: 10px;
+    }
+    .middle {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 10vh;
+      color: rgb(0, 17, 255);
+    }
+  
+  </style>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Doctor Type List</title>
+</head>
+
+<body>
+  <h1 class="middle"><strong>Doctor Type List</strong></h1>
+  <div class="flex justify-center">
+    <div class="center">
+      <form action="/users/show" method="get">
+        <input
+          class="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
+          type="text" name="SearchTerm" id="term" value="{{.Users.SearchTerm}}">
+          <br>
+          <br>
+        <input
+          class="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
+          type="submit" value="Search">
+      </form>
+    </div>
+    <table class="table-auto">
+      <thead>
+        <tr>
+          <th class="px-4 py-2">ID</th>
+          <th class="px-4 py-2">Doctpor Type</th>
+          <th class="px-4 py-2">Search</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{range .Users}}
+        <tr>
+          <td class="border px-4 py-2">{{.Users.ID}}</td>
+          <td class="border px-4 py-2">{{.Users.DoctporType}}</td>
+          <td class="border px-4 py-2"><a href="/users/{{.Users.ID}}/search">Search</a></td>
+        </tr>
+        {{end}}
+    </table>
+  </div>
+  <br>
+
+
+
+
+  <div class="container">
+    <form action="/users/create" method="get">
+      <button
+        class="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600">
+        Create </button>
+    </form>
+    <br>
+    <form action="/users/home" method="get">
+      <button
+        class="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600">
+        Home </button>
+    </form>
+  </div>
+</body>
+
+</html>

@@ -25,7 +25,7 @@ func NewCoreDoctor(us DoctorStore) *CoreDoctor {
 
 //Doctor login
 func (cu CoreDoctor) GetDoctorbyUsernameCore(login storage.Login) (*storage.User, error){
-    user,err := cu.store.GetDoctorByUsername(login.Username) 
+	user,err := cu.store.GetDoctorByUsername(login.Username) 
 	if err != nil {
 		return nil, err
 	}
