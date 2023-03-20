@@ -21,6 +21,7 @@ type AdminStore interface {
 	EditPatient(id int) (*storage.Patient, error)
 	UpdatePatient(u storage.UpdateUser) (*storage.UpdateUser, error)
 	DeletePatientByID(id int) error
+	ListAdmin(uf storage.UserFilter) ([]storage.Admin, error)
 }
 
 type CoreAdmin struct {
@@ -190,4 +191,15 @@ func (cu CoreAdmin)DeletePatientByIDCore(u storage.Edit) error{
 		return nil
 	}
 	return nil
+}
+// list admin
+func (cu CoreAdmin)ListAdminCore(u storage.UserFilter) ([]storage.Admin,error){
+	user,err := cu.store.ListAdmin(u)
+	if err != nil {
+		return nil,err
+	}
+	if user == nil{
+		return nil,err
+	}
+	return user,nil
 }

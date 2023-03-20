@@ -336,3 +336,25 @@ func (s PostGressStorage) DeletePatientByID(id int) error {
 
 	return nil
 }
+//admin list
+const listAdminQuery = `
+
+SELECT id,first_name,last_name,email,is_active
+FROM users
+WHERE
+	deleted_at IS NULL
+	AND 
+	role = 'admin'
+	AND 
+    (first_name ILIKE '%%' || $1 || '%%' OR last_name ILIKE '%%' || $1 || '%%' OR email ILIKE '%%' || $1 || '%%')
+	ORDER BY id DESC
+`
+
+func (s PostGressStorage) ListAdmin(uf storage.UserFilter) ([]storage.Admin, error) {
+	var listUser []storage.Admin
+	if err := s.DB.Select(&listUser, listAdminQuery, uf.SearchTerm); err != nil {
+		log.Fatalln(err)
+		return nil, err
+	}
+	return listUser, nil
+}

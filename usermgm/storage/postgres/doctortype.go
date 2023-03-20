@@ -94,11 +94,11 @@ func (s PostGressStorage) DeleteDoctorTypeID(id int) error {
 
 	return nil
 }
-//user list
+//docotor tyoe list
 const listDoctorListQuery = `
 
 SELECT id,doctortype
-FROM doctorType
+FROM doctortype
 WHERE
 	deleted_at IS NULL
 	AND 

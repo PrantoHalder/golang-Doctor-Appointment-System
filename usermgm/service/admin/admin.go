@@ -22,6 +22,7 @@ type CoreAdmin interface {
 	EditPatientCore(us storage.Edit) (*storage.Patient, error)
 	UpdatePatientCore(u storage.UpdateUser) (*storage.UpdateUser, error)
 	DeletePatientByIDCore(u storage.Edit) error
+	ListAdminCore(u storage.UserFilter) ([]storage.Admin,error)
 }
 
 type AdminSvc struct {
@@ -345,7 +346,7 @@ func (us AdminSvc)UpdatePatient(ctx context.Context,r *adminpb.UpdatePatientRequ
 	}, nil
 }
 //delete a patient
-func (us AdminSvc)DeletePatient(ctx context.Context,r *adminpb.DeletePatientRequest) (*adminpb.DeletePatientResponse, error){
+func (us AdminSvc) DeletePatient(ctx context.Context,r *adminpb.DeletePatientRequest) (*adminpb.DeletePatientResponse, error){
 	user := storage.Edit{
 		ID:        int(r.GetID()),
 	}
@@ -359,4 +360,31 @@ func (us AdminSvc)DeletePatient(ctx context.Context,r *adminpb.DeletePatientRequ
 		return nil, err
 	}
 	return &adminpb.DeletePatientResponse{},nil
+}
+//list admin
+func (us AdminSvc) AdminList(ctx context.Context,r *adminpb.AdminListRequest) (*adminpb.AdminListResponse, error){
+	user := storage.UserFilter{
+		SearchTerm: r.GetSearchTerm(),
+	}
+	u,err := us.core.ListAdminCore(user)
+	if err != nil {
+		return nil,err
+	}
+	var totalusers []*adminpb.User
+	for _,value := range u {
+		user:=&adminpb.User{
+			ID:        int32(value.ID),
+			FirstName: value.FirstName,
+			LastName:  value.LastName,
+			Username:  value.Username,
+			Email:     value.Email,
+			IsActive:  value.Is_active,
+			Role:      value.Role,
+		}
+		totalusers = append(totalusers,user)
+	}
+	return &adminpb.AdminListResponse{
+		Users: totalusers,
+	}, nil
+  
 }

@@ -14,6 +14,7 @@ type CoreDoctor interface {
 	GetDoctorbyUsernameCore(storage.Login) (*storage.User, error)
 	RegisterDoctorCore(storage.Doctor) (*storage.Doctor, error)
 	RegisterDoctorScheduleCore(u storage.Schedule) (*storage.Schedule, error)
+	ListDoctorCore(u storage.UserFilter) ([]storage.DoctorU,error)
 }
 
 type DoctorSvc struct {
@@ -117,5 +118,31 @@ func (us DoctorSvc) DoctorScheduleRegister(ctx context.Context, r *doctorpb.Doct
 			Address:         u.Address,
 			Phone:           u.Phone,
 		},
+	}, nil
+}
+//list doctor
+func (us DoctorSvc)DoctorList(ctx context.Context,r *doctorpb.DoctorListRequest) (*doctorpb.DoctorListResponse, error){
+	user := storage.UserFilter{
+		SearchTerm: r.GetSearchTerm(),
+	}
+	u,err := us.core.ListDoctorCore(user)
+	if err != nil {
+		return nil,err
+	}
+	var totalusers []*doctorpb.User
+	for _,value := range u {
+		user:=&doctorpb.User{
+			ID:        int32(value.ID),
+			FirstName: value.FirstName,
+			LastName:  value.LastName,
+			Username:  value.Username,
+			Email:     value.Email,
+			IsActive:  value.Is_active,
+			Role:      value.Role,
+		}
+		totalusers = append(totalusers,user)
+	}
+	return &doctorpb.DoctorListResponse{
+		User: totalusers,
 	}, nil
 }

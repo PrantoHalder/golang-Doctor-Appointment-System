@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 type AdminServiceClient interface {
 	RegisterAdmin(ctx context.Context, in *RegisterAdminRequest, opts ...grpc.CallOption) (*RegisterAdminResponse, error)
 	AdminLogin(ctx context.Context, in *AdminLoginRequest, opts ...grpc.CallOption) (*AdminLoginResponse, error)
+	AdminList(ctx context.Context, in *AdminListRequest, opts ...grpc.CallOption) (*AdminListResponse, error)
 	AdminEdit(ctx context.Context, in *AdminEditRequest, opts ...grpc.CallOption) (*AdminEditResponse, error)
 	AdminUpdate(ctx context.Context, in *AdminUpdateRequest, opts ...grpc.CallOption) (*AdminUpdateResponse, error)
 	AdminDelete(ctx context.Context, in *AdminDeleteRequest, opts ...grpc.CallOption) (*AdminDeleteResponse, error)
@@ -53,6 +54,15 @@ func (c *adminServiceClient) RegisterAdmin(ctx context.Context, in *RegisterAdmi
 func (c *adminServiceClient) AdminLogin(ctx context.Context, in *AdminLoginRequest, opts ...grpc.CallOption) (*AdminLoginResponse, error) {
 	out := new(AdminLoginResponse)
 	err := c.cc.Invoke(ctx, "/adminpb.AdminService/AdminLogin", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) AdminList(ctx context.Context, in *AdminListRequest, opts ...grpc.CallOption) (*AdminListResponse, error) {
+	out := new(AdminListResponse)
+	err := c.cc.Invoke(ctx, "/adminpb.AdminService/AdminList", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -164,6 +174,7 @@ func (c *adminServiceClient) DeletePatient(ctx context.Context, in *DeletePatien
 type AdminServiceServer interface {
 	RegisterAdmin(context.Context, *RegisterAdminRequest) (*RegisterAdminResponse, error)
 	AdminLogin(context.Context, *AdminLoginRequest) (*AdminLoginResponse, error)
+	AdminList(context.Context, *AdminListRequest) (*AdminListResponse, error)
 	AdminEdit(context.Context, *AdminEditRequest) (*AdminEditResponse, error)
 	AdminUpdate(context.Context, *AdminUpdateRequest) (*AdminUpdateResponse, error)
 	AdminDelete(context.Context, *AdminDeleteRequest) (*AdminDeleteResponse, error)
@@ -187,6 +198,9 @@ func (UnimplementedAdminServiceServer) RegisterAdmin(context.Context, *RegisterA
 }
 func (UnimplementedAdminServiceServer) AdminLogin(context.Context, *AdminLoginRequest) (*AdminLoginResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AdminLogin not implemented")
+}
+func (UnimplementedAdminServiceServer) AdminList(context.Context, *AdminListRequest) (*AdminListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AdminList not implemented")
 }
 func (UnimplementedAdminServiceServer) AdminEdit(context.Context, *AdminEditRequest) (*AdminEditResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AdminEdit not implemented")
@@ -266,6 +280,24 @@ func _AdminService_AdminLogin_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AdminServiceServer).AdminLogin(ctx, req.(*AdminLoginRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_AdminList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AdminListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).AdminList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/adminpb.AdminService/AdminList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).AdminList(ctx, req.(*AdminListRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -482,6 +514,10 @@ var AdminService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AdminLogin",
 			Handler:    _AdminService_AdminLogin_Handler,
+		},
+		{
+			MethodName: "AdminList",
+			Handler:    _AdminService_AdminList_Handler,
 		},
 		{
 			MethodName: "AdminEdit",

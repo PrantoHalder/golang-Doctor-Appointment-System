@@ -3,6 +3,7 @@ package adminpb
 type AdminService interface {
 	RegisterAdmin(RegisterAdminRequest) RegisterAdminResponse
 	AdminLogin(AdminLoginRequest) AdminLoginResponse
+	AdminList(AdminListRequest) AdminListResponse
 	AdminEdit(AdminEditRequest) AdminEditResponse
 	AdminUpdate(AdminUpdateRequest) AdminUpdateResponse
 	AdminDelete(AdminDeleteRequest) AdminDeleteResponse
@@ -40,6 +41,15 @@ type User struct {
 	Is_active bool   `pb:"6"`
 	Role      string `pb:"7"`
 }
+//admin list request
+type AdminListRequest struct {
+	SearchTerm string `pb:"1"`
+}
+//type admin list response
+type AdminListResponse struct {
+	Users []User  `pb:"1"`
+}
+
 //admin register
 type RegisterAdminRequest struct {
 	FirstName string `pb:"1"`

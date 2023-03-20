@@ -21,7 +21,7 @@ type DoctorCreate struct {
 	Role      string       
 	Username  string
 	Password  string       
-	Status    bool         
+	Is_active   bool         
 }
 type DoctorRegisterLoadFrom struct{
 	User DoctorCreate
@@ -64,7 +64,7 @@ func (h Handler) DoctorRegisterPost (w http.ResponseWriter, r *http.Request){
 		Email:     user.Email,
 		Password:  user.Password,
 	})
-	http.Redirect(w, r, fmt.Sprintln("/admin/home"), http.StatusSeeOther)
+	http.Redirect(w, r, fmt.Sprintln("/admin/showdoctor"), http.StatusSeeOther)
 }
 func (h Handler) ParseDoctorRegisterTemplates(w http.ResponseWriter,form DoctorRegisterLoadFrom) {
 	t,err := template.ParseFiles("assets/templates/createDoctor.html")

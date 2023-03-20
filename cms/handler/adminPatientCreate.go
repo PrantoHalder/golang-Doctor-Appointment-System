@@ -21,8 +21,9 @@ type PatientCreate struct {
 	Role      string       
 	Username  string
 	Password  string       
-	Status    bool         
+	Is_active    bool         
 }
+
 type PatientRegisterLoadFrom struct{
 	User PatientCreate
     FormError map[string]error
@@ -64,7 +65,7 @@ func (h Handler) PatientRegisterPost (w http.ResponseWriter, r *http.Request){
 		Email:     user.Email,
 		Password:  user.Password,
 	})
-	http.Redirect(w, r, fmt.Sprintln("/admin/home"), http.StatusSeeOther)
+	http.Redirect(w, r, fmt.Sprintln("/admin/showpatient"), http.StatusSeeOther)
 }
 func (h Handler) ParsePatientRegisterTemplates(w http.ResponseWriter,form PatientRegisterLoadFrom) {
 	t,err := template.ParseFiles("assets/templates/adminPatientCreate.html")

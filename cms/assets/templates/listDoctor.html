@@ -30,14 +30,14 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
-  <title>Doctor Type List</title>
+  <title>Doctor List</title>
 </head>
 
 <body>
-  <h1 class="middle"><strong>Doctor Type List</strong></h1>
+  <h1 class="middle"><strong>Student List</strong></h1>
   <div class="flex justify-center">
     <div class="center">
-      <form action="/admin/showdoctortype" method="get">
+      <form action="/admin/showdoctor" method="get">
         <input
           class="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
           type="text" name="SearchTerm" id="term" value="{{.SearchTerm}}">
@@ -52,7 +52,10 @@
       <thead>
         <tr>
           <th class="px-4 py-2">ID</th>
-          <th class="px-4 py-2">Doctpor Type</th>
+          <th class="px-4 py-2">First Name</th>
+          <th class="px-4 py-2">Last Name</th>
+          <th class="px-4 py-2">Email</th>
+          <th class="px-4 py-2">status</th>
           <th class="px-4 py-2">Edit</th>
           <th class="px-4 py-2">Delete</th>
         </tr>
@@ -61,20 +64,19 @@
         {{range .Users}}
         <tr>
           <td class="border px-4 py-2">{{.ID}}</td>
-          <td class="border px-4 py-2">{{.DoctorType}}</td>
-          <td class="border px-4 py-2"><a href="/admin/{{.ID}}/editdoctortype">Edit</a></td>
-          <td class="border px-4 py-2"><a href="/admin/{{.ID}}/deletedoctortype">Delete</a></td>
+          <td class="border px-4 py-2">{{.FirstName}}</td>
+          <td class="border px-4 py-2">{{.LastName}}</td>
+          <td class="border px-4 py-2">{{.Email}}</td>
+          <td class="border px-4 py-2" name="Is_active"><a href="/users/{{.ID}}/statusedit">{{if .Is_active}}Active{{else}}Inactive{{end}}</a></td>
+          <td class="border px-4 py-2"><a href="/admin/{{.ID}}/editdoctor">Edit</a></td>
+          <td class="border px-4 py-2"><a href="/admin/{{.ID}}/deletedoctor">Delete</a></td>
         </tr>
         {{end}}
     </table>
   </div>
   <br>
-
-
-
-
   <div class="container">
-    <form action="/admin/registerdoctortype" method="get">
+    <form action="/admin/registerdoctor" method="get">
       <button
         class="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600">
         Create </button>
