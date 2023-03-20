@@ -23,6 +23,7 @@ type PatientCreate struct {
 	Password  string       
 	Is_active    bool         
 }
+
 type PatientRegisterLoadFrom struct{
 	User PatientCreate
     FormError map[string]error

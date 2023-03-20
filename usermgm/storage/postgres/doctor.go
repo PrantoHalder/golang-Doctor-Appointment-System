@@ -118,3 +118,4 @@ func (s PostGressStorage) ListDoctor(uf storage.UserFilter) ([]storage.DoctorU, 
 	}
 	return listUser, nil
 }
+//delete doctor
