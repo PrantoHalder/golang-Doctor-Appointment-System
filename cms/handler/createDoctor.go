@@ -21,7 +21,7 @@ type DoctorCreate struct {
 	Role      string       
 	Username  string
 	Password  string       
-	Status    bool         
+	Is_active   bool         
 }
 type DoctorRegisterLoadFrom struct{
 	User DoctorCreate

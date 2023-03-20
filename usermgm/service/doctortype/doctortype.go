@@ -125,9 +125,6 @@ func (us DoctorTypeSvc)DoctorTypeList(ctx context.Context,r *doctortypepb.Doctor
 		totaldoctortype = append(totaldoctortype,user)
 	}
    return &doctortypepb.DoctorTypeListResponse{
-   	DcotorTypeFilterList: &doctortypepb.DcotorTypeFilterList{
-   		TotalUser:  totaldoctortype,
-   		SearchTerm: user.SearchTerm,
-   	},
+   	DoctorType:totaldoctortype ,
    },nil
 }

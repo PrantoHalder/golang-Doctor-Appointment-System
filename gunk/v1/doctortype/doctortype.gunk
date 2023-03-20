@@ -7,10 +7,8 @@ type DoctorTypeService interface {
 	DeleteDoctorType(DeleteDoctorTypeRequest) DeleteDoctorTypeResponse
 	DoctorTypeList(DoctorTypeListRequest) DoctorTypeListResponse
 }
-type DcotorTypeFilterList struct{
-	TotalUser []DoctorType  `pb:"1"`
-	SearchTerm string `pb:"2"`
-}
+
+
 //doctor type struct
 type DoctorType struct {
 	ID         int    `pb:"1"`
@@ -57,5 +55,5 @@ type DoctorTypeListRequest struct {
 }
 // list user response
 type DoctorTypeListResponse struct {
-	DcotorTypeFilterList DcotorTypeFilterList `pb:"1"`
+	DoctorType []DoctorType `pb:"1"`
 }

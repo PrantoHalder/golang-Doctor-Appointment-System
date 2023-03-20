@@ -178,11 +178,8 @@ func (us UserSvc)UserList(ctx context.Context,r *userpb.UserlistRequest) (*userp
 		totalusers = append(totalusers,user)
 	}
 	return &userpb.UserListResponse{
-		UserFilterList: &userpb.UserFilterList{
-			TotalUser:  totalusers,
-			SearchTerm: user.SearchTerm,
-		},
-	},nil
+		Users: totalusers,
+	}, nil
   
 }
 // register appointment

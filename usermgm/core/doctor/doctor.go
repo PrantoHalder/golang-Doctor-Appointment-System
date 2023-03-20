@@ -11,6 +11,7 @@ type DoctorStore interface {
 	GetDoctorByUsername(string) (*storage.User, error)
 	RegisterDoctor(u storage.Doctor) (*storage.Doctor, error)
 	RegisterDoctorSchedule(u storage.Schedule) (*storage.Schedule, error)
+	ListDoctor(uf storage.UserFilter) ([]storage.DoctorU, error)
 }
 
 type CoreDoctor struct {
@@ -55,4 +56,15 @@ func (cu CoreDoctor) RegisterDoctorScheduleCore(u storage.Schedule)(*storage.Sch
 		return nil, fmt.Errorf("enable to register")
 	}
 	return ru, nil
+}
+//doctor list
+func (cu CoreDoctor) ListDoctorCore(u storage.UserFilter) ([]storage.DoctorU,error){
+	user,err := cu.store.ListDoctor(u)
+	if err != nil {
+		return nil,err
+	}
+	if user == nil{
+		return nil,err
+	}
+	return user,nil
 }

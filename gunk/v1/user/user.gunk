@@ -27,10 +27,7 @@ type User struct {
 	Is_active bool   `pb:"6"`
 	Role      string `pb:"7"`
 }
-type UserFilterList struct{
-	TotalUser []User  `pb:"1"`
-	SearchTerm string `pb:"2"`
-}
+
 //user register
 type RegisterRequest struct {
 	FirstName string `pb:"1"`
@@ -89,7 +86,7 @@ type UserlistRequest struct {
 }
 // list user response
 type UserListResponse struct {
-	UserFilterList UserFilterList `pb:"1"`
+	Users []User  `pb:"1"`
 }
 // register apponitment request
 type RegisterAppointmentRequest struct {

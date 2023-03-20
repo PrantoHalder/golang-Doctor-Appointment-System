@@ -92,6 +92,9 @@ func NewHandler(sm *scs.SessionManager, formDecoder *form.Decoder, usermgmConn *
 		r.Post("/registerdoctorpost", h.DoctorRegisterPost)
 		r.Post("/registerdoctortypepost", h.DoctorTypeRegisterPost)
 		r.Get("/showpatient", h.Show)
+		r.Get("/showadmin", h.ShowAdmin)
+		r.Get("/showdoctor", h.ShowDoctor)
+		r.Get("/showdoctortype", h.ShowDoctorType)
 		r.Get("/logout", h.LogoutAdminhandler)
 	})
 	r.Route("/doctor", func(r chi.Router) {

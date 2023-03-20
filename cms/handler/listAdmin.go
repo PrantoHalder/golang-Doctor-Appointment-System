@@ -3,33 +3,33 @@ package handler
 import (
 	"log"
 	"net/http"
-	userpb "main.go/gunk/v1/user"
+	adminpb "main.go/gunk/v1/admin"
 )
 
 
 
-type UserFilter struct {
-	Users []PatientCreate
+type AdminFilter struct {
+	Users []AdminCreate
 	SearchTerm string
 }
 
 
-func (h Handler) Show(w http.ResponseWriter, r *http.Request) {
+func (h Handler) ShowAdmin(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
 		log.Fatalf("%#v", err)
 	}
 	st := r.FormValue("SearchTerm")
-	ListUser, err := h.usermgmService.UserList(r.Context(),&userpb.UserlistRequest{
+	ListUser, err := h.usermgmService.AdminList(r.Context(),&adminpb.AdminListRequest{
 		SearchTerm: st,
 	})
 	if err != nil {
 		http.Error(w, "Internal Server error", http.StatusInternalServerError)
 	}
 
-	data := []PatientCreate{}
+	data := []AdminCreate{}
 	if ListUser != nil {
 		for _, v := range ListUser.GetUsers() {
-			data = append(data,PatientCreate{
+			data = append(data,AdminCreate{
 				ID:        int(v.ID),
 				FirstName: v.FirstName,
 				LastName:  v.LastName,
@@ -40,16 +40,16 @@ func (h Handler) Show(w http.ResponseWriter, r *http.Request) {
 			} )
 		}
 	}	
-	Data := UserFilter{
+	Data := AdminFilter{
 		Users:      data,
 		SearchTerm: st,
 	}
 
-	h.ParsePatientListTemplate(w, Data)
+	h.ParseAdminListTemplate(w, Data)
 }
 
-func (h Handler) ParsePatientListTemplate(w http.ResponseWriter, data any) {
-	t := h.Templates.Lookup("listPatient.html")
+func (h Handler) ParseAdminListTemplate(w http.ResponseWriter, data any) {
+	t := h.Templates.Lookup("listAdmin.html")
 	if t == nil {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 	}

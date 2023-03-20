@@ -21,7 +21,7 @@ type AdminCreate struct {
 	Role      string       
 	Username  string
 	Password  string       
-	Status    bool         
+	Is_active    bool         
 }
 type AdminRegisterLoadFrom struct{
 	User AdminCreate
@@ -64,7 +64,7 @@ func (h Handler) AdminRegisterPost (w http.ResponseWriter, r *http.Request){
 		Email:     user.Email,
 		Password:  user.Password,
 	})
-	http.Redirect(w, r, fmt.Sprintln("/admin/home"), http.StatusSeeOther)
+	http.Redirect(w, r, fmt.Sprintln("/admin/showadmin"), http.StatusSeeOther)
 }
 func (h Handler) ParseAdminRegisterTemplates(w http.ResponseWriter,form AdminRegisterLoadFrom) {
 	t,err := template.ParseFiles("assets/templates/adminCreate.html")

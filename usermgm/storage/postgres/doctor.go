@@ -96,3 +96,25 @@ func(s PostGressStorage) RegisterDoctorSchedule(u storage.Schedule) (*storage.Sc
 
 	return &u, nil
 }
+//list doctor
+const listDoctorQuery = `
+
+SELECT id,first_name,last_name,email,is_active
+FROM users
+WHERE
+	deleted_at IS NULL
+	AND 
+	role = 'doctor'
+	AND 
+    (first_name ILIKE '%%' || $1 || '%%' OR last_name ILIKE '%%' || $1 || '%%' OR email ILIKE '%%' || $1 || '%%')
+	ORDER BY id DESC
+`
+
+func (s PostGressStorage) ListDoctor(uf storage.UserFilter) ([]storage.DoctorU, error) {
+	var listUser []storage.DoctorU
+	if err := s.DB.Select(&listUser, listDoctorQuery, uf.SearchTerm); err != nil {
+		log.Fatalln(err)
+		return nil, err
+	}
+	return listUser, nil
+}
