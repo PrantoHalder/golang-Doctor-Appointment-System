@@ -27,6 +27,7 @@ type UserServiceClient interface {
 	RegisterAppointment(ctx context.Context, in *RegisterAppointmentRequest, opts ...grpc.CallOption) (*RegisterAppointmentResponse, error)
 	EditPatientStatus(ctx context.Context, in *EditPatientStatusRequest, opts ...grpc.CallOption) (*EditPatientStatusResponse, error)
 	UpdatePatientStatus(ctx context.Context, in *UpdatePatientStatusRequest, opts ...grpc.CallOption) (*UpdatePatientStatusResponse, error)
+	ShowDoctorlistPatient(ctx context.Context, in *ShowDoctorlistPatientRequest, opts ...grpc.CallOption) (*ShowDoctorlistPatientResponse, error)
 }
 
 type userServiceClient struct {
@@ -118,6 +119,15 @@ func (c *userServiceClient) UpdatePatientStatus(ctx context.Context, in *UpdateP
 	return out, nil
 }
 
+func (c *userServiceClient) ShowDoctorlistPatient(ctx context.Context, in *ShowDoctorlistPatientRequest, opts ...grpc.CallOption) (*ShowDoctorlistPatientResponse, error) {
+	out := new(ShowDoctorlistPatientResponse)
+	err := c.cc.Invoke(ctx, "/userpb.UserService/ShowDoctorlistPatient", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
@@ -131,6 +141,7 @@ type UserServiceServer interface {
 	RegisterAppointment(context.Context, *RegisterAppointmentRequest) (*RegisterAppointmentResponse, error)
 	EditPatientStatus(context.Context, *EditPatientStatusRequest) (*EditPatientStatusResponse, error)
 	UpdatePatientStatus(context.Context, *UpdatePatientStatusRequest) (*UpdatePatientStatusResponse, error)
+	ShowDoctorlistPatient(context.Context, *ShowDoctorlistPatientRequest) (*ShowDoctorlistPatientResponse, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -164,6 +175,9 @@ func (UnimplementedUserServiceServer) EditPatientStatus(context.Context, *EditPa
 }
 func (UnimplementedUserServiceServer) UpdatePatientStatus(context.Context, *UpdatePatientStatusRequest) (*UpdatePatientStatusResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdatePatientStatus not implemented")
+}
+func (UnimplementedUserServiceServer) ShowDoctorlistPatient(context.Context, *ShowDoctorlistPatientRequest) (*ShowDoctorlistPatientResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ShowDoctorlistPatient not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -340,6 +354,24 @@ func _UserService_UpdatePatientStatus_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _UserService_ShowDoctorlistPatient_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ShowDoctorlistPatientRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(UserServiceServer).ShowDoctorlistPatient(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/userpb.UserService/ShowDoctorlistPatient",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(UserServiceServer).ShowDoctorlistPatient(ctx, req.(*ShowDoctorlistPatientRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -382,6 +414,10 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdatePatientStatus",
 			Handler:    _UserService_UpdatePatientStatus_Handler,
+		},
+		{
+			MethodName: "ShowDoctorlistPatient",
+			Handler:    _UserService_ShowDoctorlistPatient_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

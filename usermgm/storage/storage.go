@@ -303,6 +303,7 @@ type Schedule struct {
 	CreatedAt       time.Time `db:"created_at"`
 	UpdatedAt       time.Time `db:"updated_at"`
 }
+
 func (u Schedule) Validate() error {
 	return validation.ValidateStruct(&u, validation.Field(&u.StartAt,
 		validation.Required.Error("DoctorDetailsID can not be blank"),
@@ -321,6 +322,7 @@ func (u Schedule) Validate() error {
 		),
 	)
 }
+
 type Appointment struct {
 	ID              int  `db:"id"`
 	UserID          int  `db:"userid"`
@@ -328,6 +330,7 @@ type Appointment struct {
 	ScheduleID      int  `db:"schduleid"`
 	Is_Appointed    bool `db:"is_appointed"`
 }
+
 func (u Appointment) Validate() error {
 	return validation.ValidateStruct(&u, validation.Field(&u.DoctorDetailsID,
 		validation.Required.Error("DoctorDetailsID can not be blank"),
@@ -340,7 +343,16 @@ func (u Appointment) Validate() error {
 		),
 	)
 }
-type UpdateStatus struct{
-	ID int `db:"id"`
+
+type UpdateStatus struct {
+	ID        int  `db:"id"`
 	Is_active bool `db:"is_active"`
+}
+type ShowDoctorToPatient struct {
+	ID         int    `db:"id"`
+	FirstName  string `db:"first_name"`
+	LastName   string `db:"last_name"`
+	Degree     string `db:"degree"`
+	DoctorType string `db:"doctortype"`
+	Gender     string `db:"gender"`
 }

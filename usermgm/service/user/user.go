@@ -18,6 +18,7 @@ type CoreUser interface {
 	RegisterAppointmentCore(storage.Appointment) (*storage.Appointment, error)
 	EditStatusUserCore(us storage.Edit) (*storage.UpdateStatus, error)
 	UpdateUserStatusCore(u storage.UpdateStatus) (*storage.UpdateStatus, error)
+	ShowDoctorListToUserCore(us storage.Edit) ([]storage.ShowDoctorToPatient, error)
 }
 
 type UserSvc struct {
@@ -29,6 +30,38 @@ func NewUserSvc(cu CoreUser) *UserSvc {
 	return &UserSvc{
 		core: cu,
 	}
+}
+// show doctor list to patient
+func (us UserSvc)ShowDoctorlistPatient(ctx context.Context,r *userpb.ShowDoctorlistPatientRequest) (*userpb.ShowDoctorlistPatientResponse, error) {
+	user := storage.Edit{
+		ID: int(r.GetId()),
+	}
+	if err := user.Validate(); err != nil {
+		fmt.Println("the error is in the serveice layer in Login after login.Validate()")
+		return nil, err
+	}
+	u, err := us.core.ShowDoctorListToUserCore(user)
+	if err != nil {
+		fmt.Println("the error is in the serveice layer in Login after us.core.EditUserCore(user.ID)")
+		return nil, err
+	}
+    var totalusers []*userpb.DoctorList
+	for _,value := range u {
+		user:=&userpb.DoctorList{
+			ID:         int32(value.ID),
+			FirstName:  value.FirstName,
+			LastName:   value.LastName,
+			Degree:     value.Degree,
+			DoctorType: value.DoctorType,
+			Gender:     value.Gender,
+		}
+		totalusers = append(totalusers,user)
+	}
+
+
+	return &userpb.ShowDoctorlistPatientResponse{
+		DoctorList: totalusers,
+	},nil
 }
 // user register
 func (us UserSvc) Register(ctx context.Context, r *userpb.RegisterRequest) (*userpb.RegisterResponse, error) {

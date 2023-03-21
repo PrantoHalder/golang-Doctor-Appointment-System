@@ -46,7 +46,7 @@ func (h Handler) ShowDoctorType(w http.ResponseWriter, r *http.Request) {
 }
 
 func (h Handler) ParseDoctorTypeListTemplate(w http.ResponseWriter, data any) {
-	t := h.Templates.Lookup("doctorTypelist.html")
+	t := h.Templates.Lookup("patientDoctorTypeList.html")
 	if t == nil {
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 	}

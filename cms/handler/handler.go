@@ -76,6 +76,7 @@ func NewHandler(sm *scs.SessionManager, formDecoder *form.Decoder, usermgmConn *
 		r.Use(h.Authentication)
 		r.Get("/home", h.PatientHome)
 		r.Get("/showdoctortype", h.ShowDoctorType)
+		r.Get("/{id:[0-9]+}/searcdoctors", h.ShowDoctorPatient)
 		r.Get("/logout", h.LogoutPatienthandler)
 	})
 	r.Route("/admin", func(r chi.Router) {

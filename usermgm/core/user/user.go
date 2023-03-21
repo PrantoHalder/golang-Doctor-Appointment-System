@@ -17,6 +17,7 @@ type UserStore interface {
 	RegisterAppointment(u storage.Appointment) (*storage.Appointment, error)
 	EditUserStatus(id int) (*storage.UpdateStatus, error)
 	UpdateUserStatus(u storage.UpdateStatus) (*storage.UpdateStatus, error)
+	ShowDoctorListToUser(id int) ([]storage.ShowDoctorToPatient, error)
 }
 
 type CoreUser struct {
@@ -28,7 +29,17 @@ func NewCoreUser(us UserStore) *CoreUser {
 		store: us,
 	}
 }
-
+// show doctor list to patient
+func (cu CoreUser) ShowDoctorListToUserCore(us storage.Edit) ([]storage.ShowDoctorToPatient, error){
+	user ,err := cu.store.ShowDoctorListToUser(us.ID)
+	if err != nil {
+		return nil,err
+	}
+	if user == nil{
+      return nil,err
+	}
+	return user,nil
+}
 // user registration function
 func (cu CoreUser) Register(u storage.Patient) (*storage.Patient, error) {
 	hashPass, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
