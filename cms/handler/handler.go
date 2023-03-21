@@ -97,6 +97,7 @@ func NewHandler(sm *scs.SessionManager, formDecoder *form.Decoder, usermgmConn *
 		r.Get("/showdoctortype", h.ShowDoctorType)
 		r.Get("/logout", h.LogoutAdminhandler)
 		r.Get("/{id:[0-9]+}/editpatient", h.EditPatient)
+		r.Get("/{id:[0-9]+}/userstatusedit", h.EditUserStatus)
 		r.Get("/{id:[0-9]+}/editdoctortype", h.EditDoctorType)
 		r.Get("/{id:[0-9]+}/editadmin", h.EditAdmin)
 		r.Get("/{id:[0-9]+}/editdoctor", h.EditDcotor)

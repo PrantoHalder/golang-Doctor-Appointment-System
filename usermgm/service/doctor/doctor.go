@@ -12,9 +12,13 @@ import (
 
 type CoreDoctor interface {
 	GetDoctorbyUsernameCore(storage.Login) (*storage.User, error)
-	RegisterDoctorCore(storage.Doctor) (*storage.Doctor, error)
+	RegisterDoctorDetailsCore(u storage.Doctor)(*storage.Doctor,error)
 	RegisterDoctorScheduleCore(u storage.Schedule) (*storage.Schedule, error)
 	ListDoctorCore(u storage.UserFilter) ([]storage.DoctorU,error)
+	EditDoctorDetailsCore(us storage.Edit) (*storage.Doctor, error)
+	UpdateDoctorDetailsCore(u storage.Doctor) (*storage.Doctor, error)
+	EditDoctorScheduleCore(us storage.Edit) (*storage.Schedule, error)
+	UpdateDoctorScheduleCore(u storage.Schedule) (*storage.Schedule, error)
 }
 
 type DoctorSvc struct {
@@ -26,6 +30,100 @@ func NewDoctorSvc(cu CoreDoctor) *DoctorSvc {
 	return &DoctorSvc{
 		core: cu,
 	}
+}
+//update doctor schedule
+func (us DoctorSvc)DoctorScheduleUpdate(ctx context.Context,r *doctorpb.DoctorScheduleUpdateRequest) (*doctorpb.DoctorScheduleUpdateResponse, error){
+	workday, err := json.Marshal(r.WorkDays)
+	if err != nil {
+		return nil, err
+	}
+	user := storage.Schedule{
+		ID:              int(r.GetID()),
+		StartAt:         r.GetStartAt().AsTime(),
+		EndAt:           r.GetEndAt().AsTime(),
+		WorkDays:        string(workday),
+		Address:         r.GetAddress(),
+		Phone:           r.GetPhone(),
+	}
+	if err := user.Validate(); err != nil {
+		fmt.Println("the error is in the serveice layer in Register after user.Validate")
+		return nil, err
+	}
+	u, err := us.core.UpdateDoctorScheduleCore(user)
+	if err != nil {
+		fmt.Println("the error is in the serveice layer in Register after Register(user)")
+		return nil, err
+	}
+	return &doctorpb.DoctorScheduleUpdateResponse{
+		StartAt:  timestamppb.New(u.StartAt),
+		EndAt:    timestamppb.New(u.EndAt),
+		WorkDays: u.WorkDays,
+		Address:  u.Address,
+		Phone:    u.Phone,
+	},nil
+}
+//edit doctor schedule 
+func (us DoctorSvc) DoctorScheduleEdit(ctx context.Context,r *doctorpb.DoctorScheduleEditRequest) (*doctorpb.DoctorScheduleEditResponse, error){
+	user := storage.Edit{
+		ID: int(r.GetID()),
+	}
+	if err := user.Validate(); err != nil {
+		fmt.Println("the error is in the serveice layer in Register after user.Validate")
+		return nil, err
+	}
+	u, err := us.core.EditDoctorScheduleCore(user)
+	if err != nil {
+		fmt.Println("the error is in the serveice layer in Register after Register(user)")
+		return nil, err
+	}
+	return &doctorpb.DoctorScheduleEditResponse{
+		ID:       int32(u.ID),
+		StartAt:  timestamppb.New(u.StartAt),
+		EndAt:    timestamppb.New(u.EndAt),
+		WorkDays: u.WorkDays,
+		Address:  u.Address,
+	},nil
+}
+//doctor details update
+func (us DoctorSvc)DoctorDetailsUpdate(ctx context.Context,r *doctorpb.DoctorDetailsUpdateRequest) (*doctorpb.DoctorDetailsUpdateResponse, error){
+	user := storage.Doctor{
+		ID:           int(r.GetID()),
+		Degree:       r.GetDegree(),
+		Gender:       r.GetGender(),
+	}
+	if err := user.Validate(); err != nil {
+		fmt.Println("the error is in the serveice layer in Register after user.Validate")
+		return nil, err
+	}
+	u, err := us.core.UpdateDoctorDetailsCore(user)
+	if err != nil {
+		fmt.Println("the error is in the serveice layer in Register after Register(user)")
+		return nil, err
+	}
+	return &doctorpb.DoctorDetailsUpdateResponse{
+		Degree: u.Degree,
+		Gender: u.Gender,
+	},nil
+}
+//doctor details edit
+func (us DoctorSvc) DoctorDetailsEdit(ctx context.Context,r *doctorpb.DoctorDetailsEditRequest) (*doctorpb.DoctorDetailsEditResponse, error){
+	user := storage.Edit{
+		ID: int(r.GetID()),
+	}
+	if err := user.Validate(); err != nil {
+		fmt.Println("the error is in the serveice layer in Register after user.Validate")
+		return nil, err
+	}
+	u, err := us.core.EditDoctorDetailsCore(user)
+	if err != nil {
+		fmt.Println("the error is in the serveice layer in Register after Register(user)")
+		return nil, err
+	}
+	return &doctorpb.DoctorDetailsEditResponse{
+		ID:     int32(u.ID),
+		Degree: u.Degree,
+		Gender: u.Gender,
+	},nil
 }
 
 // doctor login
@@ -58,7 +156,7 @@ func (us DoctorSvc) DoctorLogin(ctx context.Context, r *doctorpb.DoctorLoginRequ
 }
 
 // register doctor
-func (us DoctorSvc) RegisterDoctor(ctx context.Context, r *doctorpb.RegisterDoctorRequest) (*doctorpb.RegisterDoctorResponse, error) {
+func (us DoctorSvc) RegisterDoctorDetails(ctx context.Context,r *doctorpb.RegisterDoctorDetailsRequest) (*doctorpb.RegisterDoctorDetailsResponse, error) {
 	user := storage.Doctor{
 		UserID:       int(r.GetUserID()),
 		DoctorTypeID: int(r.GetUserID()),
@@ -69,13 +167,13 @@ func (us DoctorSvc) RegisterDoctor(ctx context.Context, r *doctorpb.RegisterDoct
 		return nil, err
 	}
 
-	u, err := us.core.RegisterDoctorCore(user)
+	u, err := us.core.RegisterDoctorDetailsCore(user)
 	if err != nil {
 		fmt.Println("response error", err.Error())
 		return nil, err
 	}
 
-	return &doctorpb.RegisterDoctorResponse{
+	return &doctorpb.RegisterDoctorDetailsResponse{
 		User: &doctorpb.Doctor{
 			ID:           int32(u.ID),
 			UserID:       int32(u.UserID),

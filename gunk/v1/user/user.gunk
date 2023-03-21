@@ -8,6 +8,8 @@ type UserService interface {
 	UserDelete(UserDeleteRequest) UserDeleteResponse
 	UserList(UserlistRequest) UserListResponse
 	RegisterAppointment(RegisterAppointmentRequest) RegisterAppointmentResponse
+	EditPatientStatus(EditPatientStatusRequest) EditPatientStatusResponse
+	UpdatePatientStatus(UpdatePatientStatusRequest) UpdatePatientStatusResponse
 }
 // Register appointment struct
 type Appointment struct {
@@ -27,7 +29,24 @@ type User struct {
 	Is_active bool   `pb:"6"`
 	Role      string `pb:"7"`
 }
-
+//edit status request
+type EditPatientStatusRequest struct {
+	ID        int    `pb:"1"`
+}
+//edit status response
+type EditPatientStatusResponse struct {
+	ID        int    `pb:"1"`
+	Is_active bool   `pb:"2"`
+}
+//update status request
+type UpdatePatientStatusRequest struct {
+	ID        int    `pb:"1"`
+	Is_active bool   `pb:"2"`
+}
+//update status response
+type UpdatePatientStatusResponse struct {
+	Is_active bool   `pb:"2"`
+}
 //user register
 type RegisterRequest struct {
 	FirstName string `pb:"1"`

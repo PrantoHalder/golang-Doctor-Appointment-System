@@ -15,6 +15,16 @@ type AdminService interface {
 	EditPatient(EditPatientRequest) EditPatientResponse
 	UpdatePatient(UpdatePatientRequest) UpdatePatientResponse
 	DeletePatient(DeletePatientRequest) DeletePatientResponse
+	EditAdminStatus(EditAdminStatusRequest) EditAdminStatusResponse
+	UpdateAdminStatus(UpdateAdminStatusRequest) UpdateAdminStatusResponse
+}
+//Doctor details register struct
+type DoctorDEtails struct {
+	ID           int      `pb:"1"`
+	UserID       int      `pb:"2"`
+	DoctorTypeID int      `pb:"3"`
+	Degree       string   `pb:"4"`
+	Gender       string   `pb:"5"`
 }
 //Edit user struct
 type Edit struct {
@@ -40,6 +50,24 @@ type User struct {
 	Email     string `pb:"5"`
 	Is_active bool   `pb:"6"`
 	Role      string `pb:"7"`
+}
+//edit status request
+type EditAdminStatusRequest struct {
+	ID        int    `pb:"1"`
+}
+//edit status response
+type EditAdminStatusResponse struct {
+	ID        int    `pb:"1"`
+	Is_active bool   `pb:"2"`
+}
+//update status request
+type UpdateAdminStatusRequest struct {
+	ID        int    `pb:"1"`
+	Is_active bool   `pb:"2"`
+}
+//update status response
+type UpdateAdminStatusResponse struct {
+	Is_active bool   `pb:"2"`
 }
 //admin list request
 type AdminListRequest struct {

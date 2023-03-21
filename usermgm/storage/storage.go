@@ -198,20 +198,13 @@ type Doctor struct {
 }
 
 func (u Doctor) Validate() error {
-	return validation.ValidateStruct(&u, validation.Field(&u.DoctorTypeID,
+	return validation.ValidateStruct(&u, validation.Field(&u.Degree,
 		validation.Required.Error("DoctorTypeID can not be blank"),
 	),
-		validation.Field(&u.Degree,
-			validation.Required.Error("Degree can not be blank"),
-		),
 		validation.Field(&u.Gender,
 			validation.Required.Error("Gender cannot be blank"),
 			validation.Match(regexp.MustCompile(`^Male$|^Female$|^Others$`)).
 				Error("Gender should be Male or Female or Others"),
-		),
-
-		validation.Field(&u.UserID,
-			validation.Required.Error("UserID cannot be blank"),
 		),
 	)
 }
@@ -311,12 +304,9 @@ type Schedule struct {
 	UpdatedAt       time.Time `db:"updated_at"`
 }
 func (u Schedule) Validate() error {
-	return validation.ValidateStruct(&u, validation.Field(&u.DoctorDetailsID,
+	return validation.ValidateStruct(&u, validation.Field(&u.StartAt,
 		validation.Required.Error("DoctorDetailsID can not be blank"),
 	),
-		validation.Field(&u.StartAt,
-			validation.Required.Error("StartAt can not be blank"),
-		),
 		validation.Field(&u.EndAt,
 			validation.Required.Error("EndAt cannot be blank"),
 		),
@@ -349,4 +339,8 @@ func (u Appointment) Validate() error {
 			validation.Required.Error("ScheduleID cannot be blank"),
 		),
 	)
+}
+type UpdateStatus struct{
+	ID int `db:"id"`
+	Is_active bool `db:"is_active"`
 }

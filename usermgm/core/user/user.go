@@ -15,6 +15,8 @@ type UserStore interface {
 	DeleteUserByID(int) error
 	ListUser(storage.UserFilter) ([]storage.User, error)
 	RegisterAppointment(u storage.Appointment) (*storage.Appointment, error)
+	EditUserStatus(id int) (*storage.UpdateStatus, error)
+	UpdateUserStatus(u storage.UpdateStatus) (*storage.UpdateStatus, error)
 }
 
 type CoreUser struct {
@@ -70,7 +72,28 @@ func (cu CoreUser) EditUserCore(us storage.Edit) (*storage.User, error){
 	}
 	return user,nil
 }
-
+//edit user status
+func (cu CoreUser) EditStatusUserCore(us storage.Edit) (*storage.UpdateStatus, error){
+	user ,err := cu.store.EditUserStatus(us.ID)
+	if err != nil {
+		return nil,err
+	}
+	if user == nil{
+      return nil,err
+	}
+	return user,nil
+}
+//update user status
+func (cu CoreUser) UpdateUserStatusCore(u storage.UpdateStatus) (*storage.UpdateStatus, error) {
+	user ,err := cu.store.UpdateUserStatus(u)
+	if err != nil {
+		return nil,err
+	}
+	if user == nil{
+		return nil,err
+	}
+	return user,nil
+}
 //update user
 func (cu CoreUser) UpdatePatient(u storage.UpdateUser) (*storage.UpdateUser, error) {
 	user ,err := cu.store.UpdateUser(u)
