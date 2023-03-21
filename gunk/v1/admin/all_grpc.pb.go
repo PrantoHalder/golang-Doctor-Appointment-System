@@ -32,6 +32,8 @@ type AdminServiceClient interface {
 	EditPatient(ctx context.Context, in *EditPatientRequest, opts ...grpc.CallOption) (*EditPatientResponse, error)
 	UpdatePatient(ctx context.Context, in *UpdatePatientRequest, opts ...grpc.CallOption) (*UpdatePatientResponse, error)
 	DeletePatient(ctx context.Context, in *DeletePatientRequest, opts ...grpc.CallOption) (*DeletePatientResponse, error)
+	EditAdminStatus(ctx context.Context, in *EditAdminStatusRequest, opts ...grpc.CallOption) (*EditAdminStatusResponse, error)
+	UpdateAdminStatus(ctx context.Context, in *UpdateAdminStatusRequest, opts ...grpc.CallOption) (*UpdateAdminStatusResponse, error)
 }
 
 type adminServiceClient struct {
@@ -168,6 +170,24 @@ func (c *adminServiceClient) DeletePatient(ctx context.Context, in *DeletePatien
 	return out, nil
 }
 
+func (c *adminServiceClient) EditAdminStatus(ctx context.Context, in *EditAdminStatusRequest, opts ...grpc.CallOption) (*EditAdminStatusResponse, error) {
+	out := new(EditAdminStatusResponse)
+	err := c.cc.Invoke(ctx, "/adminpb.AdminService/EditAdminStatus", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *adminServiceClient) UpdateAdminStatus(ctx context.Context, in *UpdateAdminStatusRequest, opts ...grpc.CallOption) (*UpdateAdminStatusResponse, error) {
+	out := new(UpdateAdminStatusResponse)
+	err := c.cc.Invoke(ctx, "/adminpb.AdminService/UpdateAdminStatus", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AdminServiceServer is the server API for AdminService service.
 // All implementations must embed UnimplementedAdminServiceServer
 // for forward compatibility
@@ -186,6 +206,8 @@ type AdminServiceServer interface {
 	EditPatient(context.Context, *EditPatientRequest) (*EditPatientResponse, error)
 	UpdatePatient(context.Context, *UpdatePatientRequest) (*UpdatePatientResponse, error)
 	DeletePatient(context.Context, *DeletePatientRequest) (*DeletePatientResponse, error)
+	EditAdminStatus(context.Context, *EditAdminStatusRequest) (*EditAdminStatusResponse, error)
+	UpdateAdminStatus(context.Context, *UpdateAdminStatusRequest) (*UpdateAdminStatusResponse, error)
 	mustEmbedUnimplementedAdminServiceServer()
 }
 
@@ -234,6 +256,12 @@ func (UnimplementedAdminServiceServer) UpdatePatient(context.Context, *UpdatePat
 }
 func (UnimplementedAdminServiceServer) DeletePatient(context.Context, *DeletePatientRequest) (*DeletePatientResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeletePatient not implemented")
+}
+func (UnimplementedAdminServiceServer) EditAdminStatus(context.Context, *EditAdminStatusRequest) (*EditAdminStatusResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method EditAdminStatus not implemented")
+}
+func (UnimplementedAdminServiceServer) UpdateAdminStatus(context.Context, *UpdateAdminStatusRequest) (*UpdateAdminStatusResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateAdminStatus not implemented")
 }
 func (UnimplementedAdminServiceServer) mustEmbedUnimplementedAdminServiceServer() {}
 
@@ -500,6 +528,42 @@ func _AdminService_DeletePatient_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AdminService_EditAdminStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EditAdminStatusRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).EditAdminStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/adminpb.AdminService/EditAdminStatus",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).EditAdminStatus(ctx, req.(*EditAdminStatusRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AdminService_UpdateAdminStatus_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateAdminStatusRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AdminServiceServer).UpdateAdminStatus(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/adminpb.AdminService/UpdateAdminStatus",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AdminServiceServer).UpdateAdminStatus(ctx, req.(*UpdateAdminStatusRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AdminService_ServiceDesc is the grpc.ServiceDesc for AdminService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -562,6 +626,14 @@ var AdminService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeletePatient",
 			Handler:    _AdminService_DeletePatient_Handler,
+		},
+		{
+			MethodName: "EditAdminStatus",
+			Handler:    _AdminService_EditAdminStatus_Handler,
+		},
+		{
+			MethodName: "UpdateAdminStatus",
+			Handler:    _AdminService_UpdateAdminStatus_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

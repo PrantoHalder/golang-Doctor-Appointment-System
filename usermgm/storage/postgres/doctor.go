@@ -29,8 +29,8 @@ func (s PostGressStorage) GetDoctorByUsername(username string) (*storage.User, e
 	return &listUser, nil
 }
 
-//register doctor into doctor table
-const registerDoctorQuery = `INSERT INTO doctordetails (
+//register doctor details into doctor table
+const registerDoctordatailsQuery = `INSERT INTO doctordetails (
 	userid,
 	doctortypeid,
 	degree,
@@ -41,8 +41,8 @@ const registerDoctorQuery = `INSERT INTO doctordetails (
 	:degree,
 	:gender
 )RETURNING *`
-func(s PostGressStorage) RegisterDoctor(u storage.Doctor) (*storage.Doctor, error){
-	stmt, err := s.DB.PrepareNamed(registerDoctorQuery)
+func(s PostGressStorage) RegisterDoctorDeatils(u storage.Doctor) (*storage.Doctor, error){
+	stmt, err := s.DB.PrepareNamed(registerDoctordatailsQuery)
 	if err != nil {
 		fmt.Println("prepared error", err.Error())
 		return nil, err
@@ -118,4 +118,87 @@ func (s PostGressStorage) ListDoctor(uf storage.UserFilter) ([]storage.DoctorU, 
 	}
 	return listUser, nil
 }
-//delete doctor
+//edit Doctor details
+const EditDoctorDetailsQuery = `SELECT id,degree,gender
+FROM doctordetails
+WHERE
+id =$1
+AND
+deleted_at IS NULL`
+
+func (s PostGressStorage) EditDoctorDetails(id int) (*storage.Doctor, error) {
+	var listUser storage.Doctor
+	if err := s.DB.Get(&listUser,EditDoctorDetailsQuery,id); err != nil {
+		return nil, err
+	}
+	if listUser.ID == 0 {
+     return nil,fmt.Errorf("unable to find username")
+	}
+	return &listUser, nil
+}
+//update doctor details status
+const UpdateDoctorDetailsQuery = `
+	UPDATE doctordetails SET
+		degree = :degree,
+		gender = :gender
+	WHERE id = :id 
+	AND
+	deleted_at is NULL
+	RETURNING id;
+	`
+
+func (s PostGressStorage) UpdateDoctorDetails(u storage.Doctor) (*storage.Doctor, error) {
+	stmt, err := s.DB.PrepareNamed(UpdateDoctorDetailsQuery)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	if err := stmt.Get(&u, u); err != nil {
+		log.Fatalln(err)
+		return nil, err
+	}
+	return &u, nil
+
+}
+//edit doctor schedule 
+const EditDoctorScheduleQuery = `SELECT id,startat,endat,workdays,address,phone
+FROM doctor_schedule
+WHERE
+id =$1
+`
+
+func (s PostGressStorage) EditDoctorSchedule(id int) (*storage.Schedule, error) {
+	var listUser storage.Schedule
+	if err := s.DB.Get(&listUser,EditDoctorScheduleQuery,id); err != nil {
+		return nil, err
+	}
+	if listUser.ID == 0 {
+     return nil,fmt.Errorf("unable to find username")
+	}
+	return &listUser, nil
+}
+//update doctor details status
+const UpdateDoctorScheduleQuery = `
+	UPDATE doctor_schedule SET
+		startat = :startat,
+		endat = :endat,
+		workdays = :workdays,
+		address = :address,
+		phone = :phone
+	WHERE id = :id 
+	RETURNING id;
+	`
+
+func (s PostGressStorage) UpdateDoctorSchedule(u storage.Schedule) (*storage.Schedule, error) {
+	stmt, err := s.DB.PrepareNamed(UpdateDoctorScheduleQuery)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	if err := stmt.Get(&u, u); err != nil {
+		log.Fatalln(err)
+		return nil, err
+	}
+	return &u, nil
+
+}

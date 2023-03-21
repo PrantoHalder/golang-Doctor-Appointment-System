@@ -4,10 +4,17 @@ import "time"
 
 type DoctorService interface {
 	DoctorLogin(DoctorLoginRequest) DoctorLoginResponse
-	RegisterDoctor(RegisterDoctorRequest) RegisterDoctorResponse
+	RegisterDoctorDetails(RegisterDoctorDetailsRequest) RegisterDoctorDetailsResponse
 	DoctorScheduleRegister(DoctorScheduleRegisterRequest) DoctorScheduleRegisterResponse
+	DoctorScheduleEdit(DoctorScheduleEditRequest) DoctorScheduleEditResponse
+	DoctorScheduleUpdate(DoctorScheduleUpdateRequest) DoctorScheduleUpdateResponse
 	DoctorList(DoctorListRequest) DoctorListResponse
+	EditDoctorStatus(EditDoctorStatusRequest) EditDoctorStatusResponse
+	UpdateDoctorStatus(UpdateDoctorStatusRequest) UpdateDoctorStatusResponse
+	DoctorDetailsEdit(DoctorDetailsEditRequest) DoctorDetailsEditResponse
+	DoctorDetailsUpdate(DoctorDetailsUpdateRequest) DoctorDetailsUpdateResponse
 }
+//schedule struct
 type Schedule struct {
 	ID              int        `pb:"1"`
 	DoctorDetailsID int        `pb:"2"`
@@ -17,7 +24,15 @@ type Schedule struct {
 	Address         string     `pb:"6"`
 	Phone           string     `pb:"7"`
 }
-
+//doctor struct
+type Doctor struct {
+	ID            int    `pb:"1"`
+	UserID        int    `pb:"2"`
+	DoctorTypeID  int    `pb:"3"`
+	Degree        string `pb:"4"`
+	Gender        string `pb:"5"`
+}
+//user register struct
 type User struct {
 	ID        int    `pb:"1"`
 	FirstName string `pb:"2"`
@@ -27,6 +42,74 @@ type User struct {
 	Is_active bool   `pb:"6"`
 	Role      string `pb:"7"`
 }
+//doctor schedule update request
+type DoctorScheduleUpdateRequest struct {
+	ID              int        `pb:"1"`
+	StartAt         time.Time  `pb:"2"`
+	EndAt           time.Time  `pb:"3"`
+	WorkDays        string     `pb:"4"`
+	Address         string     `pb:"5"`
+	Phone           string     `pb:"6"`
+}
+//doctor schedule update request
+type DoctorScheduleUpdateResponse struct {
+	StartAt         time.Time  `pb:"1"`
+	EndAt           time.Time  `pb:"2"`
+	WorkDays        string     `pb:"3"`
+	Address         string     `pb:"4"`
+	Phone           string     `pb:"5"`
+}
+//doctor schedule edit request
+type DoctorScheduleEditRequest struct {
+	ID        int    `pb:"1"`
+}
+//doctor schedule edit request
+type DoctorScheduleEditResponse struct {
+	ID              int        `pb:"1"`
+	StartAt         time.Time  `pb:"2"`
+	EndAt           time.Time  `pb:"3"`
+	WorkDays        string     `pb:"4"`
+	Address         string     `pb:"5"`
+}
+//edit status request
+type EditDoctorStatusRequest struct {
+	ID        int    `pb:"1"`
+}
+//edit status response
+type EditDoctorStatusResponse struct {
+	ID        int    `pb:"1"`
+	Is_active bool   `pb:"2"`
+}
+//edit doctor details request
+type DoctorDetailsEditRequest struct {
+	ID        int    `pb:"1"`
+}
+//edit doctor details response
+type DoctorDetailsEditResponse struct {
+	ID            int    `pb:"1"`
+	Degree        string `pb:"2"`
+	Gender        string `pb:"3"`
+}
+//updatedoctor details request
+type DoctorDetailsUpdateRequest struct {
+	ID            int    `pb:"1"`
+	Degree        string `pb:"2"`
+	Gender        string `pb:"3"`
+}
+//update doctor details response
+type DoctorDetailsUpdateResponse struct {
+	Degree        string `pb:"1"`
+	Gender        string `pb:"2"`
+}
+//update status request
+type UpdateDoctorStatusRequest struct {
+	ID        int    `pb:"1"`
+	Is_active bool   `pb:"2"`
+}
+//update status response
+type UpdateDoctorStatusResponse struct {
+	Is_active bool   `pb:"2"`
+}
 //doctor list request
 type DoctorListRequest struct {
 	SearchTerm string `pb:"1"`
@@ -34,14 +117,6 @@ type DoctorListRequest struct {
 //doctor list response
 type DoctorListResponse struct {
 	User []User `pb:"1"`
-}
-//doctor struct
-type Doctor struct {
-	ID            int    `pb:"1"`
-	UserID        int    `pb:"2"`
-	DoctorTypeID  int    `pb:"3"`
-	Degree        string `pb:"4"`
-	Gender        string `pb:"5"`
 }
 
 //doctor login request by user table
@@ -54,14 +129,14 @@ type DoctorLoginResponse struct {
 	User User `pb:"1"`
 }
 //doctor register request
-type RegisterDoctorRequest struct {
+type RegisterDoctorDetailsRequest struct {
     UserID        int    `pb:"1"`
 	DoctorTypeID  int    `pb:"2"`
 	Degree        string `pb:"3"`
 	Gender        string `pb:"4"`
 }
 //doctor register response
-type RegisterDoctorResponse struct {
+type RegisterDoctorDetailsResponse struct {
 	User Doctor `pb:"1"`
 }
 // schedule register by a doctor request

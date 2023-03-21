@@ -9,9 +9,13 @@ import (
 
 type DoctorStore interface {
 	GetDoctorByUsername(string) (*storage.User, error)
-	RegisterDoctor(u storage.Doctor) (*storage.Doctor, error)
+	RegisterDoctorDeatils(u storage.Doctor) (*storage.Doctor, error)
 	RegisterDoctorSchedule(u storage.Schedule) (*storage.Schedule, error)
 	ListDoctor(uf storage.UserFilter) ([]storage.DoctorU, error)
+	EditDoctorDetails(id int) (*storage.Doctor, error)
+	UpdateDoctorDetails(u storage.Doctor) (*storage.Doctor, error)
+	EditDoctorSchedule(id int) (*storage.Schedule, error)
+	UpdateDoctorSchedule(u storage.Schedule) (*storage.Schedule, error)
 }
 
 type CoreDoctor struct {
@@ -22,6 +26,50 @@ func NewCoreDoctor(us DoctorStore) *CoreDoctor {
 	return &CoreDoctor{
 		store: us,
 	}
+}
+//update doctor schedule
+func (cu CoreDoctor) UpdateDoctorScheduleCore(u storage.Schedule) (*storage.Schedule, error) {
+	user ,err := cu.store.UpdateDoctorSchedule(u)
+	if err != nil {
+		return nil,err
+	}
+	if user == nil{
+		return nil,err
+	}
+	return user,nil
+}
+//edit doctor schedule
+func (cu CoreDoctor) EditDoctorScheduleCore(us storage.Edit) (*storage.Schedule, error) {
+	user ,err := cu.store.EditDoctorSchedule(us.ID)
+	if err != nil {
+		return nil,err
+	}
+	if user == nil{
+      return nil,err
+	}
+	return user,nil
+}
+//update doctor details 
+func (cu CoreDoctor) UpdateDoctorDetailsCore(u storage.Doctor) (*storage.Doctor, error) {
+	user ,err := cu.store.UpdateDoctorDetails(u)
+	if err != nil {
+		return nil,err
+	}
+	if user == nil{
+		return nil,err
+	}
+	return user,nil
+}
+//edit doctor details
+func (cu CoreDoctor) EditDoctorDetailsCore(us storage.Edit) (*storage.Doctor, error) {
+	user ,err := cu.store.EditDoctorDetails(us.ID)
+	if err != nil {
+		return nil,err
+	}
+	if user == nil{
+      return nil,err
+	}
+	return user,nil
 }
 
 //Doctor login
@@ -36,8 +84,8 @@ func (cu CoreDoctor) GetDoctorbyUsernameCore(login storage.Login) (*storage.User
 	return user,nil
 }
 //register doctor
-func (cu CoreDoctor) RegisterDoctorCore(u storage.Doctor)(*storage.Doctor,error){
-	ru, err := cu.store.RegisterDoctor(u)
+func (cu CoreDoctor) RegisterDoctorDetailsCore(u storage.Doctor)(*storage.Doctor,error){
+	ru, err := cu.store.RegisterDoctorDeatils(u)
 	if err != nil {
 		return nil, err
 	}

@@ -1,6 +1,6 @@
 -- +goose Up
 -- +goose StatementBegin
-CREATE TABLE IF NOT EXISTS doctorType (
+CREATE TABLE IF NOT EXISTS doctortype (
 	id BIGSERIAL,
 	doctortype VARCHAR(20) NOT NULL,
 	created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,

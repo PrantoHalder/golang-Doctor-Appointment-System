@@ -16,6 +16,8 @@ type CoreUser interface {
 	DeleteUserByID(storage.Edit) error
 	ListUser(storage.UserFilter) ([]storage.User,error)
 	RegisterAppointmentCore(storage.Appointment) (*storage.Appointment, error)
+	EditStatusUserCore(us storage.Edit) (*storage.UpdateStatus, error)
+	UpdateUserStatusCore(u storage.UpdateStatus) (*storage.UpdateStatus, error)
 }
 
 type UserSvc struct {
@@ -112,6 +114,24 @@ func (us UserSvc) UserEdit(cxt context.Context, r *userpb.UserEditRequest) (*use
 		},
 	}, nil
 }
+// edit user status
+func (us UserSvc) EditPatientStatus(ctx context.Context,r *userpb.EditPatientStatusRequest) (*userpb.EditPatientStatusResponse, error)  {
+	user := storage.Edit{
+		ID: int(r.GetID()),
+	}
+	if err := user.Validate(); err != nil {
+		return nil, err
+	}
+	u, err := us.core.EditStatusUserCore(user)
+	if err != nil {
+		return nil, err
+	}
+	return &userpb.EditPatientStatusResponse{
+		ID:       int32(u.ID),
+		IsActive: u.Is_active,
+	},nil
+		
+}
 
 // user update section
 func (us UserSvc) UserUpdate(ctx context.Context, r *userpb.UserUpdateRequest) (*userpb.UserUpdateResponse, error) {
@@ -140,6 +160,24 @@ func (us UserSvc) UserUpdate(ctx context.Context, r *userpb.UserUpdateRequest) (
 			IsActive:  u.Is_active,
 		},
 	}, nil
+}
+//update patient status
+func (us UserSvc)UpdatePatientStatus(ctx context.Context,r *userpb.UpdatePatientStatusRequest) (*userpb.UpdatePatientStatusResponse, error){
+	user := storage.UpdateUser{
+		ID:        int(r.GetID()),
+		Is_active: r.GetIsActive(),
+	}
+	if err := user.Validate(); err != nil {
+		fmt.Println("the error is in the serveice layer in Register after user.Validate")
+		return nil, err
+	}
+	u, err := us.core.UpdatePatient(user)
+	if err != nil {
+		fmt.Println("the error is in the serveice layer in Register after Register(user)")
+		return nil, err
+	}
+	return &userpb.UpdatePatientStatusResponse{
+		IsActive:u.Is_active}, nil
 }
 //delete user
 func (us UserSvc) UserDelete(ctx context.Context, r *userpb.UserDeleteRequest) (*userpb.UserDeleteResponse, error) {
