@@ -19,6 +19,8 @@ type CoreDoctor interface {
 	UpdateDoctorDetailsCore(u storage.Doctor) (*storage.Doctor, error)
 	EditDoctorScheduleCore(us storage.Edit) (*storage.Schedule, error)
 	UpdateDoctorScheduleCore(u storage.Schedule) (*storage.Schedule, error)
+	ApproveEditCore(us storage.Edit) (*storage.Appointment, error)
+	ApproveUpdateCore(u storage.Appointment) (*storage.Appointment, error)
 }
 
 type DoctorSvc struct {
@@ -30,6 +32,43 @@ func NewDoctorSvc(cu CoreDoctor) *DoctorSvc {
 	return &DoctorSvc{
 		core: cu,
 	}
+}
+func (us DoctorSvc)ApproveAppointmentUpdate(ctx context.Context,r *doctorpb.ApproveAppointmentUpdateRequest) (*doctorpb.ApproveAppointmentUpdateResponse, error){
+	user := storage.Appointment{
+		ID:              int(r.GetID()),
+		Is_Appointed:    r.GetIs_Appointed(),
+		TimeSlot:        r.GetTimeSlot(),
+	}
+	
+	u, err := us.core.ApproveUpdateCore(user)
+	if err != nil {
+		fmt.Println("the error is in the serveice layer in Register after Register(user)")
+		return nil, err
+	}
+	return &doctorpb.ApproveAppointmentUpdateResponse{
+		Is_Appointed: u.Is_Appointed,
+		TimeSlot:     u.TimeSlot,
+	},nil
+}
+//approve edit
+func (us DoctorSvc)ApproveAppointmentEdit(ctx context.Context,r *doctorpb.ApproveAppointmentEditRequest) (*doctorpb.ApproveAppointmentEditResponse, error){
+	user := storage.Edit{
+		ID: int(r.GetID()),
+	}
+	if err := user.Validate(); err != nil {
+		fmt.Println("the error is in the serveice layer in Register after user.Validate")
+		return nil, err
+	}
+	u, err := us.core.ApproveEditCore(user)
+	if err != nil {
+		fmt.Println("the error is in the serveice layer in Register after Register(user)")
+		return nil, err
+	}
+	return &doctorpb.ApproveAppointmentEditResponse{
+		ID:           int32(u.ID),
+		Is_Appointed: u.Is_Appointed,
+		TimeSlot:     u.TimeSlot,
+	},nil
 }
 //update doctor schedule
 func (us DoctorSvc)DoctorScheduleUpdate(ctx context.Context,r *doctorpb.DoctorScheduleUpdateRequest) (*doctorpb.DoctorScheduleUpdateResponse, error){

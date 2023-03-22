@@ -11,6 +11,15 @@ type UserService interface {
 	EditPatientStatus(EditPatientStatusRequest) EditPatientStatusResponse
 	UpdatePatientStatus(UpdatePatientStatusRequest) UpdatePatientStatusResponse
 	ShowDoctorlistPatient(ShowDoctorlistPatientRequest) ShowDoctorlistPatientResponse
+	AppoinmentStatus(AppoinmentStatusRequest) AppoinmentStatusResponse
+}
+//appontment status
+type AppontmentStatus struct {
+	ID           int    `pb:"1"`
+	FirstName    string `pb:"2"`
+	LastName     string `pb:"3"`
+	Is_Appointed bool   `pb:"4"`
+	TimeSlot     string `pb:"5"`
 }
 //Doctor list Patient struct 
 type DoctorList struct {
@@ -20,6 +29,29 @@ type DoctorList struct {
 	Degree     string `pb:"4"`
 	DoctorType string `pb:"5"`
 	Gender     string `pb:"6"`
+}
+//appointments status request
+type AppoinmentStatusRequest struct{
+	ID int `pb:"1"`
+}
+//appintments status response
+type AppoinmentStatusResponse struct{
+	AppontmentStatus []AppontmentStatus `pb:"1"`
+}
+//register appointment request
+type RegisterAppointmentmentsRequest struct {
+	UserID          int  `pb:"1"`
+	DoctorDetailsID int  `pb:"2"`
+	ScheduleID      int  `pb:"3"`
+	Is_Appointed    bool `pb:"4"`
+}
+//register appointment response
+type RegisterAppointmentmentsResponse struct {
+	ID              int  `pb:"1"`
+	UserID          int  `pb:"2"`
+	DoctorDetailsID int  `pb:"3"`
+	ScheduleID      int  `pb:"4"`
+	Is_Appointed    bool `pb:"5"`
 }
 // show doctor list to patient request
 type ShowDoctorlistPatientRequest struct {

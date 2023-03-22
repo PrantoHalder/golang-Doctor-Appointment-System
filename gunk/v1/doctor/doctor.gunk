@@ -13,6 +13,8 @@ type DoctorService interface {
 	UpdateDoctorStatus(UpdateDoctorStatusRequest) UpdateDoctorStatusResponse
 	DoctorDetailsEdit(DoctorDetailsEditRequest) DoctorDetailsEditResponse
 	DoctorDetailsUpdate(DoctorDetailsUpdateRequest) DoctorDetailsUpdateResponse
+	ApproveAppointmentEdit(ApproveAppointmentEditRequest) ApproveAppointmentEditResponse
+	ApproveAppointmentUpdate(ApproveAppointmentUpdateRequest) ApproveAppointmentUpdateResponse
 }
 //schedule struct
 type Schedule struct {
@@ -41,6 +43,27 @@ type User struct {
 	Email     string `pb:"5"`
 	Is_active bool   `pb:"6"`
 	Role      string `pb:"7"`
+}
+// approve appointment edit request
+type ApproveAppointmentEditRequest struct {
+	ID int `pb:"1"`
+}
+//approve appointment edit response
+type ApproveAppointmentEditResponse struct {
+	ID            int    `pb:"1"`
+	Is_Appointed  bool   `pb:"2"`
+	TimeSlot      string `pb:"3"`
+}
+// approve appointment update request
+type ApproveAppointmentUpdateRequest struct {
+	ID            int  `pb:"1"`
+	Is_Appointed  bool `pb:"2"`
+	TimeSlot      string `pb:"3"`
+}
+//approve appointment update response
+type ApproveAppointmentUpdateResponse struct {
+	Is_Appointed  bool   `pb:"1"`
+	TimeSlot      string `pb:"2"`
 }
 //doctor schedule update request
 type DoctorScheduleUpdateRequest struct {

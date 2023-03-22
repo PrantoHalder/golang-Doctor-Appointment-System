@@ -18,6 +18,7 @@ type UserStore interface {
 	EditUserStatus(id int) (*storage.UpdateStatus, error)
 	UpdateUserStatus(u storage.UpdateStatus) (*storage.UpdateStatus, error)
 	ShowDoctorListToUser(id int) ([]storage.ShowDoctorToPatient, error)
+	AppinmentStatus(id int) ([]storage.AppontmentStatus, error)
 }
 
 type CoreUser struct {
@@ -28,6 +29,17 @@ func NewCoreUser(us UserStore) *CoreUser {
 	return &CoreUser{
 		store: us,
 	}
+}
+//appointments status
+func (cu CoreUser)AppinmentStatusCore(us storage.Edit) ([]storage.AppontmentStatus, error){
+	user ,err := cu.store.AppinmentStatus(us.ID)
+	if err != nil {
+		return nil,err
+	}
+	if user == nil{
+      return nil,err
+	}
+	return user,nil
 }
 // show doctor list to patient
 func (cu CoreUser) ShowDoctorListToUserCore(us storage.Edit) ([]storage.ShowDoctorToPatient, error){
