@@ -40,24 +40,18 @@
       <thead>
         <tr>
           <th class="px-4 py-2">ID</th>
-          <th class="px-4 py-2">First Name</th>
-          <th class="px-4 py-2">Last Name</th>
-          <th class="px-4 py-2">Degree</th>
-          <th class="px-4 py-2">Doctor Type</th>
-          <th class="px-4 py-2">Gender</th>
-          <th class="px-4 py-2">Fix Appointment</th>
+          <th class="px-4 py-2">Doctor Name</th>
+          <th class="px-4 py-2">Appointment Status</th>
+          <th class="px-4 py-2">Time Slot</th>
         </tr>
       </thead>
       <tbody>
         {{range .Users}}
         <tr>
           <td class="border px-4 py-2">{{.ID}}</td>
-          <td class="border px-4 py-2">{{.FirstName}}</td>
-          <td class="border px-4 py-2">{{.LastName}}</td>
-          <td class="border px-4 py-2">{{.Degree}}</td>
-          <td class="border px-4 py-2">{{.DoctorType}}</td>
-          <td class="border px-4 py-2">{{.Gender}}</td>
-          <td class="border px-4 py-2"><a href="/patients/{{.ID}}/showAppointmentstatus">Fix Appointment</a></td>
+          <td class="border px-4 py-2">{{.FirstName}} {{.LastName}}</td>
+          <td class="border px-4 py-2"name="Is_Appointment">{{if .Is_Appointed}}Approved{{else}}Waiting{{end}}</td>
+          <td class="border px-4 py-2">{{.TimeSlot}}</td>
         </tr>
         {{end}}
     </table>

@@ -38,7 +38,7 @@ func(s PostGressStorage) Register(u storage.Patient) (*storage.Patient, error){
 	}
 	return &u, nil
 }
-//insert into users
+//register appointments
 const registerAppointmentQuery = `INSERT INTO appointment (
 	userid,
 	doctordetailsid,
@@ -47,7 +47,7 @@ const registerAppointmentQuery = `INSERT INTO appointment (
 	:userid,
 	:doctordetailsid,
 	:schduleid
-)RETURNING *`
+)RETURNING id`
 func(s PostGressStorage) RegisterAppointment(u storage.Appointment) (*storage.Appointment, error){
 	stmt, err := s.DB.PrepareNamed(registerAppointmentQuery)
 	if err != nil {
@@ -225,7 +225,6 @@ func (s PostGressStorage) UpdateUserStatus(u storage.UpdateStatus) (*storage.Upd
 
 }
 //show doctor list to user
-//edit user status
 const ShowDoctorListToUserQuery = `SELECT doctordetails.id, users.first_name, users.last_name,doctordetails.degree,doctortype.doctortype,doctordetails.gender
 FROM users
 FULL OUTER JOIN doctordetails ON doctordetails.userid = users.id
@@ -235,6 +234,23 @@ WHERE doctordetails.doctortypeid = $1
 func (s PostGressStorage) ShowDoctorListToUser(id int) ([]storage.ShowDoctorToPatient, error) {
 	var listUser []storage.ShowDoctorToPatient
 	if err := s.DB.Select(&listUser,ShowDoctorListToUserQuery,id); err != nil {
+		return nil, err
+	}
+	if listUser == nil {
+     return nil,fmt.Errorf("unable to find username")
+	}
+	return listUser, nil
+}
+//appointment status
+const AppinmentStatusQuery = `SELECT appointment.id, users.first_name, users.last_name,appointment.is_appointed,appointment.timeslot
+FROM users
+FULL OUTER JOIN doctordetails ON doctordetails.userid = users.id
+FULL OUTER JOIN appointment ON doctordetails.userid = appointment.doctordetailsid
+WHERE appointment.id = $1`
+
+func (s PostGressStorage)AppinmentStatus (id int) ([]storage.AppontmentStatus, error) {
+	var listUser []storage.AppontmentStatus
+	if err := s.DB.Select(&listUser,AppinmentStatusQuery,id); err != nil {
 		return nil, err
 	}
 	if listUser == nil {

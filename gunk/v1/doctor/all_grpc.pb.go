@@ -28,6 +28,8 @@ type DoctorServiceClient interface {
 	UpdateDoctorStatus(ctx context.Context, in *UpdateDoctorStatusRequest, opts ...grpc.CallOption) (*UpdateDoctorStatusResponse, error)
 	DoctorDetailsEdit(ctx context.Context, in *DoctorDetailsEditRequest, opts ...grpc.CallOption) (*DoctorDetailsEditResponse, error)
 	DoctorDetailsUpdate(ctx context.Context, in *DoctorDetailsUpdateRequest, opts ...grpc.CallOption) (*DoctorDetailsUpdateResponse, error)
+	ApproveAppointmentEdit(ctx context.Context, in *ApproveAppointmentEditRequest, opts ...grpc.CallOption) (*ApproveAppointmentEditResponse, error)
+	ApproveAppointmentUpdate(ctx context.Context, in *ApproveAppointmentUpdateRequest, opts ...grpc.CallOption) (*ApproveAppointmentUpdateResponse, error)
 }
 
 type doctorServiceClient struct {
@@ -128,6 +130,24 @@ func (c *doctorServiceClient) DoctorDetailsUpdate(ctx context.Context, in *Docto
 	return out, nil
 }
 
+func (c *doctorServiceClient) ApproveAppointmentEdit(ctx context.Context, in *ApproveAppointmentEditRequest, opts ...grpc.CallOption) (*ApproveAppointmentEditResponse, error) {
+	out := new(ApproveAppointmentEditResponse)
+	err := c.cc.Invoke(ctx, "/doctorpb.DoctorService/ApproveAppointmentEdit", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *doctorServiceClient) ApproveAppointmentUpdate(ctx context.Context, in *ApproveAppointmentUpdateRequest, opts ...grpc.CallOption) (*ApproveAppointmentUpdateResponse, error) {
+	out := new(ApproveAppointmentUpdateResponse)
+	err := c.cc.Invoke(ctx, "/doctorpb.DoctorService/ApproveAppointmentUpdate", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // DoctorServiceServer is the server API for DoctorService service.
 // All implementations must embed UnimplementedDoctorServiceServer
 // for forward compatibility
@@ -142,6 +162,8 @@ type DoctorServiceServer interface {
 	UpdateDoctorStatus(context.Context, *UpdateDoctorStatusRequest) (*UpdateDoctorStatusResponse, error)
 	DoctorDetailsEdit(context.Context, *DoctorDetailsEditRequest) (*DoctorDetailsEditResponse, error)
 	DoctorDetailsUpdate(context.Context, *DoctorDetailsUpdateRequest) (*DoctorDetailsUpdateResponse, error)
+	ApproveAppointmentEdit(context.Context, *ApproveAppointmentEditRequest) (*ApproveAppointmentEditResponse, error)
+	ApproveAppointmentUpdate(context.Context, *ApproveAppointmentUpdateRequest) (*ApproveAppointmentUpdateResponse, error)
 	mustEmbedUnimplementedDoctorServiceServer()
 }
 
@@ -178,6 +200,12 @@ func (UnimplementedDoctorServiceServer) DoctorDetailsEdit(context.Context, *Doct
 }
 func (UnimplementedDoctorServiceServer) DoctorDetailsUpdate(context.Context, *DoctorDetailsUpdateRequest) (*DoctorDetailsUpdateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DoctorDetailsUpdate not implemented")
+}
+func (UnimplementedDoctorServiceServer) ApproveAppointmentEdit(context.Context, *ApproveAppointmentEditRequest) (*ApproveAppointmentEditResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ApproveAppointmentEdit not implemented")
+}
+func (UnimplementedDoctorServiceServer) ApproveAppointmentUpdate(context.Context, *ApproveAppointmentUpdateRequest) (*ApproveAppointmentUpdateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ApproveAppointmentUpdate not implemented")
 }
 func (UnimplementedDoctorServiceServer) mustEmbedUnimplementedDoctorServiceServer() {}
 
@@ -372,6 +400,42 @@ func _DoctorService_DoctorDetailsUpdate_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _DoctorService_ApproveAppointmentEdit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ApproveAppointmentEditRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DoctorServiceServer).ApproveAppointmentEdit(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/doctorpb.DoctorService/ApproveAppointmentEdit",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DoctorServiceServer).ApproveAppointmentEdit(ctx, req.(*ApproveAppointmentEditRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DoctorService_ApproveAppointmentUpdate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ApproveAppointmentUpdateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DoctorServiceServer).ApproveAppointmentUpdate(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/doctorpb.DoctorService/ApproveAppointmentUpdate",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DoctorServiceServer).ApproveAppointmentUpdate(ctx, req.(*ApproveAppointmentUpdateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // DoctorService_ServiceDesc is the grpc.ServiceDesc for DoctorService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -418,6 +482,14 @@ var DoctorService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DoctorDetailsUpdate",
 			Handler:    _DoctorService_DoctorDetailsUpdate_Handler,
+		},
+		{
+			MethodName: "ApproveAppointmentEdit",
+			Handler:    _DoctorService_ApproveAppointmentEdit_Handler,
+		},
+		{
+			MethodName: "ApproveAppointmentUpdate",
+			Handler:    _DoctorService_ApproveAppointmentUpdate_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

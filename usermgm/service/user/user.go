@@ -19,6 +19,7 @@ type CoreUser interface {
 	EditStatusUserCore(us storage.Edit) (*storage.UpdateStatus, error)
 	UpdateUserStatusCore(u storage.UpdateStatus) (*storage.UpdateStatus, error)
 	ShowDoctorListToUserCore(us storage.Edit) ([]storage.ShowDoctorToPatient, error)
+	AppinmentStatusCore(us storage.Edit) ([]storage.AppontmentStatus, error)
 }
 
 type UserSvc struct {
@@ -30,6 +31,37 @@ func NewUserSvc(cu CoreUser) *UserSvc {
 	return &UserSvc{
 		core: cu,
 	}
+}
+//appointment status
+func (us UserSvc)AppoinmentStatus(ctx context.Context,r *userpb.AppoinmentStatusRequest) (*userpb.AppoinmentStatusResponse, error){
+	user := storage.Edit{
+		ID: int(r.GetID()),
+	}
+	if err := user.Validate(); err != nil {
+		fmt.Println("the error is in the serveice layer in Login after login.Validate()")
+		return nil, err
+	}
+	u, err := us.core.AppinmentStatusCore(user)
+	if err != nil {
+		fmt.Println("the error is in the serveice layer in Login after us.core.EditUserCore(user.ID)")
+		return nil, err
+	}
+    var totalusers []*userpb.AppontmentStatus
+	for _,value := range u {
+		user:=&userpb.AppontmentStatus{
+			ID:           int32(value.ID),
+			FirstName:    value.FirstName,
+			LastName:     value.LastName,
+			Is_Appointed: value.Is_Appointed,
+			TimeSlot:     value.TimeSlot,
+		}
+		totalusers = append(totalusers,user)
+	}
+
+
+	return &userpb.AppoinmentStatusResponse{
+		AppontmentStatus: totalusers,
+	},nil
 }
 // show doctor list to patient
 func (us UserSvc)ShowDoctorlistPatient(ctx context.Context,r *userpb.ShowDoctorlistPatientRequest) (*userpb.ShowDoctorlistPatientResponse, error) {
@@ -260,10 +292,7 @@ func (us UserSvc) RegisterAppointment(ctx context.Context,r *userpb.RegisterAppo
 		DoctorDetailsID: int(r.GetDoctorDetailsID()),
 		ScheduleID:      int(r.GetScheduleID()),
 	}
-	if err := user.Validate(); err != nil {
-		fmt.Println("the error is in the serveice layer in Register after user.Validate")
-		return nil, err
-	}
+	
 	u, err := us.core.RegisterAppointmentCore(user)
 	if err != nil {
 		fmt.Println("the error is in the serveice layer in Register after Register(user)")

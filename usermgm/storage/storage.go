@@ -324,25 +324,14 @@ func (u Schedule) Validate() error {
 }
 
 type Appointment struct {
-	ID              int  `db:"id"`
-	UserID          int  `db:"userid"`
-	DoctorDetailsID int  `db:"doctordetailsid"`
-	ScheduleID      int  `db:"schduleid"`
-	Is_Appointed    bool `db:"is_appointed"`
+	ID              int   `db:"id"`
+	UserID          int   `db:"userid"`
+	DoctorDetailsID int   `db:"doctordetailsid"`
+	ScheduleID      int   `db:"schduleid"`
+	Is_Appointed    bool  `db:"is_appointed"`
+	TimeSlot        string `db:"timeslot"`
 }
 
-func (u Appointment) Validate() error {
-	return validation.ValidateStruct(&u, validation.Field(&u.DoctorDetailsID,
-		validation.Required.Error("DoctorDetailsID can not be blank"),
-	),
-		validation.Field(&u.UserID,
-			validation.Required.Error("UserID can not be blank"),
-		),
-		validation.Field(&u.ScheduleID,
-			validation.Required.Error("ScheduleID cannot be blank"),
-		),
-	)
-}
 
 type UpdateStatus struct {
 	ID        int  `db:"id"`
@@ -355,4 +344,11 @@ type ShowDoctorToPatient struct {
 	Degree     string `db:"degree"`
 	DoctorType string `db:"doctortype"`
 	Gender     string `db:"gender"`
+}
+type AppontmentStatus struct {
+	ID           int    `db:"id"`
+	FirstName    string `db:"first_name"`
+	LastName     string `db:"last_name"`
+	Is_Appointed bool   `db:"is_appointed"`
+	TimeSlot     string `db:"timeslot"`
 }

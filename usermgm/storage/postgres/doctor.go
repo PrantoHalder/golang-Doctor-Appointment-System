@@ -202,3 +202,41 @@ func (s PostGressStorage) UpdateDoctorSchedule(u storage.Schedule) (*storage.Sch
 	return &u, nil
 
 }
+//approve patient edit
+const ApproveEditQuery = `SELECT id,is_appointed,timeslot
+FROM appointment
+WHERE
+id =$1
+`
+func (s PostGressStorage) ApproveEdit(id int) (*storage.Appointment, error) {
+	var listUser storage.Appointment
+	if err := s.DB.Get(&listUser,ApproveEditQuery,id); err != nil {
+		return nil, err
+	}
+	if listUser.ID == 0 {
+     return nil,fmt.Errorf("unable to find username")
+	}
+	return &listUser, nil
+} 
+//approve patient update
+const ApproveUpdateQuery = `
+	UPDATE appointment SET
+		is_appointed = :is_appointed,
+		timeslot = :timeslot
+	WHERE id = :id 
+	RETURNING id;
+	`
+
+func (s PostGressStorage) ApproveUpdate(u storage.Appointment) (*storage.Appointment, error) {
+	stmt, err := s.DB.PrepareNamed(ApproveUpdateQuery)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	if err := stmt.Get(&u, u); err != nil {
+		log.Fatalln(err)
+		return nil, err
+	}
+	return &u, nil
+
+}
