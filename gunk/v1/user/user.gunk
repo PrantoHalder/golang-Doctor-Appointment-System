@@ -2,7 +2,6 @@ package userpb
 
 type UserService interface {
 	Register(RegisterRequest) RegisterResponse
-	Login(LoginRequest) LoginResponse
 	UserEdit(UserEditRequest) UserEditResponse
 	UserUpdate(UserUpdateRequest) UserUpdateResponse
 	UserDelete(UserDeleteRequest) UserDeleteResponse
@@ -12,6 +11,7 @@ type UserService interface {
 	UpdatePatientStatus(UpdatePatientStatusRequest) UpdatePatientStatusResponse
 	ShowDoctorlistPatient(ShowDoctorlistPatientRequest) ShowDoctorlistPatientResponse
 	AppoinmentStatus(AppoinmentStatusRequest) AppoinmentStatusResponse
+	FixAppoinment(FixAppoinmentRequest) FixAppoinmentResponse
 }
 //appontment status
 type AppontmentStatus struct {
@@ -29,6 +29,14 @@ type DoctorList struct {
 	Degree     string `pb:"4"`
 	DoctorType string `pb:"5"`
 	Gender     string `pb:"6"`
+} 
+//appointments status request
+type FixAppoinmentRequest struct{
+	ID int `pb:"1"`
+}
+//appintments status response
+type FixAppoinmentResponse struct{
+	AppontmentStatus []AppontmentStatus `pb:"1"`
 }
 //appointments status request
 type AppoinmentStatusRequest struct{
@@ -109,16 +117,6 @@ type RegisterRequest struct {
 
 //user register response
 type RegisterResponse struct {
-	User User `pb:"1"`
-}
-
-// user login request
-type LoginRequest struct {
-	Username string `pb:"1"`
-	Password string `pb:"2"`
-}
-//user login response
-type LoginResponse struct {
 	User User `pb:"1"`
 }
 //user edit request

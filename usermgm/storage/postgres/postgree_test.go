@@ -7,30 +7,24 @@ import (
 	"testing"
 )
 
-var _testStorage *PostGressStorage
+var ddlConnStr string
 
 func TestMain(m *testing.M) {
 	const dbConnEnv = "DATABASE_CONNECTION"
-	ddlConnStr := os.Getenv(dbConnEnv)
+	ddlConnStr = os.Getenv(dbConnEnv)
 	if ddlConnStr == "" {
 		log.Printf("%s is not set, skipping", dbConnEnv)
 		return
 	}
 
-	var teardown func()
-	_testStorage, teardown = NewTestStorage(ddlConnStr, filepath.Join("..", "..", "migrations"))
-
 	exitCode := m.Run()
 	defer os.Exit(exitCode)
-	if teardown != nil {
-		defer teardown()
-	}
 }
 
-func newTestStorage(tb testing.TB) *PostGressStorage {
-	if testing.Short() {
-		tb.Skip("skipping tests that use postgres on -short")
-	}
+func getDBConnectionString() string{
+	return ddlConnStr
+}
 
-	return _testStorage
+func getMigrationDir() string{
+	return filepath.Join("..", "..", "migrations")
 }

@@ -94,7 +94,7 @@ func (s PostGressStorage) DeleteDoctorTypeID(id int) error {
 
 	return nil
 }
-//docotor tyoe list
+//docotor type list
 const listDoctorListQuery = `
 
 SELECT id,doctortype

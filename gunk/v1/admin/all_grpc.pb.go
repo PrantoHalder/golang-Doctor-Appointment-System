@@ -19,7 +19,6 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AdminServiceClient interface {
 	RegisterAdmin(ctx context.Context, in *RegisterAdminRequest, opts ...grpc.CallOption) (*RegisterAdminResponse, error)
-	AdminLogin(ctx context.Context, in *AdminLoginRequest, opts ...grpc.CallOption) (*AdminLoginResponse, error)
 	AdminList(ctx context.Context, in *AdminListRequest, opts ...grpc.CallOption) (*AdminListResponse, error)
 	AdminEdit(ctx context.Context, in *AdminEditRequest, opts ...grpc.CallOption) (*AdminEditResponse, error)
 	AdminUpdate(ctx context.Context, in *AdminUpdateRequest, opts ...grpc.CallOption) (*AdminUpdateResponse, error)
@@ -47,15 +46,6 @@ func NewAdminServiceClient(cc grpc.ClientConnInterface) AdminServiceClient {
 func (c *adminServiceClient) RegisterAdmin(ctx context.Context, in *RegisterAdminRequest, opts ...grpc.CallOption) (*RegisterAdminResponse, error) {
 	out := new(RegisterAdminResponse)
 	err := c.cc.Invoke(ctx, "/adminpb.AdminService/RegisterAdmin", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *adminServiceClient) AdminLogin(ctx context.Context, in *AdminLoginRequest, opts ...grpc.CallOption) (*AdminLoginResponse, error) {
-	out := new(AdminLoginResponse)
-	err := c.cc.Invoke(ctx, "/adminpb.AdminService/AdminLogin", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -193,7 +183,6 @@ func (c *adminServiceClient) UpdateAdminStatus(ctx context.Context, in *UpdateAd
 // for forward compatibility
 type AdminServiceServer interface {
 	RegisterAdmin(context.Context, *RegisterAdminRequest) (*RegisterAdminResponse, error)
-	AdminLogin(context.Context, *AdminLoginRequest) (*AdminLoginResponse, error)
 	AdminList(context.Context, *AdminListRequest) (*AdminListResponse, error)
 	AdminEdit(context.Context, *AdminEditRequest) (*AdminEditResponse, error)
 	AdminUpdate(context.Context, *AdminUpdateRequest) (*AdminUpdateResponse, error)
@@ -217,9 +206,6 @@ type UnimplementedAdminServiceServer struct {
 
 func (UnimplementedAdminServiceServer) RegisterAdmin(context.Context, *RegisterAdminRequest) (*RegisterAdminResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RegisterAdmin not implemented")
-}
-func (UnimplementedAdminServiceServer) AdminLogin(context.Context, *AdminLoginRequest) (*AdminLoginResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AdminLogin not implemented")
 }
 func (UnimplementedAdminServiceServer) AdminList(context.Context, *AdminListRequest) (*AdminListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AdminList not implemented")
@@ -290,24 +276,6 @@ func _AdminService_RegisterAdmin_Handler(srv interface{}, ctx context.Context, d
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AdminServiceServer).RegisterAdmin(ctx, req.(*RegisterAdminRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _AdminService_AdminLogin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AdminLoginRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AdminServiceServer).AdminLogin(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/adminpb.AdminService/AdminLogin",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AdminServiceServer).AdminLogin(ctx, req.(*AdminLoginRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -574,10 +542,6 @@ var AdminService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "RegisterAdmin",
 			Handler:    _AdminService_RegisterAdmin_Handler,
-		},
-		{
-			MethodName: "AdminLogin",
-			Handler:    _AdminService_AdminLogin_Handler,
 		},
 		{
 			MethodName: "AdminList",

@@ -66,11 +66,9 @@ func (h Handler) RegisterPost (w http.ResponseWriter, r *http.Request){
 func (h Handler) ParseRegisterTemplates (w http.ResponseWriter,form RegisterLoadFrom) {
 	t := h.Templates.Lookup("register.html")
 	if t == nil {
-		log.Fatal("can not look up register.html template")
 		http.Error(w,"Internal Server Error",http.StatusInternalServerError)
 	}
 	if err := t.Execute(w, form); err != nil {
-		log.Fatal("can not look up register.html template")
 		http.Error(w,"Internal Server Error",http.StatusInternalServerError)
 	}
 }

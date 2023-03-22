@@ -66,28 +66,6 @@ func(s PostGressStorage) RegisterAppointment(u storage.Appointment) (*storage.Ap
 	return &u, nil
 }
 
-//login
-const getUserByUsernameQuery=`SELECT *  
-FROM users
-WHERE
-username = $1
-AND
-role = 'user'
-AND
-deleted_at IS NULL`
-func (s PostGressStorage) GetUserByUsername(username string) (*storage.User, error) {
-	var listUser storage.User
-	if err := s.DB.Get(&listUser, getUserByUsernameQuery,username); err != nil {
-		log.Println("error is in the query section of usermgm login section")
-		return nil, err
-	}
-	if listUser.ID == 0 {
-	 log.Println("error is in the query section of usermgm ID==0 login section")
-     return nil,fmt.Errorf("unable to find username")
-	}
-	return &listUser, nil
-}
-
 //user edit
 const EditUserQuery = `SELECT id,first_name,last_name,email,is_active
 FROM users
@@ -246,11 +224,28 @@ const AppinmentStatusQuery = `SELECT appointment.id, users.first_name, users.las
 FROM users
 FULL OUTER JOIN doctordetails ON doctordetails.userid = users.id
 FULL OUTER JOIN appointment ON doctordetails.userid = appointment.doctordetailsid
-WHERE appointment.id = $1`
+WHERE appointment.userid = $1`
 
 func (s PostGressStorage)AppinmentStatus (id int) ([]storage.AppontmentStatus, error) {
 	var listUser []storage.AppontmentStatus
 	if err := s.DB.Select(&listUser,AppinmentStatusQuery,id); err != nil {
+		return nil, err
+	}
+	if listUser == nil {
+     return nil,fmt.Errorf("unable to find username")
+	}
+	return listUser, nil
+}
+//fix appointment
+const FixAppinmentQuery = `SELECT appointment.id, users.first_name, users.last_name,appointment.is_appointed,appointment.timeslot
+FROM users
+FULL OUTER JOIN doctordetails ON doctordetails.userid = users.id
+FULL OUTER JOIN appointment ON doctordetails.userid = appointment.doctordetailsid
+WHERE doctordetails.userid = $1`
+
+func (s PostGressStorage)FixAppinment(id int) ([]storage.AppontmentStatus, error) {
+	var listUser []storage.AppontmentStatus
+	if err := s.DB.Select(&listUser,FixAppinmentQuery,id); err != nil {
 		return nil, err
 	}
 	if listUser == nil {

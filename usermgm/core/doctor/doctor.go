@@ -3,12 +3,10 @@ package doctor
 import (
 	"fmt"
 
-	"golang.org/x/crypto/bcrypt"
 	"main.go/usermgm/storage"
 )
 
 type DoctorStore interface {
-	GetDoctorByUsername(string) (*storage.User, error)
 	RegisterDoctorDeatils(u storage.Doctor) (*storage.Doctor, error)
 	RegisterDoctorSchedule(u storage.Schedule) (*storage.Schedule, error)
 	ListDoctor(uf storage.UserFilter) ([]storage.DoctorU, error)
@@ -92,18 +90,6 @@ func (cu CoreDoctor) EditDoctorDetailsCore(us storage.Edit) (*storage.Doctor, er
 	}
 	if user == nil{
       return nil,err
-	}
-	return user,nil
-}
-
-//Doctor login
-func (cu CoreDoctor) GetDoctorbyUsernameCore(login storage.Login) (*storage.User, error){
-	user,err := cu.store.GetDoctorByUsername(login.Username) 
-	if err != nil {
-		return nil, err
-	}
-	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(login.Password)); err != nil{
-		return nil, err
 	}
 	return user,nil
 }

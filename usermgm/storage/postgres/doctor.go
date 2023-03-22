@@ -7,28 +7,6 @@ import (
 	"main.go/usermgm/storage"
 )
 
-//doctor login by user table
-const getDoctorByUsernameQuery=`SELECT *  
-FROM users
-WHERE
-username = $1
-AND
-role ='doctor'
-AND
-is_active = true
-AND
-deleted_at IS NULL`
-func (s PostGressStorage) GetDoctorByUsername(username string) (*storage.User, error) {
-	var listUser storage.User
-	if err := s.DB.Get(&listUser,getDoctorByUsernameQuery,username); err != nil {
-		return nil, err
-	}
-	if listUser.ID == 0 {
-     return nil,fmt.Errorf("unable to find username")
-	}
-	return &listUser, nil
-}
-
 //register doctor details into doctor table
 const registerDoctordatailsQuery = `INSERT INTO doctordetails (
 	userid,

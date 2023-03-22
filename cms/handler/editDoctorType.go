@@ -45,11 +45,9 @@ func (h Handler)EditDoctorType(w http.ResponseWriter, r *http.Request){
 func (h Handler) ParseEditDoctorTypeTemplate(w http.ResponseWriter, data any){
 	t := h.Templates.Lookup("editDoctorType.html")
 	if t == nil {
-		log.Fatal("can not look up editDoctorType.html template")
 		http.Error(w,"Internal Server Error",http.StatusInternalServerError)
 	}
 	if err := t.Execute(w, data); err != nil {
-		log.Fatal("can not look up editDoctorType.html template")
 		http.Error(w,"Internal Server Error",http.StatusInternalServerError)
 	}
 }

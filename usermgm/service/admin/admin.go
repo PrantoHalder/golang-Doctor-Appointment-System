@@ -10,7 +10,6 @@ import (
 
 type CoreAdmin interface {
 	RegisterAdmin(storage.Admin) (*storage.Admin, error)
-	GetAdminbyUsernameCore(storage.Login) (*storage.Admin, error)
 	RegisterDoctorAdminCore(storage.DoctorU) (*storage.DoctorU, error)
 	RegisterPatient(storage.User) (*storage.User, error)
 	EditAdminCore(storage.Edit) (*storage.Admin, error)
@@ -60,39 +59,6 @@ func (us AdminSvc) RegisterAdmin(ctx context.Context, r *adminpb.RegisterAdminRe
 			ID:        int32(u.ID),
 			FirstName: u.FirstName,
 			LastName:  u.LastName,
-			Username:  u.Username,
-			Email:     u.Email,
-			Role:      u.Role,
-		},
-	}, nil
-}
-
-
-
-//admin login
-func (us AdminSvc) AdminLogin(ctx context.Context, r *adminpb.AdminLoginRequest) (*adminpb.AdminLoginResponse, error) {
-	login := storage.Login{
-		Username: r.GetUsername(),
-		Password: r.GetPassword(),
-	}
-
-	if err := login.Validate(); err != nil {
-		fmt.Println("the error is in the serveice layer in Login after login.Validate()")
-		return nil, err
-	}
-
-	u, err := us.core.GetAdminbyUsernameCore(login)
-	if err != nil {
-		fmt.Println("the error is in the serveice layer in Login after us.core.GetStatusbyUsernameCore(login)")
-		return nil, err
-	}
-
-	return &adminpb.AdminLoginResponse{
-		User: &adminpb.User{
-			ID: int32(u.ID),
-			FirstName: u.FirstName,
-			LastName:  u.LastName,
-			IsActive:  u.Is_active,
 			Username:  u.Username,
 			Email:     u.Email,
 			Role:      u.Role,

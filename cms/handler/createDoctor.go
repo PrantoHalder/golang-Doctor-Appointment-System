@@ -2,7 +2,6 @@ package handler
 
 import (
 	"fmt"
-	"html/template"
 	"log"
 	"net/http"
 	"regexp"
@@ -66,12 +65,14 @@ func (h Handler) DoctorRegisterPost (w http.ResponseWriter, r *http.Request){
 	})
 	http.Redirect(w, r, fmt.Sprintln("/admin/showdoctor"), http.StatusSeeOther)
 }
-func (h Handler) ParseDoctorRegisterTemplates(w http.ResponseWriter,form DoctorRegisterLoadFrom) {
-	t,err := template.ParseFiles("assets/templates/createDoctor.html")
-	if err != nil{
-		fmt.Println("cannot load createDoctor.html template")
+func (h Handler)ParseDoctorRegisterTemplates(w http.ResponseWriter,data any){
+	t := h.Templates.Lookup("createDoctor.html")
+	if t == nil {
+		http.Error(w,"Internal Server Error",http.StatusInternalServerError)
 	}
-	t.Execute(w,form)
+	if err := t.Execute(w, data); err != nil {
+		http.Error(w,"Internal Server Error",http.StatusInternalServerError)
+	}
 }
 func (u DoctorCreate) ValidateDoctor() error {
 	return validation.ValidateStruct(&u, validation.Field(&u.FirstName,

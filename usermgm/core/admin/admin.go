@@ -8,7 +8,6 @@ import (
 )
 
 type AdminStore interface {
-	GetAdminByUsername(username string) (*storage.Admin, error)
 	RegisterAdmin(u storage.Admin) (*storage.Admin, error)
 	RegisterDoctorAdmin(u storage.DoctorU) (*storage.DoctorU, error)
 	RegisterPatient(storage.User) (*storage.User, error)
@@ -53,19 +52,6 @@ func (cu CoreAdmin) RegisterAdmin(u storage.Admin) (*storage.Admin, error) {
 		return nil, fmt.Errorf("enable to register")
 	}
 	return ru, nil
-}
-//admin login
-func (cu CoreAdmin) GetAdminbyUsernameCore(login storage.Login) (*storage.Admin, error){
-    user,err := cu.store.GetAdminByUsername(login.Username) 
-	if err != nil {
-		fmt.Println("the error is in the core layer in GetStatusbyUsernameCore after cu.store.GetUserByUsername(login) ")
-		return nil, err
-	}
-	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(login.Password)); err != nil{
-		fmt.Println("the error is in the core layer in GetStatusbyUsernameCore after bcrypt.CompareHashAndPassword ")
-		return nil, err
-	}
-	return user,nil
 }
 //doctor register by admin
 func (cu CoreAdmin) RegisterDoctorAdminCore(u storage.DoctorU) (*storage.DoctorU, error) {

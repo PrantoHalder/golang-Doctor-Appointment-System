@@ -3,7 +3,6 @@ package doctorpb
 import "time"
 
 type DoctorService interface {
-	DoctorLogin(DoctorLoginRequest) DoctorLoginResponse
 	RegisterDoctorDetails(RegisterDoctorDetailsRequest) RegisterDoctorDetailsResponse
 	DoctorScheduleRegister(DoctorScheduleRegisterRequest) DoctorScheduleRegisterResponse
 	DoctorScheduleEdit(DoctorScheduleEditRequest) DoctorScheduleEditResponse
@@ -142,15 +141,6 @@ type DoctorListResponse struct {
 	User []User `pb:"1"`
 }
 
-//doctor login request by user table
-type DoctorLoginRequest struct {
-	Username string `pb:"1"`
-	Password string `pb:"2"`
-}
-//doctor login response by user table
-type DoctorLoginResponse struct {
-	User User `pb:"1"`
-}
 //doctor register request
 type RegisterDoctorDetailsRequest struct {
     UserID        int    `pb:"1"`

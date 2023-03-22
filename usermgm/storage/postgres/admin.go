@@ -72,30 +72,6 @@ func(s PostGressStorage) RegisterDoctorAdmin(u storage.DoctorU) (*storage.Doctor
 	}
 	return &u, nil
 }
-
-//admin login
-const getAdminByUsernameQuery=`SELECT *  
-FROM users
-WHERE
-username = $1
-AND
-role ='admin'
-AND
-is_active = true
-AND
-deleted_at IS NULL`
-func (s PostGressStorage) GetAdminByUsername(username string) (*storage.Admin, error) {
-	var listUser storage.Admin
-	if err := s.DB.Get(&listUser,getAdminByUsernameQuery,username); err != nil {
-		log.Println("error is in the query section of usermgm login section")
-		return nil, err
-	}
-	if listUser.ID == 0 {
-	 log.Println("error is in the query section of usermgm ID==0 admin login section")
-     return nil,fmt.Errorf("unable to find username")
-	}
-	return &listUser, nil
-}
 //user register by admin
 const registerpatientByAdminQuery = `INSERT INTO users (
 	first_name,

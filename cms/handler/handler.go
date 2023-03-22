@@ -16,6 +16,7 @@ import (
 	adminpb "main.go/gunk/v1/admin"
 	doctorpb "main.go/gunk/v1/doctor"
 	doctortypepb "main.go/gunk/v1/doctortype"
+	loginpb "main.go/gunk/v1/login"
 	userpb "main.go/gunk/v1/user"
 )
 
@@ -33,6 +34,7 @@ type usermgmService struct {
 	adminpb.AdminServiceClient
 	doctorpb.DoctorServiceClient
 	doctortypepb.DoctorTypeServiceClient
+	loginpb.LoginServiceClient
 }
 
 func NewHandler(sm *scs.SessionManager, formDecoder *form.Decoder, usermgmConn *grpc.ClientConn, staticFiles, templateFiles fs.FS) *chi.Mux {
@@ -43,7 +45,7 @@ func NewHandler(sm *scs.SessionManager, formDecoder *form.Decoder, usermgmConn *
 			                           adminpb.NewAdminServiceClient(usermgmConn),
 			                           doctorpb.NewDoctorServiceClient(usermgmConn),
 									   doctortypepb.NewDoctorTypeServiceClient(usermgmConn),
-		                              },
+		                               loginpb.NewLoginServiceClient(usermgmConn),},
 		staticFiles:   staticFiles,
 		templateFiles: templateFiles,
 	}
@@ -74,9 +76,10 @@ func NewHandler(sm *scs.SessionManager, formDecoder *form.Decoder, usermgmConn *
 	r.Route("/patients", func(r chi.Router) {
 		r.Use(sm.LoadAndSave)
 		r.Use(h.Authentication)
-		r.Get("/home", h.PatientHome)
-		r.Get("/showdoctortype", h.ShowDoctorType)
+		r.Get("/{id:[0-9]+}/home", h.PatientHome)
+		r.Get("/{id:[0-9]+}/showdoctortype", h.ShowDoctorType)
 		r.Get("/{id:[0-9]+}/showAppointmentstatus",h.AppointmentStatus)
+		r.Get("/{id:[0-9]+}/fixAppointment",h.FixAppointment)
 		r.Get("/{id:[0-9]+}/searcdoctors", h.ShowDoctorPatient)
 		r.Get("/logout", h.LogoutPatienthandler)
 	})

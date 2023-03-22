@@ -789,110 +789,6 @@ func (x *RegisterAdminResponse) GetUser() *User {
 	return nil
 }
 
-// admin login request
-type AdminLoginRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Username string `protobuf:"bytes,1,opt,name=Username,proto3" json:"Username,omitempty"`
-	Password string `protobuf:"bytes,2,opt,name=Password,proto3" json:"Password,omitempty"`
-}
-
-func (x *AdminLoginRequest) Reset() {
-	*x = AdminLoginRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[12]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *AdminLoginRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*AdminLoginRequest) ProtoMessage() {}
-
-func (x *AdminLoginRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[12]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use AdminLoginRequest.ProtoReflect.Descriptor instead.
-func (*AdminLoginRequest) Descriptor() ([]byte, []int) {
-	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{12}
-}
-
-func (x *AdminLoginRequest) GetUsername() string {
-	if x != nil {
-		return x.Username
-	}
-	return ""
-}
-
-func (x *AdminLoginRequest) GetPassword() string {
-	if x != nil {
-		return x.Password
-	}
-	return ""
-}
-
-// amin login response
-type AdminLoginResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	User *User `protobuf:"bytes,1,opt,name=User,proto3" json:"User,omitempty"`
-}
-
-func (x *AdminLoginResponse) Reset() {
-	*x = AdminLoginResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[13]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *AdminLoginResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*AdminLoginResponse) ProtoMessage() {}
-
-func (x *AdminLoginResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[13]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use AdminLoginResponse.ProtoReflect.Descriptor instead.
-func (*AdminLoginResponse) Descriptor() ([]byte, []int) {
-	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{13}
-}
-
-func (x *AdminLoginResponse) GetUser() *User {
-	if x != nil {
-		return x.User
-	}
-	return nil
-}
-
 // docter added by admin request
 type RegisterDoctorAdminRequest struct {
 	state         protoimpl.MessageState
@@ -910,7 +806,7 @@ type RegisterDoctorAdminRequest struct {
 func (x *RegisterDoctorAdminRequest) Reset() {
 	*x = RegisterDoctorAdminRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[14]
+		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[12]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -923,7 +819,7 @@ func (x *RegisterDoctorAdminRequest) String() string {
 func (*RegisterDoctorAdminRequest) ProtoMessage() {}
 
 func (x *RegisterDoctorAdminRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[14]
+	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[12]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -936,7 +832,7 @@ func (x *RegisterDoctorAdminRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RegisterDoctorAdminRequest.ProtoReflect.Descriptor instead.
 func (*RegisterDoctorAdminRequest) Descriptor() ([]byte, []int) {
-	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{14}
+	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{12}
 }
 
 func (x *RegisterDoctorAdminRequest) GetFirstName() string {
@@ -993,7 +889,7 @@ type RegisterDoctorAdminResponse struct {
 func (x *RegisterDoctorAdminResponse) Reset() {
 	*x = RegisterDoctorAdminResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[15]
+		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[13]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1006,7 +902,7 @@ func (x *RegisterDoctorAdminResponse) String() string {
 func (*RegisterDoctorAdminResponse) ProtoMessage() {}
 
 func (x *RegisterDoctorAdminResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[15]
+	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[13]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1019,7 +915,7 @@ func (x *RegisterDoctorAdminResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RegisterDoctorAdminResponse.ProtoReflect.Descriptor instead.
 func (*RegisterDoctorAdminResponse) Descriptor() ([]byte, []int) {
-	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{15}
+	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{13}
 }
 
 func (x *RegisterDoctorAdminResponse) GetUser() *User {
@@ -1046,7 +942,7 @@ type RegisterPatientRequest struct {
 func (x *RegisterPatientRequest) Reset() {
 	*x = RegisterPatientRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[16]
+		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1059,7 +955,7 @@ func (x *RegisterPatientRequest) String() string {
 func (*RegisterPatientRequest) ProtoMessage() {}
 
 func (x *RegisterPatientRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[16]
+	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1072,7 +968,7 @@ func (x *RegisterPatientRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RegisterPatientRequest.ProtoReflect.Descriptor instead.
 func (*RegisterPatientRequest) Descriptor() ([]byte, []int) {
-	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{16}
+	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{14}
 }
 
 func (x *RegisterPatientRequest) GetFirstName() string {
@@ -1129,7 +1025,7 @@ type RegisterPatientResponse struct {
 func (x *RegisterPatientResponse) Reset() {
 	*x = RegisterPatientResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[17]
+		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[15]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1142,7 +1038,7 @@ func (x *RegisterPatientResponse) String() string {
 func (*RegisterPatientResponse) ProtoMessage() {}
 
 func (x *RegisterPatientResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[17]
+	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[15]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1155,7 +1051,7 @@ func (x *RegisterPatientResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use RegisterPatientResponse.ProtoReflect.Descriptor instead.
 func (*RegisterPatientResponse) Descriptor() ([]byte, []int) {
-	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{17}
+	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *RegisterPatientResponse) GetUser() *User {
@@ -1177,7 +1073,7 @@ type AdminEditRequest struct {
 func (x *AdminEditRequest) Reset() {
 	*x = AdminEditRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[18]
+		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[16]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1190,7 +1086,7 @@ func (x *AdminEditRequest) String() string {
 func (*AdminEditRequest) ProtoMessage() {}
 
 func (x *AdminEditRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[18]
+	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[16]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1203,7 +1099,7 @@ func (x *AdminEditRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AdminEditRequest.ProtoReflect.Descriptor instead.
 func (*AdminEditRequest) Descriptor() ([]byte, []int) {
-	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{18}
+	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *AdminEditRequest) GetID() int32 {
@@ -1225,7 +1121,7 @@ type AdminEditResponse struct {
 func (x *AdminEditResponse) Reset() {
 	*x = AdminEditResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[19]
+		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[17]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1238,7 +1134,7 @@ func (x *AdminEditResponse) String() string {
 func (*AdminEditResponse) ProtoMessage() {}
 
 func (x *AdminEditResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[19]
+	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[17]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1251,7 +1147,7 @@ func (x *AdminEditResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AdminEditResponse.ProtoReflect.Descriptor instead.
 func (*AdminEditResponse) Descriptor() ([]byte, []int) {
-	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{19}
+	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *AdminEditResponse) GetUser() *Edit {
@@ -1277,7 +1173,7 @@ type AdminUpdateRequest struct {
 func (x *AdminUpdateRequest) Reset() {
 	*x = AdminUpdateRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[20]
+		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[18]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1290,7 +1186,7 @@ func (x *AdminUpdateRequest) String() string {
 func (*AdminUpdateRequest) ProtoMessage() {}
 
 func (x *AdminUpdateRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[20]
+	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[18]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1303,7 +1199,7 @@ func (x *AdminUpdateRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AdminUpdateRequest.ProtoReflect.Descriptor instead.
 func (*AdminUpdateRequest) Descriptor() ([]byte, []int) {
-	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{20}
+	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *AdminUpdateRequest) GetID() int32 {
@@ -1353,7 +1249,7 @@ type AdminUpdateResponse struct {
 func (x *AdminUpdateResponse) Reset() {
 	*x = AdminUpdateResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[21]
+		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[19]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1366,7 +1262,7 @@ func (x *AdminUpdateResponse) String() string {
 func (*AdminUpdateResponse) ProtoMessage() {}
 
 func (x *AdminUpdateResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[21]
+	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[19]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1379,7 +1275,7 @@ func (x *AdminUpdateResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AdminUpdateResponse.ProtoReflect.Descriptor instead.
 func (*AdminUpdateResponse) Descriptor() ([]byte, []int) {
-	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{21}
+	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *AdminUpdateResponse) GetUser() *Update {
@@ -1401,7 +1297,7 @@ type AdminDeleteRequest struct {
 func (x *AdminDeleteRequest) Reset() {
 	*x = AdminDeleteRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[22]
+		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[20]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1414,7 +1310,7 @@ func (x *AdminDeleteRequest) String() string {
 func (*AdminDeleteRequest) ProtoMessage() {}
 
 func (x *AdminDeleteRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[22]
+	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[20]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1427,7 +1323,7 @@ func (x *AdminDeleteRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AdminDeleteRequest.ProtoReflect.Descriptor instead.
 func (*AdminDeleteRequest) Descriptor() ([]byte, []int) {
-	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{22}
+	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{20}
 }
 
 func (x *AdminDeleteRequest) GetID() int32 {
@@ -1447,7 +1343,7 @@ type AdminDeleteResponse struct {
 func (x *AdminDeleteResponse) Reset() {
 	*x = AdminDeleteResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[23]
+		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[21]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1460,7 +1356,7 @@ func (x *AdminDeleteResponse) String() string {
 func (*AdminDeleteResponse) ProtoMessage() {}
 
 func (x *AdminDeleteResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[23]
+	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[21]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1473,7 +1369,7 @@ func (x *AdminDeleteResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use AdminDeleteResponse.ProtoReflect.Descriptor instead.
 func (*AdminDeleteResponse) Descriptor() ([]byte, []int) {
-	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{23}
+	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{21}
 }
 
 // edit doctor request
@@ -1488,7 +1384,7 @@ type EditDoctorAdminRequest struct {
 func (x *EditDoctorAdminRequest) Reset() {
 	*x = EditDoctorAdminRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[24]
+		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[22]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1501,7 +1397,7 @@ func (x *EditDoctorAdminRequest) String() string {
 func (*EditDoctorAdminRequest) ProtoMessage() {}
 
 func (x *EditDoctorAdminRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[24]
+	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[22]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1514,7 +1410,7 @@ func (x *EditDoctorAdminRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EditDoctorAdminRequest.ProtoReflect.Descriptor instead.
 func (*EditDoctorAdminRequest) Descriptor() ([]byte, []int) {
-	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{24}
+	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{22}
 }
 
 func (x *EditDoctorAdminRequest) GetID() int32 {
@@ -1536,7 +1432,7 @@ type EditDoctorAdminResponse struct {
 func (x *EditDoctorAdminResponse) Reset() {
 	*x = EditDoctorAdminResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[25]
+		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[23]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1549,7 +1445,7 @@ func (x *EditDoctorAdminResponse) String() string {
 func (*EditDoctorAdminResponse) ProtoMessage() {}
 
 func (x *EditDoctorAdminResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[25]
+	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[23]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1562,7 +1458,7 @@ func (x *EditDoctorAdminResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EditDoctorAdminResponse.ProtoReflect.Descriptor instead.
 func (*EditDoctorAdminResponse) Descriptor() ([]byte, []int) {
-	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{25}
+	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{23}
 }
 
 func (x *EditDoctorAdminResponse) GetUser() *Edit {
@@ -1588,7 +1484,7 @@ type UpdateDoctorAdminRequest struct {
 func (x *UpdateDoctorAdminRequest) Reset() {
 	*x = UpdateDoctorAdminRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[26]
+		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[24]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1601,7 +1497,7 @@ func (x *UpdateDoctorAdminRequest) String() string {
 func (*UpdateDoctorAdminRequest) ProtoMessage() {}
 
 func (x *UpdateDoctorAdminRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[26]
+	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[24]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1614,7 +1510,7 @@ func (x *UpdateDoctorAdminRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateDoctorAdminRequest.ProtoReflect.Descriptor instead.
 func (*UpdateDoctorAdminRequest) Descriptor() ([]byte, []int) {
-	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{26}
+	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{24}
 }
 
 func (x *UpdateDoctorAdminRequest) GetID() int32 {
@@ -1664,7 +1560,7 @@ type UpdateDoctorAdminResponse struct {
 func (x *UpdateDoctorAdminResponse) Reset() {
 	*x = UpdateDoctorAdminResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[27]
+		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[25]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1677,7 +1573,7 @@ func (x *UpdateDoctorAdminResponse) String() string {
 func (*UpdateDoctorAdminResponse) ProtoMessage() {}
 
 func (x *UpdateDoctorAdminResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[27]
+	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[25]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1690,7 +1586,7 @@ func (x *UpdateDoctorAdminResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateDoctorAdminResponse.ProtoReflect.Descriptor instead.
 func (*UpdateDoctorAdminResponse) Descriptor() ([]byte, []int) {
-	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{27}
+	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{25}
 }
 
 func (x *UpdateDoctorAdminResponse) GetUser() *Update {
@@ -1712,7 +1608,7 @@ type DeleteAdminByIDRequest struct {
 func (x *DeleteAdminByIDRequest) Reset() {
 	*x = DeleteAdminByIDRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[28]
+		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[26]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1725,7 +1621,7 @@ func (x *DeleteAdminByIDRequest) String() string {
 func (*DeleteAdminByIDRequest) ProtoMessage() {}
 
 func (x *DeleteAdminByIDRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[28]
+	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[26]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1738,7 +1634,7 @@ func (x *DeleteAdminByIDRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteAdminByIDRequest.ProtoReflect.Descriptor instead.
 func (*DeleteAdminByIDRequest) Descriptor() ([]byte, []int) {
-	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{28}
+	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{26}
 }
 
 func (x *DeleteAdminByIDRequest) GetID() int32 {
@@ -1758,7 +1654,7 @@ type DeleteAdminByIDResponse struct {
 func (x *DeleteAdminByIDResponse) Reset() {
 	*x = DeleteAdminByIDResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[29]
+		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[27]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1771,7 +1667,7 @@ func (x *DeleteAdminByIDResponse) String() string {
 func (*DeleteAdminByIDResponse) ProtoMessage() {}
 
 func (x *DeleteAdminByIDResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[29]
+	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[27]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1784,7 +1680,7 @@ func (x *DeleteAdminByIDResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeleteAdminByIDResponse.ProtoReflect.Descriptor instead.
 func (*DeleteAdminByIDResponse) Descriptor() ([]byte, []int) {
-	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{29}
+	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{27}
 }
 
 // edit patient request
@@ -1799,7 +1695,7 @@ type EditPatientRequest struct {
 func (x *EditPatientRequest) Reset() {
 	*x = EditPatientRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[30]
+		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[28]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1812,7 +1708,7 @@ func (x *EditPatientRequest) String() string {
 func (*EditPatientRequest) ProtoMessage() {}
 
 func (x *EditPatientRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[30]
+	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[28]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1825,7 +1721,7 @@ func (x *EditPatientRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EditPatientRequest.ProtoReflect.Descriptor instead.
 func (*EditPatientRequest) Descriptor() ([]byte, []int) {
-	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{30}
+	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{28}
 }
 
 func (x *EditPatientRequest) GetID() int32 {
@@ -1847,7 +1743,7 @@ type EditPatientResponse struct {
 func (x *EditPatientResponse) Reset() {
 	*x = EditPatientResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[31]
+		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[29]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1860,7 +1756,7 @@ func (x *EditPatientResponse) String() string {
 func (*EditPatientResponse) ProtoMessage() {}
 
 func (x *EditPatientResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[31]
+	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[29]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1873,7 +1769,7 @@ func (x *EditPatientResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use EditPatientResponse.ProtoReflect.Descriptor instead.
 func (*EditPatientResponse) Descriptor() ([]byte, []int) {
-	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{31}
+	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{29}
 }
 
 func (x *EditPatientResponse) GetUser() *Edit {
@@ -1899,7 +1795,7 @@ type UpdatePatientRequest struct {
 func (x *UpdatePatientRequest) Reset() {
 	*x = UpdatePatientRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[32]
+		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[30]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1912,7 +1808,7 @@ func (x *UpdatePatientRequest) String() string {
 func (*UpdatePatientRequest) ProtoMessage() {}
 
 func (x *UpdatePatientRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[32]
+	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[30]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1925,7 +1821,7 @@ func (x *UpdatePatientRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdatePatientRequest.ProtoReflect.Descriptor instead.
 func (*UpdatePatientRequest) Descriptor() ([]byte, []int) {
-	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{32}
+	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{30}
 }
 
 func (x *UpdatePatientRequest) GetID() int32 {
@@ -1975,7 +1871,7 @@ type UpdatePatientResponse struct {
 func (x *UpdatePatientResponse) Reset() {
 	*x = UpdatePatientResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[33]
+		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[31]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -1988,7 +1884,7 @@ func (x *UpdatePatientResponse) String() string {
 func (*UpdatePatientResponse) ProtoMessage() {}
 
 func (x *UpdatePatientResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[33]
+	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[31]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2001,7 +1897,7 @@ func (x *UpdatePatientResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdatePatientResponse.ProtoReflect.Descriptor instead.
 func (*UpdatePatientResponse) Descriptor() ([]byte, []int) {
-	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{33}
+	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{31}
 }
 
 func (x *UpdatePatientResponse) GetUser() *Update {
@@ -2023,7 +1919,7 @@ type DeletePatientRequest struct {
 func (x *DeletePatientRequest) Reset() {
 	*x = DeletePatientRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[34]
+		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[32]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2036,7 +1932,7 @@ func (x *DeletePatientRequest) String() string {
 func (*DeletePatientRequest) ProtoMessage() {}
 
 func (x *DeletePatientRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[34]
+	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[32]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2049,7 +1945,7 @@ func (x *DeletePatientRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeletePatientRequest.ProtoReflect.Descriptor instead.
 func (*DeletePatientRequest) Descriptor() ([]byte, []int) {
-	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{34}
+	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{32}
 }
 
 func (x *DeletePatientRequest) GetID() int32 {
@@ -2069,7 +1965,7 @@ type DeletePatientResponse struct {
 func (x *DeletePatientResponse) Reset() {
 	*x = DeletePatientResponse{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[35]
+		mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[33]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -2082,7 +1978,7 @@ func (x *DeletePatientResponse) String() string {
 func (*DeletePatientResponse) ProtoMessage() {}
 
 func (x *DeletePatientResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[35]
+	mi := &file_main_go_gunk_v1_admin_all_proto_msgTypes[33]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -2095,7 +1991,7 @@ func (x *DeletePatientResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use DeletePatientResponse.ProtoReflect.Descriptor instead.
 func (*DeletePatientResponse) Descriptor() ([]byte, []int) {
-	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{35}
+	return file_main_go_gunk_v1_admin_all_proto_rawDescGZIP(), []int{33}
 }
 
 var File_main_go_gunk_v1_admin_all_proto protoreflect.FileDescriptor
@@ -2188,16 +2084,6 @@ var file_main_go_gunk_v1_admin_all_proto_rawDesc = []byte{
 	0x06, 0x20, 0x01, 0x28, 0x09, 0x42, 0x0a, 0x08, 0x00, 0x18, 0x00, 0x28, 0x00, 0x30, 0x00, 0x50,
 	0x00, 0x3a, 0x06, 0x08, 0x00, 0x10, 0x00, 0x18, 0x00, 0x22, 0x48, 0x0a, 0x15, 0x52, 0x65, 0x67,
 	0x69, 0x73, 0x74, 0x65, 0x72, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
-	0x73, 0x65, 0x12, 0x27, 0x0a, 0x04, 0x55, 0x73, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b,
-	0x32, 0x0d, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x42,
-	0x0a, 0x08, 0x00, 0x18, 0x00, 0x28, 0x00, 0x30, 0x00, 0x50, 0x00, 0x3a, 0x06, 0x08, 0x00, 0x10,
-	0x00, 0x18, 0x00, 0x22, 0x57, 0x0a, 0x11, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4c, 0x6f, 0x67, 0x69,
-	0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x1c, 0x0a, 0x08, 0x55, 0x73, 0x65, 0x72,
-	0x6e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x0a, 0x08, 0x00, 0x18, 0x00,
-	0x28, 0x00, 0x30, 0x00, 0x50, 0x00, 0x12, 0x1c, 0x0a, 0x08, 0x50, 0x61, 0x73, 0x73, 0x77, 0x6f,
-	0x72, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x42, 0x0a, 0x08, 0x00, 0x18, 0x00, 0x28, 0x00,
-	0x30, 0x00, 0x50, 0x00, 0x3a, 0x06, 0x08, 0x00, 0x10, 0x00, 0x18, 0x00, 0x22, 0x45, 0x0a, 0x12,
-	0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
 	0x73, 0x65, 0x12, 0x27, 0x0a, 0x04, 0x55, 0x73, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x0b,
 	0x32, 0x0d, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x42,
 	0x0a, 0x08, 0x00, 0x18, 0x00, 0x28, 0x00, 0x30, 0x00, 0x50, 0x00, 0x3a, 0x06, 0x08, 0x00, 0x10,
@@ -2325,105 +2211,100 @@ var file_main_go_gunk_v1_admin_all_proto_rawDesc = []byte{
 	0x05, 0x42, 0x0a, 0x08, 0x00, 0x18, 0x00, 0x28, 0x00, 0x30, 0x00, 0x50, 0x00, 0x3a, 0x06, 0x08,
 	0x00, 0x10, 0x00, 0x18, 0x00, 0x22, 0x1f, 0x0a, 0x15, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x50,
 	0x61, 0x74, 0x69, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x3a, 0x06,
-	0x08, 0x00, 0x10, 0x00, 0x18, 0x00, 0x32, 0xe3, 0x0b, 0x0a, 0x0c, 0x41, 0x64, 0x6d, 0x69, 0x6e,
+	0x08, 0x00, 0x10, 0x00, 0x18, 0x00, 0x32, 0x90, 0x0b, 0x0a, 0x0c, 0x41, 0x64, 0x6d, 0x69, 0x6e,
 	0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x5a, 0x0a, 0x0d, 0x52, 0x65, 0x67, 0x69, 0x73,
 	0x74, 0x65, 0x72, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x12, 0x1d, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e,
 	0x70, 0x62, 0x2e, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x41, 0x64, 0x6d, 0x69, 0x6e,
 	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1e, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70,
 	0x62, 0x2e, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x52,
 	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x06, 0x88, 0x02, 0x00, 0x90, 0x02, 0x00, 0x28,
-	0x00, 0x30, 0x00, 0x12, 0x51, 0x0a, 0x0a, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4c, 0x6f, 0x67, 0x69,
-	0x6e, 0x12, 0x1a, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x41, 0x64, 0x6d, 0x69,
-	0x6e, 0x4c, 0x6f, 0x67, 0x69, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1b, 0x2e,
-	0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4c, 0x6f, 0x67,
-	0x69, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x06, 0x88, 0x02, 0x00, 0x90,
-	0x02, 0x00, 0x28, 0x00, 0x30, 0x00, 0x12, 0x4e, 0x0a, 0x09, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4c,
-	0x69, 0x73, 0x74, 0x12, 0x19, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x41, 0x64,
-	0x6d, 0x69, 0x6e, 0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1a,
-	0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4c, 0x69,
-	0x73, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x06, 0x88, 0x02, 0x00, 0x90,
-	0x02, 0x00, 0x28, 0x00, 0x30, 0x00, 0x12, 0x4e, 0x0a, 0x09, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x45,
-	0x64, 0x69, 0x74, 0x12, 0x19, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x41, 0x64,
-	0x6d, 0x69, 0x6e, 0x45, 0x64, 0x69, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1a,
-	0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x45, 0x64,
-	0x69, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x06, 0x88, 0x02, 0x00, 0x90,
-	0x02, 0x00, 0x28, 0x00, 0x30, 0x00, 0x12, 0x54, 0x0a, 0x0b, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x55,
-	0x70, 0x64, 0x61, 0x74, 0x65, 0x12, 0x1b, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e,
-	0x41, 0x64, 0x6d, 0x69, 0x6e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x1a, 0x1c, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x41, 0x64, 0x6d,
-	0x69, 0x6e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x22, 0x06, 0x88, 0x02, 0x00, 0x90, 0x02, 0x00, 0x28, 0x00, 0x30, 0x00, 0x12, 0x54, 0x0a, 0x0b,
-	0x41, 0x64, 0x6d, 0x69, 0x6e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x12, 0x1b, 0x2e, 0x61, 0x64,
-	0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x44, 0x65, 0x6c, 0x65, 0x74,
-	0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1c, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e,
+	0x00, 0x30, 0x00, 0x12, 0x4e, 0x0a, 0x09, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4c, 0x69, 0x73, 0x74,
+	0x12, 0x19, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x41, 0x64, 0x6d, 0x69, 0x6e,
+	0x4c, 0x69, 0x73, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1a, 0x2e, 0x61, 0x64,
+	0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x4c, 0x69, 0x73, 0x74, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x06, 0x88, 0x02, 0x00, 0x90, 0x02, 0x00, 0x28,
+	0x00, 0x30, 0x00, 0x12, 0x4e, 0x0a, 0x09, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x45, 0x64, 0x69, 0x74,
+	0x12, 0x19, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x41, 0x64, 0x6d, 0x69, 0x6e,
+	0x45, 0x64, 0x69, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1a, 0x2e, 0x61, 0x64,
+	0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x45, 0x64, 0x69, 0x74, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x06, 0x88, 0x02, 0x00, 0x90, 0x02, 0x00, 0x28,
+	0x00, 0x30, 0x00, 0x12, 0x54, 0x0a, 0x0b, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x55, 0x70, 0x64, 0x61,
+	0x74, 0x65, 0x12, 0x1b, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x41, 0x64, 0x6d,
+	0x69, 0x6e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
+	0x1c, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x55,
+	0x70, 0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x06, 0x88,
+	0x02, 0x00, 0x90, 0x02, 0x00, 0x28, 0x00, 0x30, 0x00, 0x12, 0x54, 0x0a, 0x0b, 0x41, 0x64, 0x6d,
+	0x69, 0x6e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x12, 0x1b, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e,
 	0x70, 0x62, 0x2e, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x06, 0x88, 0x02, 0x00, 0x90, 0x02, 0x00, 0x28, 0x00,
-	0x30, 0x00, 0x12, 0x6c, 0x0a, 0x13, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x44, 0x6f,
-	0x63, 0x74, 0x6f, 0x72, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x12, 0x23, 0x2e, 0x61, 0x64, 0x6d, 0x69,
-	0x6e, 0x70, 0x62, 0x2e, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x44, 0x6f, 0x63, 0x74,
-	0x6f, 0x72, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x24,
-	0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65,
-	0x72, 0x44, 0x6f, 0x63, 0x74, 0x6f, 0x72, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x52, 0x65, 0x73, 0x70,
-	0x6f, 0x6e, 0x73, 0x65, 0x22, 0x06, 0x88, 0x02, 0x00, 0x90, 0x02, 0x00, 0x28, 0x00, 0x30, 0x00,
-	0x12, 0x60, 0x0a, 0x0f, 0x45, 0x64, 0x69, 0x74, 0x44, 0x6f, 0x63, 0x74, 0x6f, 0x72, 0x41, 0x64,
-	0x6d, 0x69, 0x6e, 0x12, 0x1f, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x45, 0x64,
-	0x69, 0x74, 0x44, 0x6f, 0x63, 0x74, 0x6f, 0x72, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x52, 0x65, 0x71,
-	0x75, 0x65, 0x73, 0x74, 0x1a, 0x20, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x45,
-	0x64, 0x69, 0x74, 0x44, 0x6f, 0x63, 0x74, 0x6f, 0x72, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x06, 0x88, 0x02, 0x00, 0x90, 0x02, 0x00, 0x28, 0x00,
-	0x30, 0x00, 0x12, 0x66, 0x0a, 0x11, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x44, 0x6f, 0x63, 0x74,
-	0x6f, 0x72, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x12, 0x21, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70,
-	0x62, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x44, 0x6f, 0x63, 0x74, 0x6f, 0x72, 0x41, 0x64,
-	0x6d, 0x69, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x22, 0x2e, 0x61, 0x64, 0x6d,
-	0x69, 0x6e, 0x70, 0x62, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x44, 0x6f, 0x63, 0x74, 0x6f,
-	0x72, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x06,
-	0x88, 0x02, 0x00, 0x90, 0x02, 0x00, 0x28, 0x00, 0x30, 0x00, 0x12, 0x61, 0x0a, 0x10, 0x44, 0x65,
-	0x6c, 0x65, 0x74, 0x65, 0x44, 0x6f, 0x63, 0x74, 0x6f, 0x72, 0x42, 0x79, 0x49, 0x44, 0x12, 0x1f,
-	0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x41,
-	0x64, 0x6d, 0x69, 0x6e, 0x42, 0x79, 0x49, 0x44, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
-	0x20, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65,
-	0x41, 0x64, 0x6d, 0x69, 0x6e, 0x42, 0x79, 0x49, 0x44, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x22, 0x06, 0x88, 0x02, 0x00, 0x90, 0x02, 0x00, 0x28, 0x00, 0x30, 0x00, 0x12, 0x60, 0x0a,
-	0x0f, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x50, 0x61, 0x74, 0x69, 0x65, 0x6e, 0x74,
-	0x12, 0x1f, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x52, 0x65, 0x67, 0x69, 0x73,
-	0x74, 0x65, 0x72, 0x50, 0x61, 0x74, 0x69, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x1a, 0x20, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x52, 0x65, 0x67, 0x69,
-	0x73, 0x74, 0x65, 0x72, 0x50, 0x61, 0x74, 0x69, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1c, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e,
+	0x41, 0x64, 0x6d, 0x69, 0x6e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f,
 	0x6e, 0x73, 0x65, 0x22, 0x06, 0x88, 0x02, 0x00, 0x90, 0x02, 0x00, 0x28, 0x00, 0x30, 0x00, 0x12,
-	0x54, 0x0a, 0x0b, 0x45, 0x64, 0x69, 0x74, 0x50, 0x61, 0x74, 0x69, 0x65, 0x6e, 0x74, 0x12, 0x1b,
-	0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x45, 0x64, 0x69, 0x74, 0x50, 0x61, 0x74,
-	0x69, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1c, 0x2e, 0x61, 0x64,
-	0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x45, 0x64, 0x69, 0x74, 0x50, 0x61, 0x74, 0x69, 0x65, 0x6e,
-	0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x06, 0x88, 0x02, 0x00, 0x90, 0x02,
-	0x00, 0x28, 0x00, 0x30, 0x00, 0x12, 0x5a, 0x0a, 0x0d, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50,
-	0x61, 0x74, 0x69, 0x65, 0x6e, 0x74, 0x12, 0x1d, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62,
-	0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x61, 0x74, 0x69, 0x65, 0x6e, 0x74, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1e, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e,
-	0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x61, 0x74, 0x69, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x06, 0x88, 0x02, 0x00, 0x90, 0x02, 0x00, 0x28, 0x00, 0x30,
-	0x00, 0x12, 0x5a, 0x0a, 0x0d, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x50, 0x61, 0x74, 0x69, 0x65,
-	0x6e, 0x74, 0x12, 0x1d, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x44, 0x65, 0x6c,
-	0x65, 0x74, 0x65, 0x50, 0x61, 0x74, 0x69, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x1a, 0x1e, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x44, 0x65, 0x6c, 0x65,
-	0x74, 0x65, 0x50, 0x61, 0x74, 0x69, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
+	0x6c, 0x0a, 0x13, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x44, 0x6f, 0x63, 0x74, 0x6f,
+	0x72, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x12, 0x23, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62,
+	0x2e, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x44, 0x6f, 0x63, 0x74, 0x6f, 0x72, 0x41,
+	0x64, 0x6d, 0x69, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x24, 0x2e, 0x61, 0x64,
+	0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x44, 0x6f,
+	0x63, 0x74, 0x6f, 0x72, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
 	0x65, 0x22, 0x06, 0x88, 0x02, 0x00, 0x90, 0x02, 0x00, 0x28, 0x00, 0x30, 0x00, 0x12, 0x60, 0x0a,
-	0x0f, 0x45, 0x64, 0x69, 0x74, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73,
-	0x12, 0x1f, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x45, 0x64, 0x69, 0x74, 0x41,
-	0x64, 0x6d, 0x69, 0x6e, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x0f, 0x45, 0x64, 0x69, 0x74, 0x44, 0x6f, 0x63, 0x74, 0x6f, 0x72, 0x41, 0x64, 0x6d, 0x69, 0x6e,
+	0x12, 0x1f, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x45, 0x64, 0x69, 0x74, 0x44,
+	0x6f, 0x63, 0x74, 0x6f, 0x72, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
 	0x74, 0x1a, 0x20, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x45, 0x64, 0x69, 0x74,
-	0x41, 0x64, 0x6d, 0x69, 0x6e, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x44, 0x6f, 0x63, 0x74, 0x6f, 0x72, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f,
 	0x6e, 0x73, 0x65, 0x22, 0x06, 0x88, 0x02, 0x00, 0x90, 0x02, 0x00, 0x28, 0x00, 0x30, 0x00, 0x12,
-	0x66, 0x0a, 0x11, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x53, 0x74,
-	0x61, 0x74, 0x75, 0x73, 0x12, 0x21, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x55,
-	0x70, 0x64, 0x61, 0x74, 0x65, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73,
+	0x66, 0x0a, 0x11, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x44, 0x6f, 0x63, 0x74, 0x6f, 0x72, 0x41,
+	0x64, 0x6d, 0x69, 0x6e, 0x12, 0x21, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x55,
+	0x70, 0x64, 0x61, 0x74, 0x65, 0x44, 0x6f, 0x63, 0x74, 0x6f, 0x72, 0x41, 0x64, 0x6d, 0x69, 0x6e,
 	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x22, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70,
-	0x62, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x53, 0x74, 0x61,
-	0x74, 0x75, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x06, 0x88, 0x02, 0x00,
-	0x90, 0x02, 0x00, 0x28, 0x00, 0x30, 0x00, 0x1a, 0x03, 0x88, 0x02, 0x00, 0x42, 0x38, 0x48, 0x01,
-	0x50, 0x00, 0x5a, 0x1d, 0x6d, 0x61, 0x69, 0x6e, 0x2e, 0x67, 0x6f, 0x2f, 0x67, 0x75, 0x6e, 0x6b,
-	0x2f, 0x76, 0x31, 0x2f, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x3b, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70,
-	0x62, 0x80, 0x01, 0x00, 0x88, 0x01, 0x00, 0x90, 0x01, 0x00, 0xb8, 0x01, 0x00, 0xd8, 0x01, 0x00,
-	0xf8, 0x01, 0x01, 0xd0, 0x02, 0x00, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x62, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x44, 0x6f, 0x63, 0x74, 0x6f, 0x72, 0x41, 0x64,
+	0x6d, 0x69, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x06, 0x88, 0x02, 0x00,
+	0x90, 0x02, 0x00, 0x28, 0x00, 0x30, 0x00, 0x12, 0x61, 0x0a, 0x10, 0x44, 0x65, 0x6c, 0x65, 0x74,
+	0x65, 0x44, 0x6f, 0x63, 0x74, 0x6f, 0x72, 0x42, 0x79, 0x49, 0x44, 0x12, 0x1f, 0x2e, 0x61, 0x64,
+	0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x41, 0x64, 0x6d, 0x69,
+	0x6e, 0x42, 0x79, 0x49, 0x44, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x20, 0x2e, 0x61,
+	0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x41, 0x64, 0x6d,
+	0x69, 0x6e, 0x42, 0x79, 0x49, 0x44, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x06,
+	0x88, 0x02, 0x00, 0x90, 0x02, 0x00, 0x28, 0x00, 0x30, 0x00, 0x12, 0x60, 0x0a, 0x0f, 0x52, 0x65,
+	0x67, 0x69, 0x73, 0x74, 0x65, 0x72, 0x50, 0x61, 0x74, 0x69, 0x65, 0x6e, 0x74, 0x12, 0x1f, 0x2e,
+	0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65, 0x72,
+	0x50, 0x61, 0x74, 0x69, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x20,
+	0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x52, 0x65, 0x67, 0x69, 0x73, 0x74, 0x65,
+	0x72, 0x50, 0x61, 0x74, 0x69, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x22, 0x06, 0x88, 0x02, 0x00, 0x90, 0x02, 0x00, 0x28, 0x00, 0x30, 0x00, 0x12, 0x54, 0x0a, 0x0b,
+	0x45, 0x64, 0x69, 0x74, 0x50, 0x61, 0x74, 0x69, 0x65, 0x6e, 0x74, 0x12, 0x1b, 0x2e, 0x61, 0x64,
+	0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x45, 0x64, 0x69, 0x74, 0x50, 0x61, 0x74, 0x69, 0x65, 0x6e,
+	0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1c, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e,
+	0x70, 0x62, 0x2e, 0x45, 0x64, 0x69, 0x74, 0x50, 0x61, 0x74, 0x69, 0x65, 0x6e, 0x74, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x06, 0x88, 0x02, 0x00, 0x90, 0x02, 0x00, 0x28, 0x00,
+	0x30, 0x00, 0x12, 0x5a, 0x0a, 0x0d, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x61, 0x74, 0x69,
+	0x65, 0x6e, 0x74, 0x12, 0x1d, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x55, 0x70,
+	0x64, 0x61, 0x74, 0x65, 0x50, 0x61, 0x74, 0x69, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65,
+	0x73, 0x74, 0x1a, 0x1e, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x55, 0x70, 0x64,
+	0x61, 0x74, 0x65, 0x50, 0x61, 0x74, 0x69, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
+	0x73, 0x65, 0x22, 0x06, 0x88, 0x02, 0x00, 0x90, 0x02, 0x00, 0x28, 0x00, 0x30, 0x00, 0x12, 0x5a,
+	0x0a, 0x0d, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x50, 0x61, 0x74, 0x69, 0x65, 0x6e, 0x74, 0x12,
+	0x1d, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65,
+	0x50, 0x61, 0x74, 0x69, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1e,
+	0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x44, 0x65, 0x6c, 0x65, 0x74, 0x65, 0x50,
+	0x61, 0x74, 0x69, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x06,
+	0x88, 0x02, 0x00, 0x90, 0x02, 0x00, 0x28, 0x00, 0x30, 0x00, 0x12, 0x60, 0x0a, 0x0f, 0x45, 0x64,
+	0x69, 0x74, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x1f, 0x2e,
+	0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x45, 0x64, 0x69, 0x74, 0x41, 0x64, 0x6d, 0x69,
+	0x6e, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x20,
+	0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x45, 0x64, 0x69, 0x74, 0x41, 0x64, 0x6d,
+	0x69, 0x6e, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x22, 0x06, 0x88, 0x02, 0x00, 0x90, 0x02, 0x00, 0x28, 0x00, 0x30, 0x00, 0x12, 0x66, 0x0a, 0x11,
+	0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x53, 0x74, 0x61, 0x74, 0x75,
+	0x73, 0x12, 0x21, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x55, 0x70, 0x64, 0x61,
+	0x74, 0x65, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x52, 0x65, 0x71,
+	0x75, 0x65, 0x73, 0x74, 0x1a, 0x22, 0x2e, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x2e, 0x55,
+	0x70, 0x64, 0x61, 0x74, 0x65, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73,
+	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x06, 0x88, 0x02, 0x00, 0x90, 0x02, 0x00,
+	0x28, 0x00, 0x30, 0x00, 0x1a, 0x03, 0x88, 0x02, 0x00, 0x42, 0x38, 0x48, 0x01, 0x50, 0x00, 0x5a,
+	0x1d, 0x6d, 0x61, 0x69, 0x6e, 0x2e, 0x67, 0x6f, 0x2f, 0x67, 0x75, 0x6e, 0x6b, 0x2f, 0x76, 0x31,
+	0x2f, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x3b, 0x61, 0x64, 0x6d, 0x69, 0x6e, 0x70, 0x62, 0x80, 0x01,
+	0x00, 0x88, 0x01, 0x00, 0x90, 0x01, 0x00, 0xb8, 0x01, 0x00, 0xd8, 0x01, 0x00, 0xf8, 0x01, 0x01,
+	0xd0, 0x02, 0x00, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -2439,7 +2320,7 @@ func file_main_go_gunk_v1_admin_all_proto_rawDescGZIP() []byte {
 }
 
 var (
-	file_main_go_gunk_v1_admin_all_proto_msgTypes = make([]protoimpl.MessageInfo, 36)
+	file_main_go_gunk_v1_admin_all_proto_msgTypes = make([]protoimpl.MessageInfo, 34)
 	file_main_go_gunk_v1_admin_all_proto_goTypes  = []interface{}{
 		(*DoctorDEtails)(nil),               // 0: adminpb.DoctorDEtails
 		(*Edit)(nil),                        // 1: adminpb.Edit
@@ -2453,82 +2334,77 @@ var (
 		(*AdminListResponse)(nil),           // 9: adminpb.AdminListResponse
 		(*RegisterAdminRequest)(nil),        // 10: adminpb.RegisterAdminRequest
 		(*RegisterAdminResponse)(nil),       // 11: adminpb.RegisterAdminResponse
-		(*AdminLoginRequest)(nil),           // 12: adminpb.AdminLoginRequest
-		(*AdminLoginResponse)(nil),          // 13: adminpb.AdminLoginResponse
-		(*RegisterDoctorAdminRequest)(nil),  // 14: adminpb.RegisterDoctorAdminRequest
-		(*RegisterDoctorAdminResponse)(nil), // 15: adminpb.RegisterDoctorAdminResponse
-		(*RegisterPatientRequest)(nil),      // 16: adminpb.RegisterPatientRequest
-		(*RegisterPatientResponse)(nil),     // 17: adminpb.RegisterPatientResponse
-		(*AdminEditRequest)(nil),            // 18: adminpb.AdminEditRequest
-		(*AdminEditResponse)(nil),           // 19: adminpb.AdminEditResponse
-		(*AdminUpdateRequest)(nil),          // 20: adminpb.AdminUpdateRequest
-		(*AdminUpdateResponse)(nil),         // 21: adminpb.AdminUpdateResponse
-		(*AdminDeleteRequest)(nil),          // 22: adminpb.AdminDeleteRequest
-		(*AdminDeleteResponse)(nil),         // 23: adminpb.AdminDeleteResponse
-		(*EditDoctorAdminRequest)(nil),      // 24: adminpb.EditDoctorAdminRequest
-		(*EditDoctorAdminResponse)(nil),     // 25: adminpb.EditDoctorAdminResponse
-		(*UpdateDoctorAdminRequest)(nil),    // 26: adminpb.UpdateDoctorAdminRequest
-		(*UpdateDoctorAdminResponse)(nil),   // 27: adminpb.UpdateDoctorAdminResponse
-		(*DeleteAdminByIDRequest)(nil),      // 28: adminpb.DeleteAdminByIDRequest
-		(*DeleteAdminByIDResponse)(nil),     // 29: adminpb.DeleteAdminByIDResponse
-		(*EditPatientRequest)(nil),          // 30: adminpb.EditPatientRequest
-		(*EditPatientResponse)(nil),         // 31: adminpb.EditPatientResponse
-		(*UpdatePatientRequest)(nil),        // 32: adminpb.UpdatePatientRequest
-		(*UpdatePatientResponse)(nil),       // 33: adminpb.UpdatePatientResponse
-		(*DeletePatientRequest)(nil),        // 34: adminpb.DeletePatientRequest
-		(*DeletePatientResponse)(nil),       // 35: adminpb.DeletePatientResponse
+		(*RegisterDoctorAdminRequest)(nil),  // 12: adminpb.RegisterDoctorAdminRequest
+		(*RegisterDoctorAdminResponse)(nil), // 13: adminpb.RegisterDoctorAdminResponse
+		(*RegisterPatientRequest)(nil),      // 14: adminpb.RegisterPatientRequest
+		(*RegisterPatientResponse)(nil),     // 15: adminpb.RegisterPatientResponse
+		(*AdminEditRequest)(nil),            // 16: adminpb.AdminEditRequest
+		(*AdminEditResponse)(nil),           // 17: adminpb.AdminEditResponse
+		(*AdminUpdateRequest)(nil),          // 18: adminpb.AdminUpdateRequest
+		(*AdminUpdateResponse)(nil),         // 19: adminpb.AdminUpdateResponse
+		(*AdminDeleteRequest)(nil),          // 20: adminpb.AdminDeleteRequest
+		(*AdminDeleteResponse)(nil),         // 21: adminpb.AdminDeleteResponse
+		(*EditDoctorAdminRequest)(nil),      // 22: adminpb.EditDoctorAdminRequest
+		(*EditDoctorAdminResponse)(nil),     // 23: adminpb.EditDoctorAdminResponse
+		(*UpdateDoctorAdminRequest)(nil),    // 24: adminpb.UpdateDoctorAdminRequest
+		(*UpdateDoctorAdminResponse)(nil),   // 25: adminpb.UpdateDoctorAdminResponse
+		(*DeleteAdminByIDRequest)(nil),      // 26: adminpb.DeleteAdminByIDRequest
+		(*DeleteAdminByIDResponse)(nil),     // 27: adminpb.DeleteAdminByIDResponse
+		(*EditPatientRequest)(nil),          // 28: adminpb.EditPatientRequest
+		(*EditPatientResponse)(nil),         // 29: adminpb.EditPatientResponse
+		(*UpdatePatientRequest)(nil),        // 30: adminpb.UpdatePatientRequest
+		(*UpdatePatientResponse)(nil),       // 31: adminpb.UpdatePatientResponse
+		(*DeletePatientRequest)(nil),        // 32: adminpb.DeletePatientRequest
+		(*DeletePatientResponse)(nil),       // 33: adminpb.DeletePatientResponse
 	}
 )
 
 var file_main_go_gunk_v1_admin_all_proto_depIdxs = []int32{
 	3,  // 0: adminpb.AdminListResponse.Users:type_name -> adminpb.User
 	3,  // 1: adminpb.RegisterAdminResponse.User:type_name -> adminpb.User
-	3,  // 2: adminpb.AdminLoginResponse.User:type_name -> adminpb.User
-	3,  // 3: adminpb.RegisterDoctorAdminResponse.User:type_name -> adminpb.User
-	3,  // 4: adminpb.RegisterPatientResponse.User:type_name -> adminpb.User
-	1,  // 5: adminpb.AdminEditResponse.User:type_name -> adminpb.Edit
-	2,  // 6: adminpb.AdminUpdateResponse.User:type_name -> adminpb.Update
-	1,  // 7: adminpb.EditDoctorAdminResponse.User:type_name -> adminpb.Edit
-	2,  // 8: adminpb.UpdateDoctorAdminResponse.User:type_name -> adminpb.Update
-	1,  // 9: adminpb.EditPatientResponse.User:type_name -> adminpb.Edit
-	2,  // 10: adminpb.UpdatePatientResponse.User:type_name -> adminpb.Update
-	10, // 11: adminpb.AdminService.RegisterAdmin:input_type -> adminpb.RegisterAdminRequest
-	12, // 12: adminpb.AdminService.AdminLogin:input_type -> adminpb.AdminLoginRequest
-	8,  // 13: adminpb.AdminService.AdminList:input_type -> adminpb.AdminListRequest
-	18, // 14: adminpb.AdminService.AdminEdit:input_type -> adminpb.AdminEditRequest
-	20, // 15: adminpb.AdminService.AdminUpdate:input_type -> adminpb.AdminUpdateRequest
-	22, // 16: adminpb.AdminService.AdminDelete:input_type -> adminpb.AdminDeleteRequest
-	14, // 17: adminpb.AdminService.RegisterDoctorAdmin:input_type -> adminpb.RegisterDoctorAdminRequest
-	24, // 18: adminpb.AdminService.EditDoctorAdmin:input_type -> adminpb.EditDoctorAdminRequest
-	26, // 19: adminpb.AdminService.UpdateDoctorAdmin:input_type -> adminpb.UpdateDoctorAdminRequest
-	28, // 20: adminpb.AdminService.DeleteDoctorByID:input_type -> adminpb.DeleteAdminByIDRequest
-	16, // 21: adminpb.AdminService.RegisterPatient:input_type -> adminpb.RegisterPatientRequest
-	30, // 22: adminpb.AdminService.EditPatient:input_type -> adminpb.EditPatientRequest
-	32, // 23: adminpb.AdminService.UpdatePatient:input_type -> adminpb.UpdatePatientRequest
-	34, // 24: adminpb.AdminService.DeletePatient:input_type -> adminpb.DeletePatientRequest
-	4,  // 25: adminpb.AdminService.EditAdminStatus:input_type -> adminpb.EditAdminStatusRequest
-	6,  // 26: adminpb.AdminService.UpdateAdminStatus:input_type -> adminpb.UpdateAdminStatusRequest
-	11, // 27: adminpb.AdminService.RegisterAdmin:output_type -> adminpb.RegisterAdminResponse
-	13, // 28: adminpb.AdminService.AdminLogin:output_type -> adminpb.AdminLoginResponse
-	9,  // 29: adminpb.AdminService.AdminList:output_type -> adminpb.AdminListResponse
-	19, // 30: adminpb.AdminService.AdminEdit:output_type -> adminpb.AdminEditResponse
-	21, // 31: adminpb.AdminService.AdminUpdate:output_type -> adminpb.AdminUpdateResponse
-	23, // 32: adminpb.AdminService.AdminDelete:output_type -> adminpb.AdminDeleteResponse
-	15, // 33: adminpb.AdminService.RegisterDoctorAdmin:output_type -> adminpb.RegisterDoctorAdminResponse
-	25, // 34: adminpb.AdminService.EditDoctorAdmin:output_type -> adminpb.EditDoctorAdminResponse
-	27, // 35: adminpb.AdminService.UpdateDoctorAdmin:output_type -> adminpb.UpdateDoctorAdminResponse
-	29, // 36: adminpb.AdminService.DeleteDoctorByID:output_type -> adminpb.DeleteAdminByIDResponse
-	17, // 37: adminpb.AdminService.RegisterPatient:output_type -> adminpb.RegisterPatientResponse
-	31, // 38: adminpb.AdminService.EditPatient:output_type -> adminpb.EditPatientResponse
-	33, // 39: adminpb.AdminService.UpdatePatient:output_type -> adminpb.UpdatePatientResponse
-	35, // 40: adminpb.AdminService.DeletePatient:output_type -> adminpb.DeletePatientResponse
-	5,  // 41: adminpb.AdminService.EditAdminStatus:output_type -> adminpb.EditAdminStatusResponse
-	7,  // 42: adminpb.AdminService.UpdateAdminStatus:output_type -> adminpb.UpdateAdminStatusResponse
-	27, // [27:43] is the sub-list for method output_type
-	11, // [11:27] is the sub-list for method input_type
-	11, // [11:11] is the sub-list for extension type_name
-	11, // [11:11] is the sub-list for extension extendee
-	0,  // [0:11] is the sub-list for field type_name
+	3,  // 2: adminpb.RegisterDoctorAdminResponse.User:type_name -> adminpb.User
+	3,  // 3: adminpb.RegisterPatientResponse.User:type_name -> adminpb.User
+	1,  // 4: adminpb.AdminEditResponse.User:type_name -> adminpb.Edit
+	2,  // 5: adminpb.AdminUpdateResponse.User:type_name -> adminpb.Update
+	1,  // 6: adminpb.EditDoctorAdminResponse.User:type_name -> adminpb.Edit
+	2,  // 7: adminpb.UpdateDoctorAdminResponse.User:type_name -> adminpb.Update
+	1,  // 8: adminpb.EditPatientResponse.User:type_name -> adminpb.Edit
+	2,  // 9: adminpb.UpdatePatientResponse.User:type_name -> adminpb.Update
+	10, // 10: adminpb.AdminService.RegisterAdmin:input_type -> adminpb.RegisterAdminRequest
+	8,  // 11: adminpb.AdminService.AdminList:input_type -> adminpb.AdminListRequest
+	16, // 12: adminpb.AdminService.AdminEdit:input_type -> adminpb.AdminEditRequest
+	18, // 13: adminpb.AdminService.AdminUpdate:input_type -> adminpb.AdminUpdateRequest
+	20, // 14: adminpb.AdminService.AdminDelete:input_type -> adminpb.AdminDeleteRequest
+	12, // 15: adminpb.AdminService.RegisterDoctorAdmin:input_type -> adminpb.RegisterDoctorAdminRequest
+	22, // 16: adminpb.AdminService.EditDoctorAdmin:input_type -> adminpb.EditDoctorAdminRequest
+	24, // 17: adminpb.AdminService.UpdateDoctorAdmin:input_type -> adminpb.UpdateDoctorAdminRequest
+	26, // 18: adminpb.AdminService.DeleteDoctorByID:input_type -> adminpb.DeleteAdminByIDRequest
+	14, // 19: adminpb.AdminService.RegisterPatient:input_type -> adminpb.RegisterPatientRequest
+	28, // 20: adminpb.AdminService.EditPatient:input_type -> adminpb.EditPatientRequest
+	30, // 21: adminpb.AdminService.UpdatePatient:input_type -> adminpb.UpdatePatientRequest
+	32, // 22: adminpb.AdminService.DeletePatient:input_type -> adminpb.DeletePatientRequest
+	4,  // 23: adminpb.AdminService.EditAdminStatus:input_type -> adminpb.EditAdminStatusRequest
+	6,  // 24: adminpb.AdminService.UpdateAdminStatus:input_type -> adminpb.UpdateAdminStatusRequest
+	11, // 25: adminpb.AdminService.RegisterAdmin:output_type -> adminpb.RegisterAdminResponse
+	9,  // 26: adminpb.AdminService.AdminList:output_type -> adminpb.AdminListResponse
+	17, // 27: adminpb.AdminService.AdminEdit:output_type -> adminpb.AdminEditResponse
+	19, // 28: adminpb.AdminService.AdminUpdate:output_type -> adminpb.AdminUpdateResponse
+	21, // 29: adminpb.AdminService.AdminDelete:output_type -> adminpb.AdminDeleteResponse
+	13, // 30: adminpb.AdminService.RegisterDoctorAdmin:output_type -> adminpb.RegisterDoctorAdminResponse
+	23, // 31: adminpb.AdminService.EditDoctorAdmin:output_type -> adminpb.EditDoctorAdminResponse
+	25, // 32: adminpb.AdminService.UpdateDoctorAdmin:output_type -> adminpb.UpdateDoctorAdminResponse
+	27, // 33: adminpb.AdminService.DeleteDoctorByID:output_type -> adminpb.DeleteAdminByIDResponse
+	15, // 34: adminpb.AdminService.RegisterPatient:output_type -> adminpb.RegisterPatientResponse
+	29, // 35: adminpb.AdminService.EditPatient:output_type -> adminpb.EditPatientResponse
+	31, // 36: adminpb.AdminService.UpdatePatient:output_type -> adminpb.UpdatePatientResponse
+	33, // 37: adminpb.AdminService.DeletePatient:output_type -> adminpb.DeletePatientResponse
+	5,  // 38: adminpb.AdminService.EditAdminStatus:output_type -> adminpb.EditAdminStatusResponse
+	7,  // 39: adminpb.AdminService.UpdateAdminStatus:output_type -> adminpb.UpdateAdminStatusResponse
+	25, // [25:40] is the sub-list for method output_type
+	10, // [10:25] is the sub-list for method input_type
+	10, // [10:10] is the sub-list for extension type_name
+	10, // [10:10] is the sub-list for extension extendee
+	0,  // [0:10] is the sub-list for field type_name
 }
 
 func init() { file_main_go_gunk_v1_admin_all_proto_init() }
@@ -2682,30 +2558,6 @@ func file_main_go_gunk_v1_admin_all_proto_init() {
 			}
 		}
 		file_main_go_gunk_v1_admin_all_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AdminLoginRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_main_go_gunk_v1_admin_all_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*AdminLoginResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_main_go_gunk_v1_admin_all_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*RegisterDoctorAdminRequest); i {
 			case 0:
 				return &v.state
@@ -2717,7 +2569,7 @@ func file_main_go_gunk_v1_admin_all_proto_init() {
 				return nil
 			}
 		}
-		file_main_go_gunk_v1_admin_all_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
+		file_main_go_gunk_v1_admin_all_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*RegisterDoctorAdminResponse); i {
 			case 0:
 				return &v.state
@@ -2729,7 +2581,7 @@ func file_main_go_gunk_v1_admin_all_proto_init() {
 				return nil
 			}
 		}
-		file_main_go_gunk_v1_admin_all_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
+		file_main_go_gunk_v1_admin_all_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*RegisterPatientRequest); i {
 			case 0:
 				return &v.state
@@ -2741,7 +2593,7 @@ func file_main_go_gunk_v1_admin_all_proto_init() {
 				return nil
 			}
 		}
-		file_main_go_gunk_v1_admin_all_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
+		file_main_go_gunk_v1_admin_all_proto_msgTypes[15].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*RegisterPatientResponse); i {
 			case 0:
 				return &v.state
@@ -2753,7 +2605,7 @@ func file_main_go_gunk_v1_admin_all_proto_init() {
 				return nil
 			}
 		}
-		file_main_go_gunk_v1_admin_all_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
+		file_main_go_gunk_v1_admin_all_proto_msgTypes[16].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*AdminEditRequest); i {
 			case 0:
 				return &v.state
@@ -2765,7 +2617,7 @@ func file_main_go_gunk_v1_admin_all_proto_init() {
 				return nil
 			}
 		}
-		file_main_go_gunk_v1_admin_all_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
+		file_main_go_gunk_v1_admin_all_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*AdminEditResponse); i {
 			case 0:
 				return &v.state
@@ -2777,7 +2629,7 @@ func file_main_go_gunk_v1_admin_all_proto_init() {
 				return nil
 			}
 		}
-		file_main_go_gunk_v1_admin_all_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
+		file_main_go_gunk_v1_admin_all_proto_msgTypes[18].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*AdminUpdateRequest); i {
 			case 0:
 				return &v.state
@@ -2789,7 +2641,7 @@ func file_main_go_gunk_v1_admin_all_proto_init() {
 				return nil
 			}
 		}
-		file_main_go_gunk_v1_admin_all_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
+		file_main_go_gunk_v1_admin_all_proto_msgTypes[19].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*AdminUpdateResponse); i {
 			case 0:
 				return &v.state
@@ -2801,7 +2653,7 @@ func file_main_go_gunk_v1_admin_all_proto_init() {
 				return nil
 			}
 		}
-		file_main_go_gunk_v1_admin_all_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
+		file_main_go_gunk_v1_admin_all_proto_msgTypes[20].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*AdminDeleteRequest); i {
 			case 0:
 				return &v.state
@@ -2813,7 +2665,7 @@ func file_main_go_gunk_v1_admin_all_proto_init() {
 				return nil
 			}
 		}
-		file_main_go_gunk_v1_admin_all_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
+		file_main_go_gunk_v1_admin_all_proto_msgTypes[21].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*AdminDeleteResponse); i {
 			case 0:
 				return &v.state
@@ -2825,7 +2677,7 @@ func file_main_go_gunk_v1_admin_all_proto_init() {
 				return nil
 			}
 		}
-		file_main_go_gunk_v1_admin_all_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
+		file_main_go_gunk_v1_admin_all_proto_msgTypes[22].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*EditDoctorAdminRequest); i {
 			case 0:
 				return &v.state
@@ -2837,7 +2689,7 @@ func file_main_go_gunk_v1_admin_all_proto_init() {
 				return nil
 			}
 		}
-		file_main_go_gunk_v1_admin_all_proto_msgTypes[25].Exporter = func(v interface{}, i int) interface{} {
+		file_main_go_gunk_v1_admin_all_proto_msgTypes[23].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*EditDoctorAdminResponse); i {
 			case 0:
 				return &v.state
@@ -2849,7 +2701,7 @@ func file_main_go_gunk_v1_admin_all_proto_init() {
 				return nil
 			}
 		}
-		file_main_go_gunk_v1_admin_all_proto_msgTypes[26].Exporter = func(v interface{}, i int) interface{} {
+		file_main_go_gunk_v1_admin_all_proto_msgTypes[24].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*UpdateDoctorAdminRequest); i {
 			case 0:
 				return &v.state
@@ -2861,7 +2713,7 @@ func file_main_go_gunk_v1_admin_all_proto_init() {
 				return nil
 			}
 		}
-		file_main_go_gunk_v1_admin_all_proto_msgTypes[27].Exporter = func(v interface{}, i int) interface{} {
+		file_main_go_gunk_v1_admin_all_proto_msgTypes[25].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*UpdateDoctorAdminResponse); i {
 			case 0:
 				return &v.state
@@ -2873,7 +2725,7 @@ func file_main_go_gunk_v1_admin_all_proto_init() {
 				return nil
 			}
 		}
-		file_main_go_gunk_v1_admin_all_proto_msgTypes[28].Exporter = func(v interface{}, i int) interface{} {
+		file_main_go_gunk_v1_admin_all_proto_msgTypes[26].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*DeleteAdminByIDRequest); i {
 			case 0:
 				return &v.state
@@ -2885,7 +2737,7 @@ func file_main_go_gunk_v1_admin_all_proto_init() {
 				return nil
 			}
 		}
-		file_main_go_gunk_v1_admin_all_proto_msgTypes[29].Exporter = func(v interface{}, i int) interface{} {
+		file_main_go_gunk_v1_admin_all_proto_msgTypes[27].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*DeleteAdminByIDResponse); i {
 			case 0:
 				return &v.state
@@ -2897,7 +2749,7 @@ func file_main_go_gunk_v1_admin_all_proto_init() {
 				return nil
 			}
 		}
-		file_main_go_gunk_v1_admin_all_proto_msgTypes[30].Exporter = func(v interface{}, i int) interface{} {
+		file_main_go_gunk_v1_admin_all_proto_msgTypes[28].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*EditPatientRequest); i {
 			case 0:
 				return &v.state
@@ -2909,7 +2761,7 @@ func file_main_go_gunk_v1_admin_all_proto_init() {
 				return nil
 			}
 		}
-		file_main_go_gunk_v1_admin_all_proto_msgTypes[31].Exporter = func(v interface{}, i int) interface{} {
+		file_main_go_gunk_v1_admin_all_proto_msgTypes[29].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*EditPatientResponse); i {
 			case 0:
 				return &v.state
@@ -2921,7 +2773,7 @@ func file_main_go_gunk_v1_admin_all_proto_init() {
 				return nil
 			}
 		}
-		file_main_go_gunk_v1_admin_all_proto_msgTypes[32].Exporter = func(v interface{}, i int) interface{} {
+		file_main_go_gunk_v1_admin_all_proto_msgTypes[30].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*UpdatePatientRequest); i {
 			case 0:
 				return &v.state
@@ -2933,7 +2785,7 @@ func file_main_go_gunk_v1_admin_all_proto_init() {
 				return nil
 			}
 		}
-		file_main_go_gunk_v1_admin_all_proto_msgTypes[33].Exporter = func(v interface{}, i int) interface{} {
+		file_main_go_gunk_v1_admin_all_proto_msgTypes[31].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*UpdatePatientResponse); i {
 			case 0:
 				return &v.state
@@ -2945,7 +2797,7 @@ func file_main_go_gunk_v1_admin_all_proto_init() {
 				return nil
 			}
 		}
-		file_main_go_gunk_v1_admin_all_proto_msgTypes[34].Exporter = func(v interface{}, i int) interface{} {
+		file_main_go_gunk_v1_admin_all_proto_msgTypes[32].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*DeletePatientRequest); i {
 			case 0:
 				return &v.state
@@ -2957,7 +2809,7 @@ func file_main_go_gunk_v1_admin_all_proto_init() {
 				return nil
 			}
 		}
-		file_main_go_gunk_v1_admin_all_proto_msgTypes[35].Exporter = func(v interface{}, i int) interface{} {
+		file_main_go_gunk_v1_admin_all_proto_msgTypes[33].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*DeletePatientResponse); i {
 			case 0:
 				return &v.state
@@ -2976,7 +2828,7 @@ func file_main_go_gunk_v1_admin_all_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_main_go_gunk_v1_admin_all_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   36,
+			NumMessages:   34,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
