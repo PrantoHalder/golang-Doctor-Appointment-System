@@ -17,7 +17,7 @@
 
 <body>
   <div class="flex h-screen justify-center items-center">
-    <form class="bg-white p-6 rounded-lg shadow-xl" action="/loginpost" method="POST" style="text-align: center;">
+    <form class="bg-white p-6 rounded-lg shadow-xl" action="/loginpost" method="POST">
       <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
       <h2 class="text-lg font-medium mb-4">Login</h2>
 
@@ -37,6 +37,15 @@
       <input class="w-full p-2 border border-gray-400 rounded-lg" type="Password" id="Password" name="Password"
       value="{{.Password}}"/>
       <p style="color: red;">{{ .FormError.Password}}</p>
+      <br>
+      <br>
+      <input type="radio" id="Admin" name="Loginas" value="Admin">
+      <label for="Admin">Admin</label> 
+      <input type="radio" id="Faculty" name="Loginas" value="Doctor">
+      <label for="Faculty">Doctor</label>
+      <input type="radio" id="patient" name="Loginas" value="Patient">
+      <label for="Student">Patient</label>
+      <p style="color: red;">{{ .FormError.Loginas}}</p>
       <br>
       <button class="bg-indigo-500 text-white py-2 px-4 rounded-lg hover:bg-indigo-600">
         Login
