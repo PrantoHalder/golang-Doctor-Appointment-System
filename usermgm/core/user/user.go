@@ -8,7 +8,7 @@ import (
 )
 
 type UserStore interface {
-	Register(u storage.Patient) (*storage.Patient, error)
+	Register(u storage.User) (*storage.User, error)
 	EditUser(int) (*storage.User, error)
 	UpdateUser(storage.UpdateUser) (*storage.UpdateUser, error)
 	DeleteUserByID(int) error
@@ -18,7 +18,6 @@ type UserStore interface {
 	UpdateUserStatus(u storage.UpdateStatus) (*storage.UpdateStatus, error)
 	ShowDoctorListToUser(id int) ([]storage.ShowDoctorToPatient, error)
 	AppinmentStatus(id int) ([]storage.AppontmentStatus, error)
-	FixAppinment(id int) ([]storage.AppontmentStatus, error)
 }
 
 type CoreUser struct {
@@ -29,17 +28,6 @@ func NewCoreUser(us UserStore) *CoreUser {
 	return &CoreUser{
 		store: us,
 	}
-}
-//fix appointment
-func (cu CoreUser)FixAppinmentCore(us storage.Edit) ([]storage.AppontmentStatus, error){
-	user ,err := cu.store.FixAppinment(us.ID)
-	if err != nil {
-		return nil,err
-	}
-	if user == nil{
-      return nil,err
-	}
-	return user,nil
 }
 //appointments status
 func (cu CoreUser)AppinmentStatusCore(us storage.Edit) ([]storage.AppontmentStatus, error){
@@ -64,7 +52,7 @@ func (cu CoreUser) ShowDoctorListToUserCore(us storage.Edit) ([]storage.ShowDoct
 	return user,nil
 }
 // user registration function
-func (cu CoreUser) Register(u storage.Patient) (*storage.Patient, error) {
+func (cu CoreUser) Register(u storage.User) (*storage.User, error) {
 	hashPass, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
 	if err != nil {
 		fmt.Println("the error is in the core layer in Register after GenerateFromPassword")

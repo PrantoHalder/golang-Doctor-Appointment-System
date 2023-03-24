@@ -8,6 +8,7 @@ import (
 )
 
 //insert into doctor_type
+// test case done
 const registerdoctor_typeQuery = `INSERT INTO doctorType (doctortype)
 VALUES (:doctortype)
 ON CONFLICT (doctortype) DO NOTHING
@@ -30,6 +31,7 @@ func(s PostGressStorage) Registerdoctortype(u storage.DoctorType) (*storage.Doct
 	return &u, nil
 }
 //edit doctor type
+// test case done
 const EditDcotorTypeQuery = `SELECT id,doctorType
 FROM doctortype
 WHERE

@@ -9,7 +9,7 @@ import (
 type DoctorStore interface {
 	RegisterDoctorDeatils(u storage.Doctor) (*storage.Doctor, error)
 	RegisterDoctorSchedule(u storage.Schedule) (*storage.Schedule, error)
-	ListDoctor(uf storage.UserFilter) ([]storage.DoctorU, error)
+	ListDoctor(uf storage.UserFilter) ([]storage.User, error)
 	EditDoctorDetails(id int) (*storage.Doctor, error)
 	UpdateDoctorDetails(u storage.Doctor) (*storage.Doctor, error)
 	EditDoctorSchedule(id int) (*storage.Schedule, error)
@@ -116,7 +116,7 @@ func (cu CoreDoctor) RegisterDoctorScheduleCore(u storage.Schedule)(*storage.Sch
 	return ru, nil
 }
 //doctor list
-func (cu CoreDoctor) ListDoctorCore(u storage.UserFilter) ([]storage.DoctorU,error){
+func (cu CoreDoctor) ListDoctorCore(u storage.UserFilter) ([]storage.User,error){
 	user,err := cu.store.ListDoctor(u)
 	if err != nil {
 		return nil,err

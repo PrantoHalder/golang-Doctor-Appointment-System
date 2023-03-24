@@ -13,7 +13,7 @@ import (
 type CoreDoctor interface {
 	RegisterDoctorDetailsCore(u storage.Doctor)(*storage.Doctor,error)
 	RegisterDoctorScheduleCore(u storage.Schedule) (*storage.Schedule, error)
-	ListDoctorCore(u storage.UserFilter) ([]storage.DoctorU,error)
+	ListDoctorCore(u storage.UserFilter) ([]storage.User,error)
 	EditDoctorDetailsCore(us storage.Edit) (*storage.Doctor, error)
 	UpdateDoctorDetailsCore(u storage.Doctor) (*storage.Doctor, error)
 	EditDoctorScheduleCore(us storage.Edit) (*storage.Schedule, error)

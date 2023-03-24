@@ -8,6 +8,7 @@ import (
 )
 
 //register doctor details into doctor table
+//test case done
 const registerDoctordatailsQuery = `INSERT INTO doctordetails (
 	userid,
 	doctortypeid,
@@ -41,6 +42,7 @@ func(s PostGressStorage) RegisterDoctorDeatils(u storage.Doctor) (*storage.Docto
 	return &u, nil
 }
 //register doctor schedule into doctor schedule table
+//test case done
 const registerDoctorScheduleQuery = `INSERT INTO doctor_schedule (
 	doctorid,
 	startat,
@@ -75,6 +77,7 @@ func(s PostGressStorage) RegisterDoctorSchedule(u storage.Schedule) (*storage.Sc
 	return &u, nil
 }
 //list doctor
+//test case done
 const listDoctorQuery = `
 
 SELECT id,first_name,last_name,email,is_active
@@ -88,8 +91,8 @@ WHERE
 	ORDER BY id DESC
 `
 
-func (s PostGressStorage) ListDoctor(uf storage.UserFilter) ([]storage.DoctorU, error) {
-	var listUser []storage.DoctorU
+func (s PostGressStorage) ListDoctor(uf storage.UserFilter) ([]storage.User, error) {
+	var listUser []storage.User
 	if err := s.DB.Select(&listUser, listDoctorQuery, uf.SearchTerm); err != nil {
 		log.Fatalln(err)
 		return nil, err
@@ -97,6 +100,7 @@ func (s PostGressStorage) ListDoctor(uf storage.UserFilter) ([]storage.DoctorU, 
 	return listUser, nil
 }
 //edit Doctor details
+//test case done
 const EditDoctorDetailsQuery = `SELECT id,degree,gender
 FROM doctordetails
 WHERE
@@ -115,6 +119,7 @@ func (s PostGressStorage) EditDoctorDetails(id int) (*storage.Doctor, error) {
 	return &listUser, nil
 }
 //update doctor details status
+//tast case done
 const UpdateDoctorDetailsQuery = `
 	UPDATE doctordetails SET
 		degree = :degree,
@@ -138,7 +143,8 @@ func (s PostGressStorage) UpdateDoctorDetails(u storage.Doctor) (*storage.Doctor
 	return &u, nil
 
 }
-//edit doctor schedule 
+//edit doctor schedule
+//test case done 
 const EditDoctorScheduleQuery = `SELECT id,startat,endat,workdays,address,phone
 FROM doctor_schedule
 WHERE
@@ -156,6 +162,7 @@ func (s PostGressStorage) EditDoctorSchedule(id int) (*storage.Schedule, error) 
 	return &listUser, nil
 }
 //update doctor details status
+//test case done
 const UpdateDoctorScheduleQuery = `
 	UPDATE doctor_schedule SET
 		startat = :startat,
@@ -181,6 +188,7 @@ func (s PostGressStorage) UpdateDoctorSchedule(u storage.Schedule) (*storage.Sch
 
 }
 //approve patient edit
+//test case done
 const ApproveEditQuery = `SELECT id,is_appointed,timeslot
 FROM appointment
 WHERE
@@ -197,6 +205,7 @@ func (s PostGressStorage) ApproveEdit(id int) (*storage.Appointment, error) {
 	return &listUser, nil
 } 
 //approve patient update
+//
 const ApproveUpdateQuery = `
 	UPDATE appointment SET
 		is_appointed = :is_appointed,

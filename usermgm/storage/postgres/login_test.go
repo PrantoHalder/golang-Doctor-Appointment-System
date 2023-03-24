@@ -1,41 +1,126 @@
 package postgres
 
 import (
-	"reflect"
 	"testing"
-
-	"github.com/jmoiron/sqlx"
+	"github.com/google/go-cmp/cmp"
+	"github.com/google/go-cmp/cmp/cmpopts"
 	"main.go/usermgm/storage"
 )
 
-func TestPostGressStorage_Login(t *testing.T) {
-	type fields struct {
-		DB *sqlx.DB
+func TestLogin(t *testing.T) {
+	s, tr := NewTestStorage(getDBConnectionString(), getMigrationDir())
+	t.Parallel()
+
+	t.Cleanup(func() {
+		tr()
+	})
+	newuser := []storage.User{
+		{
+			FirstName: "Rahim",
+			LastName:  "Hossain",
+			Email:     "rahim@gmail.com",
+			Username:  "rahim",
+			Password:  "12345678",
+			Role:      "user",
+		},
 	}
-	type args struct {
-		username string
+	for _, value := range newuser {
+		_, err := s.RegisterPatient(value)
+		if err != nil {
+			t.Fatalf("PostgresStorage.RegisterPatient() error = %v", err)
+		}
+	}
+
+	newdoctor := []storage.User{
+		{
+			FirstName: "Pranto",
+			LastName:  "Halder",
+			Email:     "pranto@gmail.com",
+			Username:  "pranto",
+			Password:  "12345678",
+			Role:      "admin",
+		},
+	}
+	for _, value := range newdoctor {
+		_, err := s.RegisterDoctorAdmin(value)
+		if err != nil {
+			t.Fatalf("PostgresStorage.RegisterPatient() error = %v", err)
+		}
+	}
+	newadmin := []storage.User{
+		{
+			FirstName: "Shovon",
+			LastName:  "Halder",
+			Email:     "shovon@gmail.com",
+			Username:  "shovon",
+			Password:  "12345678",
+			Role:      "doctor",
+		},
+	}
+	for _, value := range newadmin {
+		_, err := s.RegisterAdmin(value)
+		if err != nil {
+			t.Fatalf("PostgresStorage.RegisterPatient() error = %v", err)
+		}
 	}
 	tests := []struct {
 		name    string
-		fields  fields
-		args    args
+		in      string
 		want    *storage.User
 		wantErr bool
 	}{
-		// TODO: Add test cases.
+		{
+			name:    "ADMIN_LOGIN_SUCCESS",
+			in:      "pranto",
+			want:    &storage.User{
+				FirstName: "Pranto",
+				LastName:  "Halder",
+				Email:     "pranto@gmail.com",
+				Username:  "pranto",
+				Role:      "admin",
+				Is_active: true,
+			},
+			wantErr: false,
+		},
+		{
+			name:    "DOCTOR_LOGIN_SUCCESS",
+			in:      "shovon",
+			want:    &storage.User{
+				FirstName: "Shovon",
+				LastName:  "Halder",
+				Email:     "shovon@gmail.com",
+				Username:  "shovon",
+				Role:      "doctor",
+				Is_active: true,
+			},
+			wantErr: false,
+		},
+		{
+			name:    "PATIENT_LOGIN_SUCCESS",
+			in:      "rahim",
+			want:    &storage.User{
+				FirstName: "Rahim",
+				LastName:  "Hossain",
+				Email:     "rahim@gmail.com",
+				Username:  "rahim",
+				Role:      "user",
+				Is_active: true,
+			},
+			wantErr: false,
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			s := PostGressStorage{
-				DB: tt.fields.DB,
-			}
-			got, err := s.Login(tt.args.username)
+			got, err := s.Login(tt.in)
 			if (err != nil) != tt.wantErr {
-				t.Errorf("PostGressStorage.Login() error = %v, wantErr %v", err, tt.wantErr)
+				t.Errorf("PostGressStorage.AppinmentStatus() error = %v, wantErr %v", err, tt.wantErr)
 				return
 			}
-			if !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("PostGressStorage.Login() = %v, want %v", got, tt.want)
+			opts := cmp.Options{
+				cmpopts.IgnoreFields(storage.User{}, "ID","Password","CreatedAt","UpdatedAt","DeletedAt"),
+			}
+			if !cmp.Equal(got, tt.want, opts...) {
+				t.Errorf("PostGressStorage.Register() diff = %v", cmp.Diff(got, tt.want, opts...))
 			}
 		})
 	}
