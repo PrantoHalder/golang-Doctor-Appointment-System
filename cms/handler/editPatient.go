@@ -50,11 +50,9 @@ func (h Handler)EditPatient(w http.ResponseWriter, r *http.Request){
 func (h Handler) ParseEditUserTemplate(w http.ResponseWriter, data any){
 	t := h.Templates.Lookup("adminPatientEdit.html")
 	if t == nil {
-		log.Fatal("can not look up adminPatientEdit.html template")
 		http.Error(w,"Internal Server Error",http.StatusInternalServerError)
 	}
 	if err := t.Execute(w, data); err != nil {
-		log.Fatal("can not look up adminPatientEdit.html template")
 		http.Error(w,"Internal Server Error",http.StatusInternalServerError)
 	}
 }

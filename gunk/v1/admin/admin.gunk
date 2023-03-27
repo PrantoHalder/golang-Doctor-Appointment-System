@@ -2,7 +2,6 @@ package adminpb
 
 type AdminService interface {
 	RegisterAdmin(RegisterAdminRequest) RegisterAdminResponse
-	AdminLogin(AdminLoginRequest) AdminLoginResponse
 	AdminList(AdminListRequest) AdminListResponse
 	AdminEdit(AdminEditRequest) AdminEditResponse
 	AdminUpdate(AdminUpdateRequest) AdminUpdateResponse
@@ -93,15 +92,6 @@ type RegisterAdminResponse struct {
 	User User `pb:"1"`
 }
 
-//admin login request
-type AdminLoginRequest struct {
-	Username string `pb:"1"`
-	Password string `pb:"2"`
-}
-//amin login response
-type AdminLoginResponse struct {
-	User User `pb:"1"`
-}
 // docter added by admin request
 type RegisterDoctorAdminRequest struct {
 	FirstName string `pb:"1"`

@@ -57,7 +57,7 @@
           <td class="border px-4 py-2">{{.Degree}}</td>
           <td class="border px-4 py-2">{{.DoctorType}}</td>
           <td class="border px-4 py-2">{{.Gender}}</td>
-          <td class="border px-4 py-2"><a href="/patients/{{.ID}}/showAppointmentstatus">Fix Appointment</a></td>
+          <td class="border px-4 py-2"><a href="/patients/{{.ID}}/fixAppointment">Fix Appointment</a></td>
         </tr>
         {{end}}
     </table>
@@ -65,11 +65,6 @@
   <br>
   <div class="container">
     <br>
-    <form action="/patients/home" method="get">
-      <button
-        class="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600">
-        Home </button>
-    </form>
   </div>
 </body>
 

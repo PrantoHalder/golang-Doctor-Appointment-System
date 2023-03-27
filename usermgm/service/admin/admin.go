@@ -9,20 +9,19 @@ import (
 )
 
 type CoreAdmin interface {
-	RegisterAdmin(storage.Admin) (*storage.Admin, error)
-	GetAdminbyUsernameCore(storage.Login) (*storage.Admin, error)
-	RegisterDoctorAdminCore(storage.DoctorU) (*storage.DoctorU, error)
+	RegisterAdmin(storage.User) (*storage.User, error)
+	RegisterDoctorAdminCore(storage.User) (*storage.User, error)
 	RegisterPatient(storage.User) (*storage.User, error)
-	EditAdminCore(storage.Edit) (*storage.Admin, error)
+	EditAdminCore(storage.Edit) (*storage.User, error)
 	UpdateAdminCore(storage.UpdateUser) (*storage.UpdateUser, error)
 	DeleteAdminByIDCore(u storage.Edit) error
-	EditDoctorCore(storage.Edit) (*storage.DoctorU, error)
+	EditDoctorCore(storage.Edit) (*storage.User, error)
 	UpdateDoctorCore(u storage.UpdateUser) (*storage.UpdateUser, error)
 	DeleteDoctorByIDCore(u storage.Edit) error
-	EditPatientCore(us storage.Edit) (*storage.Patient, error)
+	EditPatientCore(us storage.Edit) (*storage.User, error)
 	UpdatePatientCore(u storage.UpdateUser) (*storage.UpdateUser, error)
 	DeletePatientByIDCore(u storage.Edit) error
-	ListAdminCore(u storage.UserFilter) ([]storage.Admin,error)
+	ListAdminCore(u storage.UserFilter) ([]storage.User,error)
 }
 
 type AdminSvc struct {
@@ -38,7 +37,7 @@ func NewAdminSvc(cu CoreAdmin) *AdminSvc {
 
 //admin register
 func (us AdminSvc) RegisterAdmin(ctx context.Context, r *adminpb.RegisterAdminRequest) (*adminpb.RegisterAdminResponse, error) {
-	user := storage.Admin{
+	user := storage.User{
 		FirstName: r.GetFirstName(),
 		LastName:  r.GetLastName(),
 		Email:     r.GetEmail(),
@@ -66,42 +65,9 @@ func (us AdminSvc) RegisterAdmin(ctx context.Context, r *adminpb.RegisterAdminRe
 		},
 	}, nil
 }
-
-
-
-//admin login
-func (us AdminSvc) AdminLogin(ctx context.Context, r *adminpb.AdminLoginRequest) (*adminpb.AdminLoginResponse, error) {
-	login := storage.Login{
-		Username: r.GetUsername(),
-		Password: r.GetPassword(),
-	}
-
-	if err := login.Validate(); err != nil {
-		fmt.Println("the error is in the serveice layer in Login after login.Validate()")
-		return nil, err
-	}
-
-	u, err := us.core.GetAdminbyUsernameCore(login)
-	if err != nil {
-		fmt.Println("the error is in the serveice layer in Login after us.core.GetStatusbyUsernameCore(login)")
-		return nil, err
-	}
-
-	return &adminpb.AdminLoginResponse{
-		User: &adminpb.User{
-			ID: int32(u.ID),
-			FirstName: u.FirstName,
-			LastName:  u.LastName,
-			IsActive:  u.Is_active,
-			Username:  u.Username,
-			Email:     u.Email,
-			Role:      u.Role,
-		},
-	}, nil
-}
 //doctor register by admin
 func (us AdminSvc) RegisterDoctorAdmin(ctx context.Context,r *adminpb.RegisterDoctorAdminRequest) (*adminpb.RegisterDoctorAdminResponse, error) {
-	user := storage.DoctorU{
+	user := storage.User{
 		FirstName: r.GetFirstName(),
 		LastName:  r.GetLastName(),
 		Email:     r.GetEmail(),

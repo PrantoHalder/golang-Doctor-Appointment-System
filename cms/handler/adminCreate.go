@@ -2,7 +2,6 @@ package handler
 
 import (
 	"fmt"
-	"html/template"
 	"log"
 	"net/http"
 	"regexp"
@@ -66,12 +65,14 @@ func (h Handler) AdminRegisterPost (w http.ResponseWriter, r *http.Request){
 	})
 	http.Redirect(w, r, fmt.Sprintln("/admin/showadmin"), http.StatusSeeOther)
 }
-func (h Handler) ParseAdminRegisterTemplates(w http.ResponseWriter,form AdminRegisterLoadFrom) {
-	t,err := template.ParseFiles("assets/templates/adminCreate.html")
-	if err != nil{
-		fmt.Println("cannot load adminPatientCreate.html template")
+func(h Handler) ParseAdminRegisterTemplates(w http.ResponseWriter, data AdminRegisterLoadFrom) {
+	t := h.Templates.Lookup("adminCreate.html")
+	if t == nil {
+		http.Error(w,"Internal Server Error",http.StatusInternalServerError)
 	}
-	t.Execute(w,form)
+	if err := t.Execute(w, data); err != nil {
+		http.Error(w,"Internal Server Error",http.StatusInternalServerError)
+	}
 }
 func (u AdminCreate) ValidateAdmin() error {
 	return validation.ValidateStruct(&u, validation.Field(&u.FirstName,
@@ -88,7 +89,6 @@ func (u AdminCreate) ValidateAdmin() error {
 		),
 		validation.Field(&u.Role,
 			validation.Required.Error("Role cannot be blank"),
-			validation.Length(4, 10).Error("Role should be admin"),
 			validation.Match(regexp.MustCompile(`^admin$`)).
 		    Error("Role should be admin"),
 		),

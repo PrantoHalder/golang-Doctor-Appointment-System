@@ -50,11 +50,9 @@ func (h Handler)EditAdmin(w http.ResponseWriter, r *http.Request){
 func (h Handler) ParseEditAdminTemplate(w http.ResponseWriter, data any){
 	t := h.Templates.Lookup("adminEdit.html")
 	if t == nil {
-		log.Fatal("can not look up adminEdit.html template")
 		http.Error(w,"Internal Server Error",http.StatusInternalServerError)
 	}
 	if err := t.Execute(w, data); err != nil {
-		log.Fatal("can not look up adminEdit.html template")
 		http.Error(w,"Internal Server Error",http.StatusInternalServerError)
 	}
 }

@@ -69,6 +69,8 @@
           <td class="border px-4 py-2">{{.Email}}</td>
           <td class="border px-4 py-2" name="Is_active"><a href="/users/{{.ID}}/statusedit">{{if .Is_active}}Active{{else}}Inactive{{end}}</a></td>
           <td class="border px-4 py-2"><a href="/admin/{{.ID}}/editdoctor">Edit</a></td>
+          <td class="border px-4 py-2"><a href="/admin/{{.ID}}/inputdeatails">Input Details</a></td>
+          <td class="border px-4 py-2"><a href="/admin/{{.ID}}/listDoctorDeatails">Show Details</a></td>
           <td class="border px-4 py-2"><a href="/admin/{{.ID}}/deletedoctor">Delete</a></td>
         </tr>
         {{end}}

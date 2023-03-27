@@ -15,7 +15,6 @@
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body class="bg-gray-100 h-screen font-sans">
-    {{.}}
     <nav class="bg-white p-6">
       <div class="container mx-auto flex items-center justify-between">
         <div class="flex items-center">
@@ -24,8 +23,8 @@
         </a>
         </div>
         <div class="flex items-center">
-          <a href="/patients/showdoctortype" class="px-3 py-2 text-gray-800 hover:bg-gray-300">Search Doctors</a>
-          <a href="/patients/appoinments" class="px-3 py-2 text-gray-800 hover:bg-gray-300">Appoinments</a>
+          <a href="/patients/{{.User.ID}}/showdoctortype" class="px-3 py-2 text-gray-800 hover:bg-gray-300">Search Doctors</a>
+          <a href="/patients/{{.User.ID}}/showAppointmentstatus" class="px-3 py-2 text-gray-800 hover:bg-gray-300">Appoinments</a>
           <a href="/patients/logout" class="px-3 py-2 text-gray-800 hover:bg-gray-300">Log Out</a>
         </div>
       </div>

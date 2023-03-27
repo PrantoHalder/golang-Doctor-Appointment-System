@@ -1,0 +1,24 @@
+package loginpb
+
+type LoginService interface {
+	Login(LoginRequest) LoginResponse
+}
+//user struct
+type User struct {
+	ID        int    `pb:"1"`
+	FirstName string `pb:"2"`
+	LastName  string `pb:"3"`
+	Username  string `pb:"4"`
+	Email     string `pb:"5"`
+	Is_active bool   `pb:"6"`
+	Role      string `pb:"7"`
+}
+// user login request
+type LoginRequest struct {
+	Username string `pb:"1"`
+	Password string `pb:"2"`
+}
+//user login response
+type LoginResponse struct {
+	User User `pb:"1"`
+}

@@ -8,20 +8,19 @@ import (
 )
 
 type AdminStore interface {
-	GetAdminByUsername(username string) (*storage.Admin, error)
-	RegisterAdmin(u storage.Admin) (*storage.Admin, error)
-	RegisterDoctorAdmin(u storage.DoctorU) (*storage.DoctorU, error)
+	RegisterAdmin(u storage.User) (*storage.User, error)
+	RegisterDoctorAdmin(u storage.User) (*storage.User, error)
 	RegisterPatient(storage.User) (*storage.User, error)
-	EditAdmin(id int) (*storage.Admin, error)
+	EditAdmin(id int) (*storage.User, error)
 	UpdateAdmin(storage.UpdateUser) (*storage.UpdateUser, error)
 	DeleteAdminByID(id int) error
-	EditDoctor(id int) (*storage.DoctorU, error)
+	EditDoctor(id int) (*storage.User, error)
 	UpdateDoctor(u storage.UpdateUser) (*storage.UpdateUser, error)
 	DeleteDoctorByID(id int) error 
-	EditPatient(id int) (*storage.Patient, error)
+	EditPatient(id int) (*storage.User, error)
 	UpdatePatient(u storage.UpdateUser) (*storage.UpdateUser, error)
 	DeletePatientByID(id int) error
-	ListAdmin(uf storage.UserFilter) ([]storage.Admin, error)
+	ListAdmin(uf storage.UserFilter) ([]storage.User, error)
 }
 
 type CoreAdmin struct {
@@ -36,7 +35,7 @@ func NewCoreAdmin(us AdminStore) *CoreAdmin {
 
 
 // Admin registration function
-func (cu CoreAdmin) RegisterAdmin(u storage.Admin) (*storage.Admin, error) {
+func (cu CoreAdmin) RegisterAdmin(u storage.User) (*storage.User, error) {
 	hashPass, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
 	if err != nil {
 		fmt.Println("the error is in the core layer in Register after GenerateFromPassword")
@@ -54,21 +53,8 @@ func (cu CoreAdmin) RegisterAdmin(u storage.Admin) (*storage.Admin, error) {
 	}
 	return ru, nil
 }
-//admin login
-func (cu CoreAdmin) GetAdminbyUsernameCore(login storage.Login) (*storage.Admin, error){
-    user,err := cu.store.GetAdminByUsername(login.Username) 
-	if err != nil {
-		fmt.Println("the error is in the core layer in GetStatusbyUsernameCore after cu.store.GetUserByUsername(login) ")
-		return nil, err
-	}
-	if err := bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(login.Password)); err != nil{
-		fmt.Println("the error is in the core layer in GetStatusbyUsernameCore after bcrypt.CompareHashAndPassword ")
-		return nil, err
-	}
-	return user,nil
-}
 //doctor register by admin
-func (cu CoreAdmin) RegisterDoctorAdminCore(u storage.DoctorU) (*storage.DoctorU, error) {
+func (cu CoreAdmin) RegisterDoctorAdminCore(u storage.User) (*storage.User, error) {
 	hashPass, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
 	if err != nil {
 		fmt.Println("the error is in the core layer in Register after GenerateFromPassword")
@@ -106,7 +92,7 @@ func (cu CoreAdmin) RegisterPatient(u storage.User) (*storage.User, error) {
 	return ru, nil
 }
 //admin edit
-func (cu CoreAdmin) EditAdminCore(us storage.Edit) (*storage.Admin, error) {
+func (cu CoreAdmin) EditAdminCore(us storage.Edit) (*storage.User, error) {
 	user ,err := cu.store.EditAdmin(us.ID)
 	if err != nil {
 		return nil,err
@@ -135,7 +121,7 @@ func (cu CoreAdmin) DeleteAdminByIDCore(u storage.Edit) error{
 	return nil
 }
 //Doctor edit
-func (cu CoreAdmin) EditDoctorCore(us storage.Edit) (*storage.DoctorU, error) {
+func (cu CoreAdmin) EditDoctorCore(us storage.Edit) (*storage.User, error) {
 	user ,err := cu.store.EditDoctor(us.ID)
 	if err != nil {
 		return nil,err
@@ -164,7 +150,7 @@ func (cu CoreAdmin)DeleteDoctorByIDCore(u storage.Edit) error{
 	return nil
 }
 //patient edit
-func (cu CoreAdmin) EditPatientCore(us storage.Edit) (*storage.Patient, error) {
+func (cu CoreAdmin) EditPatientCore(us storage.Edit) (*storage.User, error) {
 	user ,err := cu.store.EditPatient(us.ID)
 	if err != nil {
 		return nil,err
@@ -193,7 +179,7 @@ func (cu CoreAdmin)DeletePatientByIDCore(u storage.Edit) error{
 	return nil
 }
 // list admin
-func (cu CoreAdmin)ListAdminCore(u storage.UserFilter) ([]storage.Admin,error){
+func (cu CoreAdmin)ListAdminCore(u storage.UserFilter) ([]storage.User,error){
 	user,err := cu.store.ListAdmin(u)
 	if err != nil {
 		return nil,err

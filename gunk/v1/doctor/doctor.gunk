@@ -3,7 +3,6 @@ package doctorpb
 import "time"
 
 type DoctorService interface {
-	DoctorLogin(DoctorLoginRequest) DoctorLoginResponse
 	RegisterDoctorDetails(RegisterDoctorDetailsRequest) RegisterDoctorDetailsResponse
 	DoctorScheduleRegister(DoctorScheduleRegisterRequest) DoctorScheduleRegisterResponse
 	DoctorScheduleEdit(DoctorScheduleEditRequest) DoctorScheduleEditResponse
@@ -15,7 +14,22 @@ type DoctorService interface {
 	DoctorDetailsUpdate(DoctorDetailsUpdateRequest) DoctorDetailsUpdateResponse
 	ApproveAppointmentEdit(ApproveAppointmentEditRequest) ApproveAppointmentEditResponse
 	ApproveAppointmentUpdate(ApproveAppointmentUpdateRequest) ApproveAppointmentUpdateResponse
+	DoctorDetailsList(DoctorDetailsListRequest) DoctorDetailsListResponse
 }
+//doctor details list request
+type DoctorDetailsListRequest struct {
+	ID int `pb:"1"`
+}
+//doctor details list response
+type DoctorDetailsListResponse struct {
+	ID         int    `pb:"1"`
+	FirstName  string `pb:"2"`
+	LastName   string `pb:"3"`
+	DoctorType string `pb:"4"`
+	Degree     string `pb:"5"`
+	Gender     string `pb:"6"`
+}
+
 //schedule struct
 type Schedule struct {
 	ID              int        `pb:"1"`
@@ -142,15 +156,6 @@ type DoctorListResponse struct {
 	User []User `pb:"1"`
 }
 
-//doctor login request by user table
-type DoctorLoginRequest struct {
-	Username string `pb:"1"`
-	Password string `pb:"2"`
-}
-//doctor login response by user table
-type DoctorLoginResponse struct {
-	User User `pb:"1"`
-}
 //doctor register request
 type RegisterDoctorDetailsRequest struct {
     UserID        int    `pb:"1"`

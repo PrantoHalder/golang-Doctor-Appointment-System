@@ -1,44 +1,32 @@
 package handler
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"strconv"
 
 	validation "github.com/go-ozzo/ozzo-validation/v4"
 	"github.com/justinas/nosurf"
-	adminpb "main.go/gunk/v1/admin"
-	doctorpb "main.go/gunk/v1/doctor"
-	userpb "main.go/gunk/v1/user"
+	loginpb "main.go/gunk/v1/login"
 )
-
+const (
+	NotFound = "sql: no rows in result set"
+)
 type LoginUser struct {
-	Username  string 
-	Password  string
-	Loginas   []string
+	Username  string `form:"Username"`
+	Password  string `form:"Password"`
 	FormError map[string]error
 	CSRFToken string
 }
 
-func (h Handler) Login (w http.ResponseWriter, r *http.Request){
-	h.ParseLoginTemplates(w,LoginUser{
+func (h Handler) Login(w http.ResponseWriter, r *http.Request) {
+	h.ParseLoginTemplates(w, LoginUser{
 		CSRFToken: nosurf.Token(r),
 	})
 }
 
-func (h Handler) ParseLoginTemplates(w http.ResponseWriter, data any) {
-	t := h.Templates.Lookup("login.html")
-	if t == nil {
-		log.Fatal("can not look up login.html template")
-		http.Error(w,"Internal Server Error",http.StatusInternalServerError)
-	}
-	if err := t.Execute(w, data); err != nil {
-		log.Fatal("can not look up login.html template")
-		http.Error(w,"Internal Server Error",http.StatusInternalServerError)
-	}
-}
-
-func (h Handler) LoginPost (w http.ResponseWriter, r *http.Request){
+func (h Handler) LoginPost(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
 		log.Fatal(err)
 	}
@@ -47,8 +35,7 @@ func (h Handler) LoginPost (w http.ResponseWriter, r *http.Request){
 		log.Println(err)
 		http.Error(w, "internal server error", http.StatusInternalServerError)
 	}
-
-	if lf.Loginas == nil {
+	if lf.Username == "" {
 		if err := lf.Validate(); err != nil {
 			if vErr, ok := err.(validation.Errors); ok {
 				lf.FormError = vErr
@@ -62,55 +49,96 @@ func (h Handler) LoginPost (w http.ResponseWriter, r *http.Request){
 			return
 		}
 	}
-	
-	for _, value := range lf.Loginas {
-		if value == "Patient" {
-			u,err := h.usermgmService.Login(r.Context(),&userpb.LoginRequest{
-				Username: lf.Username,
-				Password: lf.Password,
+	if lf.Password == "" {
+		if err := lf.Validate(); err != nil {
+			if vErr, ok := err.(validation.Errors); ok {
+				lf.FormError = vErr
+			}
+			h.ParseLoginTemplates(w, LoginUser{
+				Username:  "",
+				Password:  lf.Password,
+				FormError: lf.FormError,
+				CSRFToken: nosurf.Token(r),
 			})
-			if err != nil {
-				log.Println("the error is in the login section of cms in patient after h.usermgmService.Login")
-				http.Error(w, "internal server error", http.StatusInternalServerError)
+			return
+		}
+	}
+	u, err := h.usermgmService.Login(r.Context(), &loginpb.LoginRequest{
+		Username: lf.Username,
+		Password: lf.Password,
+	})
+	if err != nil {
+        if err.Error() == NotFound  {
+			formErr := make(map[string]error)
+			formErr["Username"] = fmt.Errorf("credentials does not match")
+			lf.FormError = formErr
+			lf.CSRFToken = nosurf.Token(r)
+			lf.Password = ""
+			h.ParseLoginTemplates(w, lf)
+			return
+		}
+		http.Redirect(w, r, "/inactive", http.StatusSeeOther)
+	}
+	if u.User.Role == "admin" {
+		if u.User.IsActive {
+			if err := lf.Validate(); err != nil {
+				if vErr, ok := err.(validation.Errors); ok {
+					lf.FormError = vErr
+				}
+				h.ParseLoginTemplates(w, LoginUser{
+					Username:  lf.Username,
+					Password:  "",
+					FormError: lf.FormError,
+					CSRFToken: nosurf.Token(r),
+				})
 				return
 			}
 			h.sessionManager.Put(r.Context(), "userID", strconv.Itoa(int(u.GetUser().ID)))
-	        http.Redirect(w, r, "/patients/home", http.StatusSeeOther)
+			http.Redirect(w, r, "/admin/home", http.StatusSeeOther)
+		} else {
+			h.ParseInactiveTemplates(w, nil)
 		}
 	}
-	
-	for _, value := range lf.Loginas {
-		if value == "Admin" {
-			u,err := h.usermgmService.AdminLogin(r.Context(),&adminpb.AdminLoginRequest{
-				Username: lf.Username,
-				Password: lf.Password,
-			})
-			if err != nil {
-				log.Println("the error is in the login section of cms in patient after h.usermgmService.Login")
-				http.Error(w, "internal server error", http.StatusInternalServerError)
+	if u.User.Role == "doctor" {
+		if u.User.IsActive {
+			if err := lf.Validate(); err != nil {
+				if vErr, ok := err.(validation.Errors); ok {
+					lf.FormError = vErr
+				}
+				h.ParseLoginTemplates(w, LoginUser{
+					Username:  lf.Username,
+					Password:  "",
+					FormError: lf.FormError,
+					CSRFToken: nosurf.Token(r),
+				})
 				return
 			}
 			h.sessionManager.Put(r.Context(), "userID", strconv.Itoa(int(u.GetUser().ID)))
-	        http.Redirect(w, r, "/admin/home", http.StatusSeeOther)
+	        http.Redirect(w, r,fmt.Sprintf("/doctor/%v/home",u.User.ID), http.StatusSeeOther)
+		} else {
+			h.ParseInactiveTemplates(w, nil)
 		}
 	}
-
-	for _, value := range lf.Loginas {
-		if value == "Doctor" {
-			u,err := h.usermgmService.DoctorLogin(r.Context(),&doctorpb.DoctorLoginRequest{
-				Username: lf.Username,
-				Password: lf.Password,
-			})
-			if err != nil {
-				log.Println("the error is in the login section of cms in patient after h.usermgmService.Login")
-				http.Error(w, "internal server error", http.StatusInternalServerError)
+	if u.User.Role == "user" {
+		if u.User.IsActive {
+			if err := lf.Validate(); err != nil {
+				if vErr, ok := err.(validation.Errors); ok {
+					lf.FormError = vErr
+				}
+				h.ParseLoginTemplates(w, LoginUser{
+					Username:  lf.Username,
+					Password:  "",
+					FormError: lf.FormError,
+					CSRFToken: nosurf.Token(r),
+				})
 				return
 			}
 			h.sessionManager.Put(r.Context(), "userID", strconv.Itoa(int(u.GetUser().ID)))
-	        http.Redirect(w, r, "/doctor/home", http.StatusSeeOther)
+	        http.Redirect(w, r, fmt.Sprintf("/patients/%v/home",u.User.ID), http.StatusSeeOther)
+		} else {
+			h.ParseInactiveTemplates(w, nil)
 		}
 	}
-	h.ParseLoginTemplates(w, nil)
 }
 
 func (lu LoginUser) Validate() error {
@@ -120,26 +148,60 @@ func (lu LoginUser) Validate() error {
 		validation.Field(&lu.Password,
 			validation.Required.Error("password can not be blank"),
 		),
-		validation.Field(&lu.Loginas,
-			validation.Required.Error("login role can not be blank"),
-		),
 	)
 }
-func (h Handler) LogoutPatienthandler (w http.ResponseWriter, r *http.Request){
-	if err := h.sessionManager.Destroy(r.Context());err!=nil{
-		log.Fatal(err)
-	}
-	http.Redirect(w,r,"/login",http.StatusSeeOther)
+func (h Handler) Inactive(w http.ResponseWriter, r *http.Request) {
+	h.ParseInactiveTemplates(w, nil)
 }
-func (h Handler) LogoutDoctorhandler (w http.ResponseWriter, r *http.Request){
-	if err := h.sessionManager.Destroy(r.Context());err!=nil{
-		log.Fatal(err)
-	}
-	http.Redirect(w,r,"/login",http.StatusSeeOther)
+func (h Handler) InternalServerError(w http.ResponseWriter, r *http.Request) {
+	h.ParseInactiveTemplates(w, nil)
 }
-func (h Handler) LogoutAdminhandler (w http.ResponseWriter, r *http.Request){
-	if err := h.sessionManager.Destroy(r.Context());err!=nil{
+func (h Handler) ParseLoginTemplates(w http.ResponseWriter, data any) {
+	t := h.Templates.Lookup("login.html")
+	if t == nil {
+		log.Fatal("can not look up login.html template")
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	}
+	if err := t.Execute(w, data); err != nil {
+		log.Fatal("can not look up login.html template")
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	}
+}
+
+func (h Handler) ParseInactiveTemplates(w http.ResponseWriter, data any) {
+	t := h.Templates.Lookup("Inactive.html")
+	if t == nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	}
+	if err := t.Execute(w, data); err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	}
+}
+func (h Handler) ParseInternalServerErrorTemplates(w http.ResponseWriter, data any) {
+	t := h.Templates.Lookup("internalServerError.html")
+	if t == nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	}
+	if err := t.Execute(w, data); err != nil {
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+	}
+}
+
+func (h Handler) LogoutPatienthandler(w http.ResponseWriter, r *http.Request) {
+	if err := h.sessionManager.Destroy(r.Context()); err != nil {
 		log.Fatal(err)
 	}
-	http.Redirect(w,r,"/login",http.StatusSeeOther)
+	http.Redirect(w, r, "/login", http.StatusSeeOther)
+}
+func (h Handler) LogoutDoctorhandler(w http.ResponseWriter, r *http.Request) {
+	if err := h.sessionManager.Destroy(r.Context()); err != nil {
+		log.Fatal(err)
+	}
+	http.Redirect(w, r, "/login", http.StatusSeeOther)
+}
+func (h Handler) LogoutAdminhandler(w http.ResponseWriter, r *http.Request) {
+	if err := h.sessionManager.Destroy(r.Context()); err != nil {
+		log.Fatal(err)
+	}
+	http.Redirect(w, r, "/login", http.StatusSeeOther)
 }
