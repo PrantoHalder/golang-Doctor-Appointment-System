@@ -37,7 +37,6 @@ func (us LoginSvc) Login(ctx context.Context,r *loginpb.LoginRequest) (*loginpb.
 
 	u, err := us.core.LoginCore(login)
 	if err != nil {
-		fmt.Println("the error is in the serveice layer in Login after us.core.GetStatusbyUsernameCore(login)")
 		return nil, err
 	}
 

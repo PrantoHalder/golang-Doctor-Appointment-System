@@ -37,16 +37,6 @@
   <h1 class="middle"><strong>Student List</strong></h1>
   <div class="flex justify-center">
     <div class="center">
-      <form action="/admin/showdoctor" method="get">
-        <input
-          class="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
-          type="text" name="SearchTerm" id="term" value="{{.SearchTerm}}">
-          <br>
-          <br>
-        <input
-          class="px-8 py-2.5 leading-5 text-white transition-colors duration-300 transform bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:bg-gray-600"
-          type="submit" value="Search">
-      </form>
     </div>
     <table class="table-auto">
       <thead>
@@ -54,26 +44,24 @@
           <th class="px-4 py-2">ID</th>
           <th class="px-4 py-2">First Name</th>
           <th class="px-4 py-2">Last Name</th>
-          <th class="px-4 py-2">Email</th>
-          <th class="px-4 py-2">status</th>
+          <th class="px-4 py-2">Doctor Type</th>
+          <th class="px-4 py-2">Degree</th>
+          <th class="px-4 py-2">Gender</th>
           <th class="px-4 py-2">Edit</th>
           <th class="px-4 py-2">Delete</th>
         </tr>
       </thead>
       <tbody>
-        {{range .Users}}
         <tr>
           <td class="border px-4 py-2">{{.ID}}</td>
           <td class="border px-4 py-2">{{.FirstName}}</td>
           <td class="border px-4 py-2">{{.LastName}}</td>
-          <td class="border px-4 py-2">{{.Email}}</td>
-          <td class="border px-4 py-2" name="Is_active"><a href="/users/{{.ID}}/statusedit">{{if .Is_active}}Active{{else}}Inactive{{end}}</a></td>
-          <td class="border px-4 py-2"><a href="/admin/{{.ID}}/editdoctor">Edit</a></td>
-          <td class="border px-4 py-2"><a href="/admin/{{.ID}}/inputdeatails">Input Details</a></td>
-          <td class="border px-4 py-2"><a href="/admin/{{.ID}}/listDoctorDeatails">Show Details</a></td>
-          <td class="border px-4 py-2"><a href="/admin/{{.ID}}/deletedoctor">Delete</a></td>
+          <td class="border px-4 py-2">{{.DoctorType}}</td>
+          <td class="border px-4 py-2">{{.Degree}}</td>
+          <td class="border px-4 py-2">{{.Gender}}</td>
+          <td class="border px-4 py-2"><a href="/admin/{{.ID}}/editdoctordetails">Edit</a></td>
+          <td class="border px-4 py-2"><a href="/admin/{{.ID}}/deletedoctordetails">Delete</a></td>
         </tr>
-        {{end}}
     </table>
   </div>
   <br>

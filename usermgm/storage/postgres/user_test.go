@@ -20,20 +20,20 @@ func TestRegister(t *testing.T) {
 
 	tests := []struct {
 		name    string
-		in      storage.User
-		want    *storage.User
+		in      storage.Register
+		want    *storage.Register
 		wantErr bool
 	}{
 		{
 			name: "REGISTER_PATIENT_SUCCESS",
-			in: storage.User{
+			in: storage.Register{
 				FirstName: "Rahim",
 				LastName:  "Khan",
 				Email:     "rahim@gamil.com",
 				Username:  "rahim",
 				Password:  "12345678",
 			},
-			want: &storage.User{
+			want: &storage.Register{
 				FirstName: "Rahim",
 				LastName:  "Khan",
 				Email:     "rahim@gamil.com",
@@ -46,7 +46,7 @@ func TestRegister(t *testing.T) {
 		},
 		{
 			name: "REGISTER_PATIENT_EMAIL_UNIQUE_FAILURE",
-			in: storage.User{
+			in: storage.Register{
 				FirstName: "Karim",
 				LastName:  "Khanna",
 				Email:     "rahim@gamil.com",
@@ -57,7 +57,7 @@ func TestRegister(t *testing.T) {
 		},
 		{
 			name: "REGISTER_PATIENT_USER_NAME_FAILURE",
-			in: storage.User{
+			in: storage.Register{
 				FirstName: "Karim",
 				LastName:  "Khanna",
 				Email:     "rahimm@gamil.com",
@@ -125,7 +125,7 @@ func TestRegisterAppointment(t *testing.T) {
 	if err != nil {
 		t.Fatalf("PostgresStorage.Registerdoctortype() error = %v", err)
 	}
-	newdoctorDetails := storage.Doctor{
+	newdoctorDetails := storage.DoctorDetails{
 		UserID:       2,
 		DoctorTypeID: 1,
 		Degree:       "MBBS",
@@ -584,7 +584,7 @@ func TestShowDoctorListToUser(t *testing.T) {
 	if err != nil {
 		t.Fatalf("PostgresStorage.RegisterPatient() error = %v", err)
 	}
-	doctordetails := storage.Doctor{
+	doctordetails := storage.DoctorDetails{
 		UserID:       1,
 		DoctorTypeID: 1,
 		Degree:       "MBBS",

@@ -9,7 +9,7 @@ import (
 )
 
 type CoreUser interface {
-	Register(storage.User) (*storage.User, error)
+	Register(storage.Register) (*storage.Register, error)
 	EditUserCore(storage.Edit) (*storage.User, error)
 	UpdatePatient(storage.UpdateUser) (*storage.UpdateUser, error)
 	DeleteUserByID(storage.Edit) error
@@ -96,7 +96,7 @@ func (us UserSvc)ShowDoctorlistPatient(ctx context.Context,r *userpb.ShowDoctorl
 }
 // user register
 func (us UserSvc) Register(ctx context.Context, r *userpb.RegisterRequest) (*userpb.RegisterResponse, error) {
-	user := storage.User{
+	user := storage.Register{
 		FirstName: r.GetFirstName(),
 		LastName:  r.GetLastName(),
 		Email:     r.GetEmail(),

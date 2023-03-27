@@ -33,21 +33,6 @@
         <section class="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800">
             <h2 class="text-lg font-semibold text-gray-700 capitalize dark:text-white">Create Schedule</h2>
 
-            <div>
-
-                <select
-                    class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    name="doctor_id">
-                    <option value="" selected>Choose a Name</option>
-                    {{range .Doctorlist}}
-                    <option value="{{.ID}}">{{.Doctor_name}}</option>
-                    {{end}}
-                </select>
-                {{ with (index .FormError "Doctor_id")}}
-                <p style="color: brown;">{{.}}</p>
-                {{end}}
-            </div>
-
             <div class="grid grid-cols-1 gap-6 mt-4 sm:grid-cols-2">
                 <div>
                     <label class="text-gray-700 dark:text-gray-200" for="username">Start at

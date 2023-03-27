@@ -6,7 +6,22 @@ import (
 
 	"main.go/usermgm/storage"
 )
-
+//doctor details list
+//doctor details list
+//test case done
+const docotordetailslist = `SELECT doctordetails.id, users.first_name, users.last_name,doctordetails.degree,doctordetails.gender,doctortype.doctortype
+FROM users
+FULL OUTER JOIN doctordetails ON doctordetails.userid = users.id
+FULL OUTER JOIN doctortype ON doctortype.id = doctordetails.doctortypeid
+WHERE doctordetails.userid = $1
+`
+func (s PostGressStorage) ListDoctorDetails(id int) (*storage.DoctorDetailsList, error) {
+	var listUser storage.DoctorDetailsList
+	if err := s.DB.Get(&listUser, docotordetailslist,id); err != nil {
+		return nil, err
+	}
+	return &listUser, nil
+}
 //register doctor details into doctor table
 //test case done
 const registerDoctordatailsQuery = `INSERT INTO doctordetails (
@@ -20,7 +35,7 @@ const registerDoctordatailsQuery = `INSERT INTO doctordetails (
 	:degree,
 	:gender
 )RETURNING *`
-func(s PostGressStorage) RegisterDoctorDeatils(u storage.Doctor) (*storage.Doctor, error){
+func(s PostGressStorage) RegisterDoctorDeatils(u storage.DoctorDetails) (*storage.DoctorDetails, error){
 	stmt, err := s.DB.PrepareNamed(registerDoctordatailsQuery)
 	if err != nil {
 		fmt.Println("prepared error", err.Error())
@@ -108,8 +123,8 @@ id =$1
 AND
 deleted_at IS NULL`
 
-func (s PostGressStorage) EditDoctorDetails(id int) (*storage.Doctor, error) {
-	var listUser storage.Doctor
+func (s PostGressStorage) EditDoctorDetails(id int) (*storage.DoctorDetails, error) {
+	var listUser storage.DoctorDetails
 	if err := s.DB.Get(&listUser,EditDoctorDetailsQuery,id); err != nil {
 		return nil, err
 	}
@@ -130,7 +145,7 @@ const UpdateDoctorDetailsQuery = `
 	RETURNING id;
 	`
 
-func (s PostGressStorage) UpdateDoctorDetails(u storage.Doctor) (*storage.Doctor, error) {
+func (s PostGressStorage) UpdateDoctorDetails(u storage.DoctorDetails) (*storage.DoctorDetails, error) {
 	stmt, err := s.DB.PrepareNamed(UpdateDoctorDetailsQuery)
 	if err != nil {
 		log.Fatalln(err)

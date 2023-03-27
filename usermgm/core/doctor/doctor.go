@@ -7,15 +7,16 @@ import (
 )
 
 type DoctorStore interface {
-	RegisterDoctorDeatils(u storage.Doctor) (*storage.Doctor, error)
+	RegisterDoctorDeatils(u storage.DoctorDetails) (*storage.DoctorDetails, error)
 	RegisterDoctorSchedule(u storage.Schedule) (*storage.Schedule, error)
 	ListDoctor(uf storage.UserFilter) ([]storage.User, error)
-	EditDoctorDetails(id int) (*storage.Doctor, error)
-	UpdateDoctorDetails(u storage.Doctor) (*storage.Doctor, error)
+	EditDoctorDetails(id int) (*storage.DoctorDetails, error)
+	UpdateDoctorDetails(u storage.DoctorDetails) (*storage.DoctorDetails, error)
 	EditDoctorSchedule(id int) (*storage.Schedule, error)
 	UpdateDoctorSchedule(u storage.Schedule) (*storage.Schedule, error)
     ApproveEdit(id int) (*storage.Appointment, error)
 	ApproveUpdate(u storage.Appointment) (*storage.Appointment, error)
+	ListDoctorDetails(id int) (*storage.DoctorDetailsList, error)
 }
 
 type CoreDoctor struct {
@@ -26,6 +27,17 @@ func NewCoreDoctor(us DoctorStore) *CoreDoctor {
 	return &CoreDoctor{
 		store: us,
 	}
+}
+//doctor details list
+func (cu CoreDoctor) ListDoctorDetailsCore(u storage.Edit) (*storage.DoctorDetailsList, error) {
+	user ,err := cu.store.ListDoctorDetails(u.ID)
+	if err != nil {
+		return nil,err
+	}
+	if user == nil{
+		return nil,err
+	}
+	return user,nil
 }
 //Approve update
 func (cu CoreDoctor) ApproveUpdateCore(u storage.Appointment) (*storage.Appointment, error) {
@@ -72,7 +84,7 @@ func (cu CoreDoctor) EditDoctorScheduleCore(us storage.Edit) (*storage.Schedule,
 	return user,nil
 }
 //update doctor details 
-func (cu CoreDoctor) UpdateDoctorDetailsCore(u storage.Doctor) (*storage.Doctor, error) {
+func (cu CoreDoctor) UpdateDoctorDetailsCore(u storage.DoctorDetails) (*storage.DoctorDetails, error) {
 	user ,err := cu.store.UpdateDoctorDetails(u)
 	if err != nil {
 		return nil,err
@@ -83,7 +95,7 @@ func (cu CoreDoctor) UpdateDoctorDetailsCore(u storage.Doctor) (*storage.Doctor,
 	return user,nil
 }
 //edit doctor details
-func (cu CoreDoctor) EditDoctorDetailsCore(us storage.Edit) (*storage.Doctor, error) {
+func (cu CoreDoctor) EditDoctorDetailsCore(us storage.Edit) (*storage.DoctorDetails, error) {
 	user ,err := cu.store.EditDoctorDetails(us.ID)
 	if err != nil {
 		return nil,err
@@ -94,7 +106,7 @@ func (cu CoreDoctor) EditDoctorDetailsCore(us storage.Edit) (*storage.Doctor, er
 	return user,nil
 }
 //register doctor
-func (cu CoreDoctor) RegisterDoctorDetailsCore(u storage.Doctor)(*storage.Doctor,error){
+func (cu CoreDoctor) RegisterDoctorDetailsCore(u storage.DoctorDetails)(*storage.DoctorDetails,error){
 	ru, err := cu.store.RegisterDoctorDeatils(u)
 	if err != nil {
 		return nil, err

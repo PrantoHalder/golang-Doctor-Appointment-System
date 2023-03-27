@@ -6,7 +6,6 @@ import (
 	"sort"
 	"testing"
 	"time"
-
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"main.go/usermgm/storage"
@@ -31,28 +30,28 @@ func TestRegisterDoctorDeatils(t *testing.T) {
 	if err != nil {
 		t.Fatalf("PostgresStorage.RegisterPatient() error = %v", err)
 	}
-    newdoctortype := storage.DoctorType{
-    	DoctorType: "Nurologist",
-    }
-	_,err = s.Registerdoctortype(newdoctortype)
+	newdoctortype := storage.DoctorType{
+		DoctorType: "Nurologist",
+	}
+	_, err = s.Registerdoctortype(newdoctortype)
 	if err != nil {
 		t.Fatalf("PostgresStorage.RegisterPatient() error = %v", err)
 	}
 	tests := []struct {
 		name    string
-		in      storage.Doctor
-		want    *storage.Doctor
+		in      storage.DoctorDetails
+		want    *storage.DoctorDetails
 		wantErr bool
 	}{
 		{
 			name: "REGISTER_DOCTOR_DETAILS_SUCCESS",
-			in: storage.Doctor{
+			in: storage.DoctorDetails{
 				UserID:       1,
 				DoctorTypeID: 1,
 				Degree:       "MBBS",
 				Gender:       "MALE",
 			},
-			want: &storage.Doctor{
+			want: &storage.DoctorDetails{
 				UserID:       1,
 				DoctorTypeID: 1,
 				Degree:       "MBBS",
@@ -70,7 +69,7 @@ func TestRegisterDoctorDeatils(t *testing.T) {
 			}
 
 			opts := cmp.Options{
-				cmpopts.IgnoreFields(storage.Doctor{}, "ID", "CreatedAt", "UpdatedAt", "DeletedAt"),
+				cmpopts.IgnoreFields(storage.DoctorDetails{}, "ID", "CreatedAt", "UpdatedAt", "DeletedAt"),
 			}
 
 			if !cmp.Equal(got, tt.want, opts...) {
@@ -108,7 +107,7 @@ func TestRegisterDoctorSchedule(t *testing.T) {
 		t.Errorf("PostGressStorage.ListUser() error = %v", err)
 		return
 	}
-	newdoctordetails := storage.Doctor{
+	newdoctordetails := storage.DoctorDetails{
 		UserID:       1,
 		DoctorTypeID: 1,
 		Degree:       "MBBS",
@@ -273,7 +272,7 @@ func TestEditDoctorDetails(t *testing.T) {
 		t.Errorf("PostGressStorage.ListUser() error = %v", err)
 		return
 	}
-	doctordetails := storage.Doctor{
+	doctordetails := storage.DoctorDetails{
 		UserID:       1,
 		DoctorTypeID: 1,
 		Degree:       "MBBS",
@@ -287,13 +286,13 @@ func TestEditDoctorDetails(t *testing.T) {
 	tests := []struct {
 		name    string
 		in      int
-		want    *storage.Doctor
+		want    *storage.DoctorDetails
 		wantErr bool
 	}{
 		{
 			name: "",
 			in:   1,
-			want: &storage.Doctor{
+			want: &storage.DoctorDetails{
 				ID:     1,
 				Degree: "MBBS",
 				Gender: "Male",
@@ -310,7 +309,7 @@ func TestEditDoctorDetails(t *testing.T) {
 				return
 			}
 			opts := cmp.Options{
-				cmpopts.IgnoreFields(storage.Doctor{}, "ID", "CreatedAt", "UpdatedAt", "DeletedAt"),
+				cmpopts.IgnoreFields(storage.DoctorDetails{}, "ID", "CreatedAt", "UpdatedAt", "DeletedAt"),
 			}
 
 			if !cmp.Equal(got, tt.want, opts...) {
@@ -348,7 +347,7 @@ func TestUpdateDoctorDetails(t *testing.T) {
 		t.Errorf("PostGressStorage.ListUser() error = %v", err)
 		return
 	}
-	doctordetails := storage.Doctor{
+	doctordetails := storage.DoctorDetails{
 		UserID:       1,
 		DoctorTypeID: 1,
 		Degree:       "MBBS",
@@ -361,18 +360,18 @@ func TestUpdateDoctorDetails(t *testing.T) {
 	}
 	tests := []struct {
 		name    string
-		in      storage.Doctor
-		want    *storage.Doctor
+		in      storage.DoctorDetails
+		want    *storage.DoctorDetails
 		wantErr bool
 	}{
 		{
 			name: "UPDATE_DOCTOR_DETAILS_SUCCESS",
-			in: storage.Doctor{
+			in: storage.DoctorDetails{
 				ID:     1,
 				Degree: "FRCS",
 				Gender: "Female",
 			},
-			want: &storage.Doctor{
+			want: &storage.DoctorDetails{
 				Degree: "FRCS",
 				Gender: "Female",
 			},
@@ -388,7 +387,7 @@ func TestUpdateDoctorDetails(t *testing.T) {
 			}
 
 			opts := cmp.Options{
-				cmpopts.IgnoreFields(storage.Doctor{}, "ID", "DoctorTypeID", "CreatedAt", "UpdatedAt", "DeletedAt"),
+				cmpopts.IgnoreFields(storage.DoctorDetails{}, "ID", "DoctorTypeID", "CreatedAt", "UpdatedAt", "DeletedAt"),
 			}
 
 			if !cmp.Equal(got, tt.want, opts...) {
@@ -426,7 +425,7 @@ func TestEditDoctorSchedule(t *testing.T) {
 		t.Errorf("PostGressStorage.ListUser() error = %v", err)
 		return
 	}
-	doctordetails := storage.Doctor{
+	doctordetails := storage.DoctorDetails{
 		UserID:       1,
 		DoctorTypeID: 1,
 		Degree:       "MBBS",
@@ -513,7 +512,7 @@ func TestUpdateDoctorSchedule(t *testing.T) {
 		t.Errorf("PostGressStorage.ListUser() error = %v", err)
 		return
 	}
-	doctordetails := storage.Doctor{
+	doctordetails := storage.DoctorDetails{
 		UserID:       1,
 		DoctorTypeID: 1,
 		Degree:       "MBBS",
@@ -622,7 +621,7 @@ func TestApproveEdit(t *testing.T) {
 		t.Errorf("PostGressStorage.ListUser() error = %v", err)
 		return
 	}
-	doctordetails := storage.Doctor{
+	doctordetails := storage.DoctorDetails{
 		UserID:       2,
 		DoctorTypeID: 1,
 		Degree:       "MBBS",
@@ -739,7 +738,7 @@ func TestApproveUpdate(t *testing.T) {
 		t.Errorf("PostGressStorage.ListUser() error = %v", err)
 		return
 	}
-	doctordetails := storage.Doctor{
+	doctordetails := storage.DoctorDetails{
 		UserID:       2,
 		DoctorTypeID: 1,
 		Degree:       "MBBS",
@@ -786,16 +785,16 @@ func TestApproveUpdate(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name:    "UPDATE_APPROVE_UPDATE_SUCCESS",
-			in:      storage.Appointment{
-				ID:          1,
-				Is_Appointed:    true,
-				TimeSlot:        "waiting",
+			name: "UPDATE_APPROVE_UPDATE_SUCCESS",
+			in: storage.Appointment{
+				ID:           1,
+				Is_Appointed: true,
+				TimeSlot:     "waiting",
 			},
-			want:    &storage.Appointment{
-				ID:          1,
-				Is_Appointed:    true,
-				TimeSlot:        "waiting",
+			want: &storage.Appointment{
+				ID:           1,
+				Is_Appointed: true,
+				TimeSlot:     "waiting",
 			},
 			wantErr: false,
 		},
@@ -813,6 +812,80 @@ func TestApproveUpdate(t *testing.T) {
 
 			if !cmp.Equal(got, tt.want, opts...) {
 				t.Errorf("PostGressStorage.Register() diff = %v", cmp.Diff(got, tt.want, opts...))
+			}
+		})
+	}
+}
+
+func TestListDoctorDetails(t *testing.T) {
+	s, tr := NewTestStorage(getDBConnectionString(), getMigrationDir())
+	t.Parallel()
+
+	t.Cleanup(func() {
+		tr()
+	})
+	user := storage.User{
+		FirstName: "Pranto",
+		LastName:  "Halder",
+		Email:     "pranto@gmail.com",
+		Username:  "pranto",
+		Password:  "12345678",
+		Role:      "doctor",
+	}
+	doctor,err := s.RegisterDoctorAdmin(user)
+	if err != nil {
+		t.Fatalf("PostgresStorage.RegisterDoctorSchedule() error = %v", err)
+	}
+	dtype := storage.DoctorType{
+		DoctorType: "Nurologist",
+	}
+    DType , err := s.Registerdoctortype(dtype)
+	if err != nil {
+		t.Fatalf("PostgresStorage.RegisterDoctorSchedule() error = %v", err)
+	}
+	ddetails := storage.DoctorDetails{
+		UserID:       doctor.ID,
+		DoctorTypeID: DType.ID,
+		Degree:       "MBBS",
+		Gender:       "Male",
+	}
+	_ ,err = s.RegisterDoctorDeatils(ddetails)
+	if err != nil {
+		t.Fatalf("PostgresStorage.RegisterDoctorSchedule() error = %v", err)
+	}
+	tests := []struct {
+		name    string
+		in      int
+		want    *storage.DoctorDetailsList
+		wantErr bool
+	}{
+		{
+			name:    "DOCTOR_DETAILS_LIST_SUCCESS",
+			in:      doctor.ID,
+			want:    &storage.DoctorDetailsList{
+				FirstName:  "Pranto",
+				LastName:   "Halder",
+				DoctorType: "Nurologist",
+				Degree:     "MBBS",
+				Gender:     "Male",
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			tt.in = doctor.ID
+			got, err := s.ListDoctorDetails(tt.in)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("PostGressStorage.ListDoctorDetails() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			opts := cmp.Options{
+				cmpopts.IgnoreFields(storage.DoctorDetailsList{}, "ID"),
+			}
+
+			if !cmp.Equal(got, tt.want,opts...) {
+				t.Errorf("PostGressStorage.Register() diff = %v", cmp.Diff(got, tt.want,opts...))
 			}
 		})
 	}

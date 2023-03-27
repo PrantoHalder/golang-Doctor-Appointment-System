@@ -42,10 +42,10 @@ func NewHandler(sm *scs.SessionManager, formDecoder *form.Decoder, usermgmConn *
 		sessionManager: sm,
 		decoder:        formDecoder,
 		usermgmService: usermgmService{userpb.NewUserServiceClient(usermgmConn),
-			                           adminpb.NewAdminServiceClient(usermgmConn),
-			                           doctorpb.NewDoctorServiceClient(usermgmConn),
-									   doctortypepb.NewDoctorTypeServiceClient(usermgmConn),
-		                               loginpb.NewLoginServiceClient(usermgmConn),},
+			adminpb.NewAdminServiceClient(usermgmConn),
+			doctorpb.NewDoctorServiceClient(usermgmConn),
+			doctortypepb.NewDoctorTypeServiceClient(usermgmConn),
+			loginpb.NewLoginServiceClient(usermgmConn)},
 		staticFiles:   staticFiles,
 		templateFiles: templateFiles,
 	}
@@ -70,6 +70,7 @@ func NewHandler(sm *scs.SessionManager, formDecoder *form.Decoder, usermgmConn *
 		r.Get("/login", h.Login)
 		r.Post("/loginpost", h.LoginPost)
 		r.Get("/register", h.Register)
+		r.Get("/inactive", h.Inactive)
 		r.Post("/registerpost", h.RegisterPost)
 	})
 
@@ -78,8 +79,8 @@ func NewHandler(sm *scs.SessionManager, formDecoder *form.Decoder, usermgmConn *
 		r.Use(h.Authentication)
 		r.Get("/{id:[0-9]+}/home", h.PatientHome)
 		r.Get("/{id:[0-9]+}/showdoctortype", h.ShowDoctorType)
-		r.Get("/{id:[0-9]+}/showAppointmentstatus",h.AppointmentStatus)
-		r.Get("/{id:[0-9]+}/fixAppointment",h.FixAppointment)
+		r.Get("/{id:[0-9]+}/showAppointmentstatus", h.AppointmentStatus)
+		r.Get("/{id:[0-9]+}/fixAppointment", h.FixAppointment)
 		r.Get("/{id:[0-9]+}/searcdoctors", h.ShowDoctorPatient)
 		r.Get("/logout", h.LogoutPatienthandler)
 	})
@@ -101,6 +102,9 @@ func NewHandler(sm *scs.SessionManager, formDecoder *form.Decoder, usermgmConn *
 		r.Get("/showdoctor", h.ShowDoctor)
 		r.Get("/showdoctortype", h.ShowDoctorType)
 		r.Get("/logout", h.LogoutAdminhandler)
+		r.Get("/{id:[0-9]+}/inputdeatails", h.InputDoctorDeatails)
+		r.Post("/{id:[0-9]+}/InputDoctorDeatailspost", h.InputDoctorDeatailspost)
+		r.Get("/{id:[0-9]+}/listDoctorDeatails", h.ListDoctorDetails)
 		r.Get("/{id:[0-9]+}/editpatient", h.EditPatient)
 		r.Get("/{id:[0-9]+}/userstatusedit", h.EditUserStatus)
 		r.Get("/{id:[0-9]+}/editdoctortype", h.EditDoctorType)
@@ -118,15 +122,10 @@ func NewHandler(sm *scs.SessionManager, formDecoder *form.Decoder, usermgmConn *
 	r.Route("/doctor", func(r chi.Router) {
 		r.Use(sm.LoadAndSave)
 		r.Use(h.Authentication)
-		r.Get("/home", h.DoctorHome)
+		r.Get("/{id:[0-9]+}/home", h.DoctorHome)
+		r.Get("/{id:[0-9]+}/manageschedule",h.MangeSchedule)
 		r.Get("/logout", h.LogoutDoctorhandler)
 	})
-	r.Group(func(r chi.Router) {
-		r.Use(sm.LoadAndSave)
-		r.Use(h.Authentication)
-
-	})
-
 	return r
 }
 func (h Handler) Authentication(next http.Handler) http.Handler {

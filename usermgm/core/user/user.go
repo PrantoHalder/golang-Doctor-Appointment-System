@@ -8,7 +8,7 @@ import (
 )
 
 type UserStore interface {
-	Register(u storage.User) (*storage.User, error)
+	Register(u storage.Register) (*storage.Register, error)
 	EditUser(int) (*storage.User, error)
 	UpdateUser(storage.UpdateUser) (*storage.UpdateUser, error)
 	DeleteUserByID(int) error
@@ -52,7 +52,7 @@ func (cu CoreUser) ShowDoctorListToUserCore(us storage.Edit) ([]storage.ShowDoct
 	return user,nil
 }
 // user registration function
-func (cu CoreUser) Register(u storage.User) (*storage.User, error) {
+func (cu CoreUser) Register(u storage.Register) (*storage.Register, error) {
 	hashPass, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
 	if err != nil {
 		fmt.Println("the error is in the core layer in Register after GenerateFromPassword")

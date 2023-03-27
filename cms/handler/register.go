@@ -12,27 +12,27 @@ import (
 )
 
 type User struct {
-	ID int
-	FirstName string       
-	LastName  string       
-	Email     string       
+	ID        int
+	FirstName string
+	LastName  string
+	Email     string
 	Username  string
-	Password  string       
-	Status    bool         
+	Password  string
+	Status    bool
 }
 
-type RegisterLoadFrom struct{
-	User User
-    FormError map[string]error
+type RegisterLoadFrom struct {
+	User      User
+	FormError map[string]error
 	CSRFToken string
 }
 
-func (h Handler) Register (w http.ResponseWriter, r *http.Request){
-	h.ParseRegisterTemplates(w,RegisterLoadFrom{
+func (h Handler) Register(w http.ResponseWriter, r *http.Request) {
+	h.ParseRegisterTemplates(w, RegisterLoadFrom{
 		CSRFToken: nosurf.Token(r),
 	})
 }
-func (h Handler) RegisterPost (w http.ResponseWriter, r *http.Request){
+func (h Handler) RegisterPost(w http.ResponseWriter, r *http.Request) {
 	if err := r.ParseForm(); err != nil {
 		log.Fatalf("%#v", err)
 	}
@@ -47,14 +47,14 @@ func (h Handler) RegisterPost (w http.ResponseWriter, r *http.Request){
 		if vErr, ok := err.(validation.Errors); ok {
 			form.FormError = vErr
 		}
-		h.ParseRegisterTemplates(w,RegisterLoadFrom{
+		h.ParseRegisterTemplates(w, RegisterLoadFrom{
 			User:      user,
 			FormError: form.FormError,
 			CSRFToken: nosurf.Token(r),
 		})
 		return
 	}
-	h.usermgmService.Register(r.Context(),&userpb.RegisterRequest{
+	h.usermgmService.Register(r.Context(), &userpb.RegisterRequest{
 		FirstName: user.FirstName,
 		LastName:  user.LastName,
 		Username:  user.Username,
@@ -63,13 +63,13 @@ func (h Handler) RegisterPost (w http.ResponseWriter, r *http.Request){
 	})
 	http.Redirect(w, r, fmt.Sprintln("/login"), http.StatusSeeOther)
 }
-func (h Handler) ParseRegisterTemplates (w http.ResponseWriter,form RegisterLoadFrom) {
+func (h Handler) ParseRegisterTemplates(w http.ResponseWriter, form RegisterLoadFrom) {
 	t := h.Templates.Lookup("register.html")
 	if t == nil {
-		http.Error(w,"Internal Server Error",http.StatusInternalServerError)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 	}
 	if err := t.Execute(w, form); err != nil {
-		http.Error(w,"Internal Server Error",http.StatusInternalServerError)
+		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 	}
 }
 func (u User) Validate() error {
@@ -85,7 +85,7 @@ func (u User) Validate() error {
 			validation.Required.Error("username cannot be blank"),
 			validation.Length(4, 10).Error("fast name must be between 4 to 10 characters"),
 		),
-		
+
 		validation.Field(&u.Email,
 			validation.Required.Error("Email cannot be blank"),
 			is.Email.Error("email should be in valid format"),

@@ -65,12 +65,12 @@ func (h Handler) AdminRegisterPost (w http.ResponseWriter, r *http.Request){
 	})
 	http.Redirect(w, r, fmt.Sprintln("/admin/showadmin"), http.StatusSeeOther)
 }
-func(h Handler) ParseAdminRegisterTemplates(w http.ResponseWriter, data any) {
+func(h Handler) ParseAdminRegisterTemplates(w http.ResponseWriter, data AdminRegisterLoadFrom) {
 	t := h.Templates.Lookup("adminCreate.html")
 	if t == nil {
 		http.Error(w,"Internal Server Error",http.StatusInternalServerError)
 	}
-	if err := t.Execute(w, nil); err != nil {
+	if err := t.Execute(w, data); err != nil {
 		http.Error(w,"Internal Server Error",http.StatusInternalServerError)
 	}
 }
@@ -89,7 +89,6 @@ func (u AdminCreate) ValidateAdmin() error {
 		),
 		validation.Field(&u.Role,
 			validation.Required.Error("Role cannot be blank"),
-			validation.Length(4, 10).Error("Role should be admin"),
 			validation.Match(regexp.MustCompile(`^admin$`)).
 		    Error("Role should be admin"),
 		),

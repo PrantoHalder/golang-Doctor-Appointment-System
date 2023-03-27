@@ -12,7 +12,9 @@ import (
 
 type DoctorTypeCreate struct {
 	ID int
-	DoctorType string       
+	DoctorType string  
+	Degree string
+	Gender string     
 }
 type DoctorTypeRegisterLoadFrom struct{
 	User DoctorTypeCreate

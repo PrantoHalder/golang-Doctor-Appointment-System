@@ -22,7 +22,7 @@ const registerQuery = `INSERT INTO users (
 	:email,
 	:password
 )RETURNING *`
-func(s PostGressStorage) Register(u storage.User) (*storage.User, error){
+func(s PostGressStorage) Register(u storage.Register) (*storage.Register, error){
 	stmt, err := s.DB.PrepareNamed(registerQuery)
 	if err != nil {
 		return nil, err

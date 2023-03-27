@@ -11,15 +11,16 @@ import (
 )
 
 type CoreDoctor interface {
-	RegisterDoctorDetailsCore(u storage.Doctor)(*storage.Doctor,error)
+	RegisterDoctorDetailsCore(u storage.DoctorDetails)(*storage.DoctorDetails,error)
 	RegisterDoctorScheduleCore(u storage.Schedule) (*storage.Schedule, error)
 	ListDoctorCore(u storage.UserFilter) ([]storage.User,error)
-	EditDoctorDetailsCore(us storage.Edit) (*storage.Doctor, error)
-	UpdateDoctorDetailsCore(u storage.Doctor) (*storage.Doctor, error)
+	EditDoctorDetailsCore(us storage.Edit) (*storage.DoctorDetails, error)
+	UpdateDoctorDetailsCore(u storage.DoctorDetails) (*storage.DoctorDetails, error)
 	EditDoctorScheduleCore(us storage.Edit) (*storage.Schedule, error)
 	UpdateDoctorScheduleCore(u storage.Schedule) (*storage.Schedule, error)
 	ApproveEditCore(us storage.Edit) (*storage.Appointment, error)
 	ApproveUpdateCore(u storage.Appointment) (*storage.Appointment, error)
+	ListDoctorDetailsCore(u storage.Edit) (*storage.DoctorDetailsList, error)
 }
 
 type DoctorSvc struct {
@@ -31,6 +32,25 @@ func NewDoctorSvc(cu CoreDoctor) *DoctorSvc {
 	return &DoctorSvc{
 		core: cu,
 	}
+}
+func (us DoctorSvc)DoctorDetailsList(ctx context.Context,r *doctorpb.DoctorDetailsListRequest) (*doctorpb.DoctorDetailsListResponse, error){
+	user := storage.Edit{
+		ID:              int(r.GetID()),
+	}
+	
+	u, err := us.core.ListDoctorDetailsCore(user)
+	if err != nil {
+		fmt.Println("the error is in the serveice layer in Register after Register(user)")
+		return nil, err
+	}
+	return &doctorpb.DoctorDetailsListResponse{
+		ID:         int32(u.ID),
+		FirstName:  u.FirstName,
+		LastName:   u.LastName,
+		DoctorType: u.DoctorType,
+		Degree:     u.Degree,
+		Gender:     u.Gender,
+	},nil
 }
 func (us DoctorSvc)ApproveAppointmentUpdate(ctx context.Context,r *doctorpb.ApproveAppointmentUpdateRequest) (*doctorpb.ApproveAppointmentUpdateResponse, error){
 	user := storage.Appointment{
@@ -124,7 +144,7 @@ func (us DoctorSvc) DoctorScheduleEdit(ctx context.Context,r *doctorpb.DoctorSch
 }
 //doctor details update
 func (us DoctorSvc)DoctorDetailsUpdate(ctx context.Context,r *doctorpb.DoctorDetailsUpdateRequest) (*doctorpb.DoctorDetailsUpdateResponse, error){
-	user := storage.Doctor{
+	user := storage.DoctorDetails{
 		ID:           int(r.GetID()),
 		Degree:       r.GetDegree(),
 		Gender:       r.GetGender(),
@@ -165,7 +185,7 @@ func (us DoctorSvc) DoctorDetailsEdit(ctx context.Context,r *doctorpb.DoctorDeta
 }
 // register doctor
 func (us DoctorSvc) RegisterDoctorDetails(ctx context.Context,r *doctorpb.RegisterDoctorDetailsRequest) (*doctorpb.RegisterDoctorDetailsResponse, error) {
-	user := storage.Doctor{
+	user := storage.DoctorDetails{
 		UserID:       int(r.GetUserID()),
 		DoctorTypeID: int(r.GetUserID()),
 		Degree:       r.GetDegree(),
