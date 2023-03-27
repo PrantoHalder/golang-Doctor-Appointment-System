@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"regexp"
 	"strconv"
 
 	"github.com/go-chi/chi"
@@ -14,17 +15,19 @@ import (
 )
 
 type Doctor struct {
-	ID        int
-	DoctorTypeId int  `form:"DoctorTypeId"`
-	Gender    string   `form:"Gender"`
-	Degree    string   `form:"Degree"`
+	ID           int
+	UserID       int    `form:"userid"`
+	DoctorTypeId string `form:"DoctorTypeId"`
+	Gender       string `form:"Gender"`
+	Degree       string `form:"Degree"`
 }
 type DoctorDetailsLoadForm struct {
-	Type []DoctorTypeCreate
-	Users Doctor
-    FormError map[string]error
+	Type      []DoctorTypeCreate
+	Users     Doctor
+	FormError map[string]error
 	CSRFToken string
 }
+
 func (h Handler) InputDoctorDeatails(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 	UId, err := strconv.Atoi(id)
@@ -45,9 +48,9 @@ func (h Handler) InputDoctorDeatails(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 	Data := DoctorDetailsLoadForm{
-		Type:      data,
-		Users:     Doctor{
-			ID:           UId,
+		Type: data,
+		Users: Doctor{
+			ID: UId,
 		},
 		FormError: map[string]error{},
 		CSRFToken: nosurf.Token(r),
@@ -85,14 +88,13 @@ func (h Handler) InputDoctorDeatailspost(w http.ResponseWriter, r *http.Request)
 		log.Fatal(err)
 		return
 	}
-	fmt.Printf("%#v",user)
+	fmt.Printf("%#v", user)
 	user = Doctor{
-		ID:           UId,
+		UserID:       UId,
 		DoctorTypeId: user.DoctorTypeId,
 		Gender:       user.Gender,
 		Degree:       user.Degree,
 	}
-	fmt.Println("===========check-3>>>>>>>>>>>")
 	if err := user.ValidateDoctor(); err != nil {
 		if vErr, ok := err.(validation.Errors); ok {
 			form.FormError = vErr
@@ -105,15 +107,16 @@ func (h Handler) InputDoctorDeatailspost(w http.ResponseWriter, r *http.Request)
 		})
 		return
 	}
-	fmt.Println("===========check-4>>>>>>>>>>>")
-
+	IntDoctortypeID, err := strconv.Atoi(user.DoctorTypeId)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+	}
 	h.usermgmService.RegisterDoctorDetails(r.Context(), &doctorpb.RegisterDoctorDetailsRequest{
 		UserID:       int32(UId),
-		DoctorTypeID: int32(user.DoctorTypeId),
+		DoctorTypeID: int32(IntDoctortypeID),
 		Degree:       user.Degree,
 		Gender:       user.Gender,
 	})
-	fmt.Println("===========check-5>>>>>>>>>>>")
 	http.Redirect(w, r, "/admin/home", http.StatusSeeOther)
 }
 func (u Doctor) ValidateDoctor() error {
@@ -122,6 +125,8 @@ func (u Doctor) ValidateDoctor() error {
 	),
 		validation.Field(&u.Gender,
 			validation.Required.Error("Gender can not be blank"),
+			validation.Match(regexp.MustCompile(`^Male$|Female`)).
+				Error("Class must be in the format Male or Female"),
 		),
 		validation.Field(&u.DoctorTypeId,
 			validation.Required.Error("Doctor Type name can not be blank"),

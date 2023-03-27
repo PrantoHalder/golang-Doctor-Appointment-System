@@ -45,10 +45,10 @@
                 <div>
                     <select
                         class="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                        name="Class_id">
-                        <option name="DoctorTypeId" selected>Choose a category</option>
+                        name="DoctorTypeId">
+                        <option  selected>Choose a category</option>
                         {{range .Type}}
-                        <option value="{{.ID}}" name="DoctorTypeId">{{.DoctorType}}</option>
+                        <option value="{{.ID}}" >{{.DoctorType}}</option>
                         {{end}}
                     </select>
                     {{ with (index .FormError "DoctorType")}}

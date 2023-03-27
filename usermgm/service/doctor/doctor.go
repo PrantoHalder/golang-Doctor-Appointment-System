@@ -185,9 +185,11 @@ func (us DoctorSvc) DoctorDetailsEdit(ctx context.Context,r *doctorpb.DoctorDeta
 }
 // register doctor
 func (us DoctorSvc) RegisterDoctorDetails(ctx context.Context,r *doctorpb.RegisterDoctorDetailsRequest) (*doctorpb.RegisterDoctorDetailsResponse, error) {
+	fmt.Printf("%#v",r.DoctorTypeID)
+	fmt.Printf("%#v",r.UserID)
 	user := storage.DoctorDetails{
 		UserID:       int(r.GetUserID()),
-		DoctorTypeID: int(r.GetUserID()),
+		DoctorTypeID: int(r.GetDoctorTypeID()),
 		Degree:       r.GetDegree(),
 		Gender:       r.GetGender(),
 	}
@@ -203,7 +205,6 @@ func (us DoctorSvc) RegisterDoctorDetails(ctx context.Context,r *doctorpb.Regist
 
 	return &doctorpb.RegisterDoctorDetailsResponse{
 		User: &doctorpb.Doctor{
-			ID:           int32(u.ID),
 			UserID:       int32(u.UserID),
 			DoctorTypeID: int32(u.DoctorTypeID),
 			Degree:       u.Degree,

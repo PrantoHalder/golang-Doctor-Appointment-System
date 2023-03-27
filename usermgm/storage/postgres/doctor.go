@@ -7,7 +7,6 @@ import (
 	"main.go/usermgm/storage"
 )
 //doctor details list
-//doctor details list
 //test case done
 const docotordetailslist = `SELECT doctordetails.id, users.first_name, users.last_name,doctordetails.degree,doctordetails.gender,doctortype.doctortype
 FROM users
@@ -44,16 +43,11 @@ func(s PostGressStorage) RegisterDoctorDeatils(u storage.DoctorDetails) (*storag
 
 	if err := stmt.Get(&u, u); err != nil {
 		fmt.Println("stmt error", err.Error())
-		log.Println("error is in the query section of registration section")
 		return nil, err
 	}
 	if u.ID == 0 {
-		log.Println("error is in the query section of registration section u.ID == 0")
-		log.Println("unable to create user")
 		return &u, fmt.Errorf("unable to create user")
 	}
-
-	fmt.Println("doctor res", u)
 	return &u, nil
 }
 //register doctor schedule into doctor schedule table
