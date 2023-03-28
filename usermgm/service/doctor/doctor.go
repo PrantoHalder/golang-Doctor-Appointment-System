@@ -21,6 +21,7 @@ type CoreDoctor interface {
 	ApproveEditCore(us storage.Edit) (*storage.Appointment, error)
 	ApproveUpdateCore(u storage.Appointment) (*storage.Appointment, error)
 	ListDoctorDetailsCore(u storage.Edit) (*storage.DoctorDetailsList, error)
+	DoctorScheduleListCore(u storage.Edit) ([]storage.Schedule, error)
 }
 
 type DoctorSvc struct {
@@ -33,6 +34,33 @@ func NewDoctorSvc(cu CoreDoctor) *DoctorSvc {
 		core: cu,
 	}
 }
+//doctor schedule list
+func (us DoctorSvc) DoctorScheduleList(ctx context.Context,r *doctorpb.DoctorScheduleListRequest) (*doctorpb.DoctorScheduleListResponse, error){
+	user := storage.Edit{
+		ID: int(r.GetID()),
+	}
+	u,err := us.core.DoctorScheduleListCore(user)
+	if err != nil {
+		return nil,err
+	}
+	var totalusers []*doctorpb.Schedule
+	for _,value := range u {
+		user:=&doctorpb.Schedule{
+			ID:              int32(value.ID),
+			DoctorDetailsID: int32(value.DoctorDetailsID),
+			StartAt:         timestamppb.New(value.StartAt),
+			EndAt:           timestamppb.New(value.EndAt),
+			WorkDays:        value.WorkDays,
+			Address:         value.Address,
+			Phone:           value.Phone,
+		}
+		totalusers = append(totalusers,user)
+	}
+	return &doctorpb.DoctorScheduleListResponse{
+		Schedule: totalusers,
+	}, nil
+}
+//doctor details list
 func (us DoctorSvc)DoctorDetailsList(ctx context.Context,r *doctorpb.DoctorDetailsListRequest) (*doctorpb.DoctorDetailsListResponse, error){
 	user := storage.Edit{
 		ID:              int(r.GetID()),

@@ -77,7 +77,7 @@ func TestRegister(t *testing.T) {
 			}
 
 			opts := cmp.Options{
-				cmpopts.IgnoreFields(storage.User{}, "ID", "Password", "CreatedAt", "UpdatedAt", "DeletedAt"),
+				cmpopts.IgnoreFields(storage.Register{}, "ID", "Password", "CreatedAt", "UpdatedAt", "DeletedAt"),
 			}
 
 			if !cmp.Equal(got, tt.want, opts...) {

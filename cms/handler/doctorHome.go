@@ -25,7 +25,7 @@ func(h Handler) ParseDoctorHomeTemplate(w http.ResponseWriter, data any) {
 	if t == nil {
 		http.Error(w,"Internal Server Error",http.StatusInternalServerError)
 	}
-	if err := t.Execute(w, nil); err != nil {
+	if err := t.Execute(w, data); err != nil {
 		http.Error(w,"Internal Server Error",http.StatusInternalServerError)
 	}
 }

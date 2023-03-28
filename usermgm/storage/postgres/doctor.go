@@ -6,6 +6,18 @@ import (
 
 	"main.go/usermgm/storage"
 )
+//doctor schedule list
+const doctorschedulelistQuery = `SELECT doctor_schedule.id ,doctor_schedule.workdays,doctor_schedule.startat,endat,doctor_schedule.address,doctor_schedule.phone
+FROM doctor_schedule
+FULL OUTER JOIN doctordetails ON doctordetails.id = doctor_schedule.doctorid
+WHERE doctordetails.id = $1`
+func (s PostGressStorage) DoctorScheduleList(id int) ([]storage.Schedule, error) {
+	var listUser []storage.Schedule
+	if err := s.DB.Select(&listUser, doctorschedulelistQuery,id); err != nil {
+		return nil, err
+	}
+	return listUser, nil
+}
 //doctor details list
 //test case done
 const docotordetailslist = `SELECT doctordetails.id, users.first_name, users.last_name,doctordetails.degree,doctordetails.gender,doctortype.doctortype

@@ -7,6 +7,7 @@ type DoctorService interface {
 	DoctorScheduleRegister(DoctorScheduleRegisterRequest) DoctorScheduleRegisterResponse
 	DoctorScheduleEdit(DoctorScheduleEditRequest) DoctorScheduleEditResponse
 	DoctorScheduleUpdate(DoctorScheduleUpdateRequest) DoctorScheduleUpdateResponse
+	DoctorScheduleList(DoctorScheduleListRequest) DoctorScheduleListResponse
 	DoctorList(DoctorListRequest) DoctorListResponse
 	EditDoctorStatus(EditDoctorStatusRequest) EditDoctorStatusResponse
 	UpdateDoctorStatus(UpdateDoctorStatusRequest) UpdateDoctorStatusResponse
@@ -15,6 +16,14 @@ type DoctorService interface {
 	ApproveAppointmentEdit(ApproveAppointmentEditRequest) ApproveAppointmentEditResponse
 	ApproveAppointmentUpdate(ApproveAppointmentUpdateRequest) ApproveAppointmentUpdateResponse
 	DoctorDetailsList(DoctorDetailsListRequest) DoctorDetailsListResponse
+}
+//doctor schedule list request
+type DoctorScheduleListRequest struct {
+	ID int `pb:"1"`
+}
+//doctor schedule list response
+type DoctorScheduleListResponse struct {
+	Schedule []Schedule `pb:"1"`
 }
 //doctor details list request
 type DoctorDetailsListRequest struct {
