@@ -124,6 +124,8 @@ func NewHandler(sm *scs.SessionManager, formDecoder *form.Decoder, usermgmConn *
 		r.Use(h.Authentication)
 		r.Get("/{id:[0-9]+}/home", h.DoctorHome)
 		r.Get("/{id:[0-9]+}/manageschedule",h.MangeSchedule)
+		r.Get("/{id:[0-9]+}/listschedule",h.ListSchedule)
+		r.Post("/{id:[0-9]+}/manageschedulepost",h.MangeSchedulePost)
 		r.Get("/logout", h.LogoutDoctorhandler)
 	})
 	return r

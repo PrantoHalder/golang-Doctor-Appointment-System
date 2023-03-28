@@ -22,6 +22,7 @@ type DoctorServiceClient interface {
 	DoctorScheduleRegister(ctx context.Context, in *DoctorScheduleRegisterRequest, opts ...grpc.CallOption) (*DoctorScheduleRegisterResponse, error)
 	DoctorScheduleEdit(ctx context.Context, in *DoctorScheduleEditRequest, opts ...grpc.CallOption) (*DoctorScheduleEditResponse, error)
 	DoctorScheduleUpdate(ctx context.Context, in *DoctorScheduleUpdateRequest, opts ...grpc.CallOption) (*DoctorScheduleUpdateResponse, error)
+	DoctorScheduleList(ctx context.Context, in *DoctorScheduleListRequest, opts ...grpc.CallOption) (*DoctorScheduleListResponse, error)
 	DoctorList(ctx context.Context, in *DoctorListRequest, opts ...grpc.CallOption) (*DoctorListResponse, error)
 	EditDoctorStatus(ctx context.Context, in *EditDoctorStatusRequest, opts ...grpc.CallOption) (*EditDoctorStatusResponse, error)
 	UpdateDoctorStatus(ctx context.Context, in *UpdateDoctorStatusRequest, opts ...grpc.CallOption) (*UpdateDoctorStatusResponse, error)
@@ -70,6 +71,15 @@ func (c *doctorServiceClient) DoctorScheduleEdit(ctx context.Context, in *Doctor
 func (c *doctorServiceClient) DoctorScheduleUpdate(ctx context.Context, in *DoctorScheduleUpdateRequest, opts ...grpc.CallOption) (*DoctorScheduleUpdateResponse, error) {
 	out := new(DoctorScheduleUpdateResponse)
 	err := c.cc.Invoke(ctx, "/doctorpb.DoctorService/DoctorScheduleUpdate", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *doctorServiceClient) DoctorScheduleList(ctx context.Context, in *DoctorScheduleListRequest, opts ...grpc.CallOption) (*DoctorScheduleListResponse, error) {
+	out := new(DoctorScheduleListResponse)
+	err := c.cc.Invoke(ctx, "/doctorpb.DoctorService/DoctorScheduleList", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -156,6 +166,7 @@ type DoctorServiceServer interface {
 	DoctorScheduleRegister(context.Context, *DoctorScheduleRegisterRequest) (*DoctorScheduleRegisterResponse, error)
 	DoctorScheduleEdit(context.Context, *DoctorScheduleEditRequest) (*DoctorScheduleEditResponse, error)
 	DoctorScheduleUpdate(context.Context, *DoctorScheduleUpdateRequest) (*DoctorScheduleUpdateResponse, error)
+	DoctorScheduleList(context.Context, *DoctorScheduleListRequest) (*DoctorScheduleListResponse, error)
 	DoctorList(context.Context, *DoctorListRequest) (*DoctorListResponse, error)
 	EditDoctorStatus(context.Context, *EditDoctorStatusRequest) (*EditDoctorStatusResponse, error)
 	UpdateDoctorStatus(context.Context, *UpdateDoctorStatusRequest) (*UpdateDoctorStatusResponse, error)
@@ -182,6 +193,9 @@ func (UnimplementedDoctorServiceServer) DoctorScheduleEdit(context.Context, *Doc
 }
 func (UnimplementedDoctorServiceServer) DoctorScheduleUpdate(context.Context, *DoctorScheduleUpdateRequest) (*DoctorScheduleUpdateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DoctorScheduleUpdate not implemented")
+}
+func (UnimplementedDoctorServiceServer) DoctorScheduleList(context.Context, *DoctorScheduleListRequest) (*DoctorScheduleListResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DoctorScheduleList not implemented")
 }
 func (UnimplementedDoctorServiceServer) DoctorList(context.Context, *DoctorListRequest) (*DoctorListResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DoctorList not implemented")
@@ -288,6 +302,24 @@ func _DoctorService_DoctorScheduleUpdate_Handler(srv interface{}, ctx context.Co
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(DoctorServiceServer).DoctorScheduleUpdate(ctx, req.(*DoctorScheduleUpdateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _DoctorService_DoctorScheduleList_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DoctorScheduleListRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DoctorServiceServer).DoctorScheduleList(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/doctorpb.DoctorService/DoctorScheduleList",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DoctorServiceServer).DoctorScheduleList(ctx, req.(*DoctorScheduleListRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -458,6 +490,10 @@ var DoctorService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DoctorScheduleUpdate",
 			Handler:    _DoctorService_DoctorScheduleUpdate_Handler,
+		},
+		{
+			MethodName: "DoctorScheduleList",
+			Handler:    _DoctorService_DoctorScheduleList_Handler,
 		},
 		{
 			MethodName: "DoctorList",

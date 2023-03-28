@@ -28,7 +28,7 @@
 </head>
 
 <body>
-    <form action="/users/store" method="post">
+    <form action="/doctor/{{.User.ID}}/manageschedulepost" method="post">
         <input type="hidden" name="csrf_token" value="{{.CSRFToken}}">
         <section class="max-w-4xl p-6 mx-auto bg-white rounded-md shadow-md dark:bg-gray-800">
             <h2 class="text-lg font-semibold text-gray-700 capitalize dark:text-white">Create Schedule</h2>
@@ -44,6 +44,7 @@
                     {{end}}
                 </div>
                 <div>
+
                     <label class="text-gray-700 dark:text-gray-200" for="username">End at</label>
                     <input id="EndAt" type="time" name="EndAt" value="{{.User.EndAt}}"
                         class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
@@ -56,31 +57,31 @@
                     <label class="text-gray-700 dark:text-gray-200" for="WorkDays">Work Days</label>
                     <br>
                     <br>
-                    <input id="WorkDays" type="radio" name="WorkDays" value="Saterday"
+                    <input id="WorkDays" type="checkbox" name="WorkDays" value="Saterday"
                         class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
                     <label class="text-gray-700 dark:text-gray-200" for="WorkDays">Saterday</label>
 
-                    <input id="WorkDays" type="radio" name="WorkDays" value="Sunday"
+                    <input id="WorkDays" type="checkbox" name="WorkDays" value="Sunday"
                         class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
                     <label class="text-gray-700 dark:text-gray-200" for="WorkDays">Sunday</label>
 
-                    <input id="WorkDays" type="radio" name="WorkDays" value="Monday"
+                    <input id="WorkDays" type="checkbox" name="WorkDays" value="Monday"
                         class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
                     <label class="text-gray-700 dark:text-gray-200" for="WorkDays">Monday</label>
 
-                    <input id="WorkDays" type="radio" name="WorkDays" value="Thuesday"
+                    <input id="WorkDays" type="checkbox" name="WorkDays" value="Thuesday"
                         class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
                     <label class="text-gray-700 dark:text-gray-200" for="WorkDays">Thuesday</label>
 
-                    <input id="WorkDays" type="radio" name="WorkDays" value="Wednesday"
+                    <input id="WorkDays" type="checkbox" name="WorkDays" value="Wednesday"
                         class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
                     <label class="text-gray-700 dark:text-gray-200" for="WorkDays">Wednesday</label>
 
-                    <input id="WorkDays" type="radio" name="WorkDays" value="Thursday"
+                    <input id="WorkDays" type="checkbox" name="WorkDays" value="Thursday"
                         class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
                     <label class="text-gray-700 dark:text-gray-200" for="WorkDays">Thursday</label>
 
-                    <input id="WorkDays" type="radio" name="WorkDays" value="Friday"
+                    <input id="WorkDays" type="checkbox" name="WorkDays" value="Friday"
                         class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
                     <label class="text-gray-700 dark:text-gray-200" for="WorkDays">Friday</label>
 

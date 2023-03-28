@@ -12,7 +12,6 @@ CREATE TABLE IF NOT EXISTS doctor_schedule (
 	updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (id),
 	UNIQUE (phone),
-	UNIQUE (doctorid),
 	FOREIGN KEY (doctorid) REFERENCES doctordetails(id)
 );
 

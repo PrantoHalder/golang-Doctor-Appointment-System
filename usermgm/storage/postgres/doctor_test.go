@@ -6,6 +6,7 @@ import (
 	"sort"
 	"testing"
 	"time"
+
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"main.go/usermgm/storage"
@@ -832,14 +833,14 @@ func TestListDoctorDetails(t *testing.T) {
 		Password:  "12345678",
 		Role:      "doctor",
 	}
-	doctor,err := s.RegisterDoctorAdmin(user)
+	doctor, err := s.RegisterDoctorAdmin(user)
 	if err != nil {
 		t.Fatalf("PostgresStorage.RegisterDoctorSchedule() error = %v", err)
 	}
 	dtype := storage.DoctorType{
 		DoctorType: "Nurologist",
 	}
-    DType , err := s.Registerdoctortype(dtype)
+	DType, err := s.Registerdoctortype(dtype)
 	if err != nil {
 		t.Fatalf("PostgresStorage.RegisterDoctorSchedule() error = %v", err)
 	}
@@ -849,7 +850,7 @@ func TestListDoctorDetails(t *testing.T) {
 		Degree:       "MBBS",
 		Gender:       "Male",
 	}
-	_ ,err = s.RegisterDoctorDeatils(ddetails)
+	_, err = s.RegisterDoctorDeatils(ddetails)
 	if err != nil {
 		t.Fatalf("PostgresStorage.RegisterDoctorSchedule() error = %v", err)
 	}
@@ -860,9 +861,9 @@ func TestListDoctorDetails(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name:    "DOCTOR_DETAILS_LIST_SUCCESS",
-			in:      doctor.ID,
-			want:    &storage.DoctorDetailsList{
+			name: "DOCTOR_DETAILS_LIST_SUCCESS",
+			in:   doctor.ID,
+			want: &storage.DoctorDetailsList{
 				FirstName:  "Pranto",
 				LastName:   "Halder",
 				DoctorType: "Nurologist",
@@ -884,8 +885,99 @@ func TestListDoctorDetails(t *testing.T) {
 				cmpopts.IgnoreFields(storage.DoctorDetailsList{}, "ID"),
 			}
 
-			if !cmp.Equal(got, tt.want,opts...) {
-				t.Errorf("PostGressStorage.Register() diff = %v", cmp.Diff(got, tt.want,opts...))
+			if !cmp.Equal(got, tt.want, opts...) {
+				t.Errorf("PostGressStorage.Register() diff = %v", cmp.Diff(got, tt.want, opts...))
+			}
+		})
+	}
+}
+
+func TestDoctorScheduleListQuery(t *testing.T) {
+	s, tr := NewTestStorage(getDBConnectionString(), getMigrationDir())
+	t.Parallel()
+
+	t.Cleanup(func() {
+		tr()
+	})
+	user := storage.User{
+		FirstName: "Pranto",
+		LastName:  "Halder",
+		Email:     "pranto@gmail.com",
+		Username:  "pranto",
+		Password:  "12345678",
+		Role:      "doctor",
+	}
+	doctor, err := s.RegisterDoctorAdmin(user)
+	if err != nil {
+		t.Fatalf("PostgresStorage.RegisterDoctorSchedule() error = %v", err)
+	}
+	dtype := storage.DoctorType{
+		DoctorType: "Nurologist",
+	}
+	DType, err := s.Registerdoctortype(dtype)
+	if err != nil {
+		t.Fatalf("PostgresStorage.RegisterDoctorSchedule() error = %v", err)
+	}
+	ddetails := storage.DoctorDetails{
+		UserID:       doctor.ID,
+		DoctorTypeID: DType.ID,
+		Degree:       "MBBS",
+		Gender:       "Male",
+	}
+	Dd, err := s.RegisterDoctorDeatils(ddetails)
+	if err != nil {
+		t.Fatalf("PostgresStorage.RegisterDoctorSchedule() error = %v", err)
+	}
+	workdays := storage.Schedule{
+		WorkDays: "Friday",
+	}
+	workday, err := json.Marshal(workdays.WorkDays)
+	if err != nil {
+		fmt.Printf("#%v", err)
+	}
+	newschedule := []storage.Schedule{
+		{   ID: 1,
+			DoctorDetailsID: Dd.ID,
+			StartAt:  time.Time{},
+			EndAt:    time.Time{},
+			WorkDays: string(workday),
+			Address:  "Khulna",
+			Phone:    "01716504535",
+		},
+	}
+	for _, value := range newschedule {
+		_, err := s.RegisterDoctorSchedule(value)
+		if err != nil {
+			t.Fatalf("PostgresStorage.RegisterDoctorSchedule() error = %v", err)
+		}
+	}
+	tests := []struct {
+		name    string
+		in      int
+		want    []storage.Schedule
+		wantErr bool
+	}{
+		{
+			name:    "DOCTOR_SCHEDULE_LIST_SUCCESS",
+			in:      Dd.ID,
+			want:    newschedule,
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			tt.in = Dd.ID
+			got, err := s.DoctorScheduleList(tt.in)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("PostGressStorage.DoctorScheduleListQuery() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			opts := cmp.Options{
+				cmpopts.IgnoreFields(storage.Schedule{},"DoctorDetailsID" ,"CreatedAt", "UpdatedAt"),
+			}
+
+			if !cmp.Equal(got, tt.want, opts...) {
+				t.Errorf("PostGressStorage.Register() diff = %v", cmp.Diff(got, tt.want, opts...))
 			}
 		})
 	}
