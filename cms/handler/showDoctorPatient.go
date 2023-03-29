@@ -47,7 +47,6 @@ func (h Handler) ShowDoctorPatient(w http.ResponseWriter, r *http.Request) {
 	Data := ShowDoctorFilter{
 		Users: data,
 	}
-
 	h.ParseShowDoctorToPatientTemplate(w, Data)
 }
 func (h Handler) ParseShowDoctorToPatientTemplate(w http.ResponseWriter, data any) {
