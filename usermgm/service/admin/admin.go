@@ -22,6 +22,8 @@ type CoreAdmin interface {
 	UpdatePatientCore(u storage.UpdateUser) (*storage.UpdateUser, error)
 	DeletePatientByIDCore(u storage.Edit) error
 	ListAdminCore(u storage.UserFilter) ([]storage.User,error)
+	EditAdminStatusCore(u storage.Edit) (*storage.UpdateStatus, error)
+	UpdateAdminStatus(u storage.UpdateStatus) (*storage.UpdateStatus, error)
 }
 
 type AdminSvc struct {
@@ -34,7 +36,36 @@ func NewAdminSvc(cu CoreAdmin) *AdminSvc {
 		core: cu,
 	}
 }
-
+// update admin status
+func (us AdminSvc)UpdateAdminStatus(ctx context.Context,r *adminpb.UpdateAdminStatusRequest) (*adminpb.UpdateAdminStatusResponse, error){
+	user := storage.UpdateStatus{
+		ID:        int(r.GetID()),
+		Is_active: r.GetIsActive(),
+	}
+	u, err := us.core.UpdateAdminStatus(user)
+	if err != nil {
+		fmt.Println("the error is in the serveice layer in Register after Register(user)")
+		return nil, err
+	}
+	return &adminpb.UpdateAdminStatusResponse{
+		IsActive:u.Is_active}, nil
+}
+// edit admin status
+func (us AdminSvc)EditAdminStatus(ctx context.Context,r *adminpb.EditAdminStatusRequest) (*adminpb.EditAdminStatusResponse, error){
+	user := storage.Edit{
+		ID:              int(r.GetID()),
+	}
+	
+	u, err := us.core.EditAdminStatusCore(user)
+	if err != nil {
+		fmt.Println("the error is in the serveice layer in Register after Register(user)")
+		return nil, err
+	}
+	return &adminpb.EditAdminStatusResponse{
+		ID:       int32(u.ID),
+		IsActive: u.Is_active,
+	},nil
+}
 //admin register
 func (us AdminSvc) RegisterAdmin(ctx context.Context, r *adminpb.RegisterAdminRequest) (*adminpb.RegisterAdminResponse, error) {
 	user := storage.User{

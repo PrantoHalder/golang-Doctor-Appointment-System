@@ -21,6 +21,8 @@ type AdminStore interface {
 	UpdatePatient(u storage.UpdateUser) (*storage.UpdateUser, error)
 	DeletePatientByID(id int) error
 	ListAdmin(uf storage.UserFilter) ([]storage.User, error)
+	EditAdminStatus(id int) (*storage.UpdateStatus, error)
+	UpdateAdminStatus(u storage.UpdateStatus) (*storage.UpdateStatus, error)
 }
 
 type CoreAdmin struct {
@@ -32,8 +34,28 @@ func NewCoreAdmin(us AdminStore) *CoreAdmin {
 		store: us,
 	}
 }
-
-
+//update admin status
+func (cu CoreAdmin) UpdateAdminStatus(u storage.UpdateStatus) (*storage.UpdateStatus, error) {
+	user ,err := cu.store.UpdateAdminStatus(u)
+	if err != nil {
+		return nil,err
+	}
+	if user == nil{
+		return nil,err
+	}
+	return user,nil
+}
+//edit admin status
+func (cu CoreAdmin) EditAdminStatusCore(u storage.Edit) (*storage.UpdateStatus, error){
+	user ,err := cu.store.EditAdminStatus(u.ID)
+	if err != nil {
+		return nil,err
+	}
+	if user == nil{
+      return nil,err
+	}
+	return user,nil
+}
 // Admin registration function
 func (cu CoreAdmin) RegisterAdmin(u storage.User) (*storage.User, error) {
 	hashPass, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)

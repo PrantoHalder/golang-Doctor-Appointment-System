@@ -22,6 +22,8 @@ type CoreDoctor interface {
 	ApproveUpdateCore(u storage.Appointment) (*storage.Appointment, error)
 	ListDoctorDetailsCore(u storage.Edit) (*storage.DoctorDetailsList, error)
 	DoctorScheduleListCore(u storage.Edit) ([]storage.Schedule, error)
+	EditDoctorStatusCore(u storage.Edit) (*storage.UpdateStatus, error)
+	UpdateDoctorStatusCore(u storage.UpdateStatus) (*storage.UpdateStatus, error)
 }
 
 type DoctorSvc struct {
@@ -33,6 +35,36 @@ func NewDoctorSvc(cu CoreDoctor) *DoctorSvc {
 	return &DoctorSvc{
 		core: cu,
 	}
+}
+//update doctor status
+func (us DoctorSvc)UpdateDoctorStatus(ctx context.Context,r *doctorpb.UpdateDoctorStatusRequest) (*doctorpb.UpdateDoctorStatusResponse, error){
+	user := storage.UpdateStatus{
+		ID:        int(r.GetID()),
+		Is_active: r.GetIsActive(),
+	}
+	u, err := us.core.UpdateDoctorStatusCore(user)
+	if err != nil {
+		fmt.Println("the error is in the serveice layer in Register after Register(user)")
+		return nil, err
+	}
+	return &doctorpb.UpdateDoctorStatusResponse{
+		IsActive:u.Is_active}, nil
+}
+//edit doctor status
+func (us DoctorSvc) EditDoctorStatus(ctx context.Context,r *doctorpb.EditDoctorStatusRequest) (*doctorpb.EditDoctorStatusResponse, error){
+	user := storage.Edit{
+		ID:              int(r.GetID()),
+	}
+	
+	u, err := us.core.EditDoctorStatusCore(user)
+	if err != nil {
+		fmt.Println("the error is in the serveice layer in Register after Register(user)")
+		return nil, err
+	}
+	return &doctorpb.EditDoctorStatusResponse{
+		ID:       int32(u.ID),
+		IsActive: u.Is_active,
+	},nil
 }
 //doctor schedule list
 func (us DoctorSvc) DoctorScheduleList(ctx context.Context,r *doctorpb.DoctorScheduleListRequest) (*doctorpb.DoctorScheduleListResponse, error){

@@ -3,11 +3,12 @@ package postgres
 import (
 	"encoding/json"
 	"fmt"
+	"sort"
+	"testing"
+
 	"github.com/google/go-cmp/cmp"
 	"github.com/google/go-cmp/cmp/cmpopts"
 	"main.go/usermgm/storage"
-	"sort"
-	"testing"
 )
 
 func TestRegister(t *testing.T) {
@@ -633,4 +634,3 @@ func TestShowDoctorListToUser(t *testing.T) {
 		})
 	}
 }
-
