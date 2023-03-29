@@ -238,7 +238,6 @@ WHERE appointment.userid = $1`
 func (s PostGressStorage)AppinmentStatus (id int) ([]storage.AppontmentStatus, error) {
 	var listUser []storage.AppontmentStatus
 	if err := s.DB.Select(&listUser,AppinmentStatusQuery,id); err != nil {
-		fmt.Println("===============>>>>>>>>>>>>>>>>",err)
 		return nil, err
 	}
 	if listUser == nil {

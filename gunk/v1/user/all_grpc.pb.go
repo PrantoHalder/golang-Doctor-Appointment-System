@@ -28,7 +28,6 @@ type UserServiceClient interface {
 	UpdatePatientStatus(ctx context.Context, in *UpdatePatientStatusRequest, opts ...grpc.CallOption) (*UpdatePatientStatusResponse, error)
 	ShowDoctorlistPatient(ctx context.Context, in *ShowDoctorlistPatientRequest, opts ...grpc.CallOption) (*ShowDoctorlistPatientResponse, error)
 	AppoinmentStatus(ctx context.Context, in *AppoinmentStatusRequest, opts ...grpc.CallOption) (*AppoinmentStatusResponse, error)
-	FixAppoinment(ctx context.Context, in *FixAppoinmentRequest, opts ...grpc.CallOption) (*FixAppoinmentResponse, error)
 }
 
 type userServiceClient struct {
@@ -129,15 +128,6 @@ func (c *userServiceClient) AppoinmentStatus(ctx context.Context, in *Appoinment
 	return out, nil
 }
 
-func (c *userServiceClient) FixAppoinment(ctx context.Context, in *FixAppoinmentRequest, opts ...grpc.CallOption) (*FixAppoinmentResponse, error) {
-	out := new(FixAppoinmentResponse)
-	err := c.cc.Invoke(ctx, "/userpb.UserService/FixAppoinment", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 // UserServiceServer is the server API for UserService service.
 // All implementations must embed UnimplementedUserServiceServer
 // for forward compatibility
@@ -152,7 +142,6 @@ type UserServiceServer interface {
 	UpdatePatientStatus(context.Context, *UpdatePatientStatusRequest) (*UpdatePatientStatusResponse, error)
 	ShowDoctorlistPatient(context.Context, *ShowDoctorlistPatientRequest) (*ShowDoctorlistPatientResponse, error)
 	AppoinmentStatus(context.Context, *AppoinmentStatusRequest) (*AppoinmentStatusResponse, error)
-	FixAppoinment(context.Context, *FixAppoinmentRequest) (*FixAppoinmentResponse, error)
 	mustEmbedUnimplementedUserServiceServer()
 }
 
@@ -189,9 +178,6 @@ func (UnimplementedUserServiceServer) ShowDoctorlistPatient(context.Context, *Sh
 }
 func (UnimplementedUserServiceServer) AppoinmentStatus(context.Context, *AppoinmentStatusRequest) (*AppoinmentStatusResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AppoinmentStatus not implemented")
-}
-func (UnimplementedUserServiceServer) FixAppoinment(context.Context, *FixAppoinmentRequest) (*FixAppoinmentResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method FixAppoinment not implemented")
 }
 func (UnimplementedUserServiceServer) mustEmbedUnimplementedUserServiceServer() {}
 
@@ -386,24 +372,6 @@ func _UserService_AppoinmentStatus_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
-func _UserService_FixAppoinment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(FixAppoinmentRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(UserServiceServer).FixAppoinment(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/userpb.UserService/FixAppoinment",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(UserServiceServer).FixAppoinment(ctx, req.(*FixAppoinmentRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 // UserService_ServiceDesc is the grpc.ServiceDesc for UserService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -450,10 +418,6 @@ var UserService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AppoinmentStatus",
 			Handler:    _UserService_AppoinmentStatus_Handler,
-		},
-		{
-			MethodName: "FixAppoinment",
-			Handler:    _UserService_FixAppoinment_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
