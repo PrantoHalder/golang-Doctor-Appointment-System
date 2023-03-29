@@ -343,3 +343,50 @@ func (s PostGressStorage) ListAdmin(uf storage.UserFilter) ([]storage.User, erro
 	}
 	return listUser, nil
 }
+//edit admin status
+//test case done
+const EditAdminStatusQuery = `SELECT id,is_active
+FROM users
+WHERE
+id =$1
+AND
+role ='admin'
+AND
+deleted_at IS NULL`
+
+func (s PostGressStorage) EditAdminStatus(id int) (*storage.UpdateStatus, error) {
+	var listUser storage.UpdateStatus
+	if err := s.DB.Get(&listUser,EditAdminStatusQuery,id); err != nil {
+		return nil, err
+	}
+	if listUser.ID == 0 {
+     return nil,fmt.Errorf("unable to find username")
+	}
+	return &listUser, nil
+}
+//update admin status
+//test case done
+const UpdateAdminStatusQuery = `
+	UPDATE users SET
+		is_active = :is_active
+	WHERE id = :id 
+	AND
+	role ='admin'
+	AND 
+	deleted_at is NULL
+	RETURNING id;
+	`
+
+func (s PostGressStorage) UpdateAdminStatus(u storage.UpdateStatus) (*storage.UpdateStatus, error) {
+	stmt, err := s.DB.PrepareNamed(UpdateAdminStatusQuery)
+	if err != nil {
+		log.Fatalln(err)
+	}
+
+	if err := stmt.Get(&u, u); err != nil {
+		log.Fatalln(err)
+		return nil, err
+	}
+	return &u, nil
+
+}

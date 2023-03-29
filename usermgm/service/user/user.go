@@ -200,10 +200,6 @@ func (us UserSvc)UpdatePatientStatus(ctx context.Context,r *userpb.UpdatePatient
 		ID:        int(r.GetID()),
 		Is_active: r.GetIsActive(),
 	}
-	if err := user.Validate(); err != nil {
-		fmt.Println("the error is in the serveice layer in Register after user.Validate")
-		return nil, err
-	}
 	u, err := us.core.UpdatePatient(user)
 	if err != nil {
 		fmt.Println("the error is in the serveice layer in Register after Register(user)")

@@ -18,6 +18,8 @@ type DoctorStore interface {
 	ApproveUpdate(u storage.Appointment) (*storage.Appointment, error)
 	ListDoctorDetails(id int) (*storage.DoctorDetailsList, error)
 	DoctorScheduleList(id int) ([]storage.Schedule, error)
+	EditDoctorStatus(id int) (*storage.UpdateStatus, error)
+	UpdateDoctorStatus(u storage.UpdateStatus) (*storage.UpdateStatus, error)
 }
 
 type CoreDoctor struct {
@@ -28,6 +30,28 @@ func NewCoreDoctor(us DoctorStore) *CoreDoctor {
 	return &CoreDoctor{
 		store: us,
 	}
+}
+//update docotor status
+func(cu CoreDoctor)UpdateDoctorStatusCore(u storage.UpdateStatus) (*storage.UpdateStatus, error) {
+	user ,err := cu.store.UpdateDoctorStatus(u)
+	if err != nil {
+		return nil,err
+	}
+	if user == nil{
+		return nil,err
+	}
+	return user,nil
+}
+//edit doctor status
+func(cu CoreDoctor)EditDoctorStatusCore(u storage.Edit) (*storage.UpdateStatus, error){
+	user ,err := cu.store.EditDoctorStatus(u.ID)
+	if err != nil {
+		return nil,err
+	}
+	if user == nil{
+      return nil,err
+	}
+	return user,nil
 }
 //doctor schedule list
 func (cu CoreDoctor)DoctorScheduleListCore(u storage.Edit) ([]storage.Schedule, error){

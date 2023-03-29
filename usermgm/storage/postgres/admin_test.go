@@ -799,3 +799,111 @@ func TestListAdmin(t *testing.T) {
 		})
 	}
 }
+
+func TestEditAdminStatus(t *testing.T) {
+	s, tr := NewTestStorage(getDBConnectionString(), getMigrationDir())
+	t.Parallel()
+
+	t.Cleanup(func() {
+		tr()
+	})
+	newuser := storage.User{
+		FirstName: "Rahim",
+		LastName:  "Hossain",
+		Email:     "rahim@gmail.com",
+		Username:  "rahim",
+		Password:  "12345678",
+		Role:      "admin",
+	}
+	user, err := s.RegisterAdmin(newuser)
+	if err != nil {
+		t.Fatalf("PostgresStorage.RegisterPatient() error = %v", err)
+	}
+	tests := []struct {
+		name    string
+		in      int
+		want    *storage.UpdateStatus
+		wantErr bool
+	}{
+		{
+			name: "SUCESS_STATUS_EDIT",
+			in:   1,
+			want: &storage.UpdateStatus{
+				ID:        1,
+				Is_active: true,
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			tt.in = user.ID
+			got, err := s.EditAdminStatus(tt.in)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("PostGressStorage.Register() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+
+			if !cmp.Equal(got, tt.want) {
+				t.Errorf("PostGressStorage.Register() diff = %v", cmp.Diff(got, tt.want))
+			}
+		})
+	}
+}
+
+func TestUpdateAdminStatus(t *testing.T) {
+	s, tr := NewTestStorage(getDBConnectionString(), getMigrationDir())
+	t.Parallel()
+
+	t.Cleanup(func() {
+		tr()
+	})
+	newuser := storage.User{
+		FirstName: "Rahim",
+		LastName:  "Hossain",
+		Email:     "rahim@gmail.com",
+		Username:  "rahim",
+		Password:  "12345678",
+		Role:      "admin",
+	}
+	_, err := s.RegisterAdmin(newuser)
+	if err != nil {
+		t.Fatalf("PostgresStorage.RegisterPatient() error = %v", err)
+	}
+	tests := []struct {
+		name    string
+		in      storage.UpdateStatus
+		want    *storage.UpdateStatus
+		wantErr bool
+	}{
+		{
+			name: "USER_UPDATE_STATUS_SUCCESS",
+			in: storage.UpdateStatus{
+				ID:        1,
+				Is_active: false,
+			},
+			want: &storage.UpdateStatus{
+				ID:        1,
+				Is_active: false,
+			},
+			wantErr: false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := s.UpdateAdminStatus(tt.in)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("PostGressStorage.Register() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+
+			opts := cmp.Options{
+				cmpopts.IgnoreFields(storage.User{}, "ID"),
+			}
+
+			if !cmp.Equal(got, tt.want, opts...) {
+				t.Errorf("PostGressStorage.Register() diff = %v", cmp.Diff(got, tt.want, opts...))
+			}
+		})
+	}
+}
