@@ -11,7 +11,6 @@ type UserService interface {
 	UpdatePatientStatus(UpdatePatientStatusRequest) UpdatePatientStatusResponse
 	ShowDoctorlistPatient(ShowDoctorlistPatientRequest) ShowDoctorlistPatientResponse
 	AppoinmentStatus(AppoinmentStatusRequest) AppoinmentStatusResponse
-	FixAppoinment(FixAppoinmentRequest) FixAppoinmentResponse
 }
 //appontment status
 type AppontmentStatus struct {
@@ -30,14 +29,6 @@ type DoctorList struct {
 	DoctorType string `pb:"5"`
 	Gender     string `pb:"6"`
 } 
-//appointments status request
-type FixAppoinmentRequest struct{
-	ID int `pb:"1"`
-}
-//appintments status response
-type FixAppoinmentResponse struct{
-	AppontmentStatus []AppontmentStatus `pb:"1"`
-}
 //appointments status request
 type AppoinmentStatusRequest struct{
 	ID int `pb:"1"`
