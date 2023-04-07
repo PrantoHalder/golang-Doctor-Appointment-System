@@ -92,7 +92,6 @@ func NewHandler(sm *scs.SessionManager, formDecoder *form.Decoder, usermgmConn *
 		r.Get("/registeradmin", h.AdminRegister)
 		r.Get("/registerdoctor", h.DoctorRegister)
 		r.Get("/registerdoctortype", h.DoctorTypeRegister)
-		r.Get("/registerdoctorschedule", h.CreateSchedule)
 		r.Post("/registerpatientpost", h.PatientRegisterPost)
 		r.Post("/registeradminpost", h.AdminRegisterPost)
 		r.Post("/registerdoctorpost", h.DoctorRegisterPost)
@@ -126,6 +125,7 @@ func NewHandler(sm *scs.SessionManager, formDecoder *form.Decoder, usermgmConn *
 		r.Get("/{id:[0-9]+}/manageschedule",h.MangeSchedule)
 		r.Get("/{id:[0-9]+}/listschedule",h.ListSchedule)
 		r.Post("/{id:[0-9]+}/manageschedulepost",h.MangeSchedulePost)
+		r.Get("/{id:[0-9]+}/appointmentlist",h.AppointmentList)
 		r.Get("/logout", h.LogoutDoctorhandler)
 	})
 	return r

@@ -6,6 +6,8 @@ import (
 
 	"main.go/usermgm/storage"
 )
+// get doctor details id
+
 //doctor schedule list
 const doctorschedulelistQuery = `SELECT doctor_schedule.id ,doctor_schedule.workdays,doctor_schedule.startat,endat,doctor_schedule.address,doctor_schedule.phone
 FROM doctor_schedule

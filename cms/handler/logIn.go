@@ -10,12 +10,15 @@ import (
 	"github.com/justinas/nosurf"
 	loginpb "main.go/gunk/v1/login"
 )
+
 const (
 	NotFound = "sql: no rows in result set"
 )
+
 type LoginUser struct {
-	Username  string `form:"Username"`
-	Password  string `form:"Password"`
+	Username  string 
+	Password  string 
+	Loginas   string 
 	FormError map[string]error
 	CSRFToken string
 }
@@ -35,6 +38,7 @@ func (h Handler) LoginPost(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 		http.Error(w, "internal server error", http.StatusInternalServerError)
 	}
+	
 	if lf.Username == "" {
 		if err := lf.Validate(); err != nil {
 			if vErr, ok := err.(validation.Errors); ok {
@@ -68,7 +72,7 @@ func (h Handler) LoginPost(w http.ResponseWriter, r *http.Request) {
 		Password: lf.Password,
 	})
 	if err != nil {
-        if err.Error() == NotFound  {
+		if err.Error() == "sql: no rows in result set" {
 			formErr := make(map[string]error)
 			formErr["Username"] = fmt.Errorf("credentials does not match")
 			lf.FormError = formErr
@@ -114,7 +118,7 @@ func (h Handler) LoginPost(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 			h.sessionManager.Put(r.Context(), "userID", strconv.Itoa(int(u.GetUser().ID)))
-	        http.Redirect(w, r,fmt.Sprintf("/doctor/%v/home",u.User.ID), http.StatusSeeOther)
+			http.Redirect(w, r, fmt.Sprintf("/doctor/%v/home", u.User.ID), http.StatusSeeOther)
 		} else {
 			h.ParseInactiveTemplates(w, nil)
 		}
@@ -134,7 +138,7 @@ func (h Handler) LoginPost(w http.ResponseWriter, r *http.Request) {
 				return
 			}
 			h.sessionManager.Put(r.Context(), "userID", strconv.Itoa(int(u.GetUser().ID)))
-	        http.Redirect(w, r, fmt.Sprintf("/patients/%v/home",u.User.ID), http.StatusSeeOther)
+			http.Redirect(w, r, fmt.Sprintf("/patients/%v/home", u.User.ID), http.StatusSeeOther)
 		} else {
 			h.ParseInactiveTemplates(w, nil)
 		}
@@ -147,6 +151,9 @@ func (lu LoginUser) Validate() error {
 	),
 		validation.Field(&lu.Password,
 			validation.Required.Error("password can not be blank"),
+		),
+		validation.Field(&lu.Loginas,
+			validation.Required.Error("Role can not be blank"),
 		),
 	)
 }

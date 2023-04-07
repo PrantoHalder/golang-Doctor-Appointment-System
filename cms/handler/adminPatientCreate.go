@@ -100,7 +100,7 @@ func (u PatientCreate) Validate() error {
 		),
 		validation.Field(&u.Password,
 			validation.Required.Error("password cannot be blank"),
-			validation.Length(6, 8).Error("fast name must be between 6 to 8 characters"),
+			validation.Length(6, 8).Error("password must be between 6 to 8 characters"),
 			validation.Required.When(u.ID == 0).Error("unable to set password"),
 		),
 	)

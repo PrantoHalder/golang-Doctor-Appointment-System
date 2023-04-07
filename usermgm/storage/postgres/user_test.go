@@ -226,7 +226,7 @@ func TestEditUser(t *testing.T) {
 			name: "EDIT_USER_SUCCESS",
 			in:   1,
 			want: &storage.User{
-				ID:        0,
+				ID:        1,
 				FirstName: "Rahim",
 				LastName:  "Hossain",
 				Email:     "rahim@gmail.com",

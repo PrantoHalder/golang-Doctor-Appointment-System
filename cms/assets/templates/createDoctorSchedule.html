@@ -37,7 +37,7 @@
                 <div>
                     <label class="text-gray-700 dark:text-gray-200" for="username">Start at
                     </label>
-                    <input id="StartAt" type="time" name="StartAt" value="{{ .User.StartAt}}"
+                    <input id="StartAt" type="text" name="StartAt" value="{{ .User.StartAt}}"
                         class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
                     {{ with (index .FormError "StartAt")}}
                     <p style="color: brown;">{{.}}</p>
@@ -46,7 +46,7 @@
                 <div>
 
                     <label class="text-gray-700 dark:text-gray-200" for="username">End at</label>
-                    <input id="EndAt" type="time" name="EndAt" value="{{.User.EndAt}}"
+                    <input id="EndAt" type="text" name="EndAt" value="{{.User.EndAt}}"
                         class="block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded-md dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 focus:border-blue-400 focus:ring-blue-300 focus:ring-opacity-40 dark:focus:border-blue-300 focus:outline-none focus:ring">
                     {{ with (index .FormError "EndAt")}}
                     <p style="color: brown;">{{.}}</p>

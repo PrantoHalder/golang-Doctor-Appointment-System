@@ -45,9 +45,10 @@ func (us LoginSvc) Login(ctx context.Context,r *loginpb.LoginRequest) (*loginpb.
 			ID:        int32(u.ID),
 			FirstName: u.FirstName,
 			LastName:  u.LastName,
-			IsActive:  u.Is_active,
 			Username:  u.Username,
+			Password:  u.Password,
 			Email:     u.Email,
+			IsActive:  u.Is_active,
 			Role:      u.Role,
 		},
 	}, nil
