@@ -9,9 +9,10 @@ type User struct {
 	FirstName string `pb:"2"`
 	LastName  string `pb:"3"`
 	Username  string `pb:"4"`
-	Email     string `pb:"5"`
-	Is_active bool   `pb:"6"`
-	Role      string `pb:"7"`
+	Password  string `pb:"5"`
+	Email     string `pb:"6"`
+	Is_active bool   `pb:"7"`
+	Role      string `pb:"8"`
 }
 // user login request
 type LoginRequest struct {

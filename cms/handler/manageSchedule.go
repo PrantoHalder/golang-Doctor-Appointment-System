@@ -15,8 +15,8 @@ import (
 )
 type Load struct {
 	ID int
-	StartAt time.Time
-	EndAt time.Time
+	StartAt string
+	EndAt string
 	WorkDays string
 	Address string
 	Phone string
@@ -44,7 +44,6 @@ func (h Handler)MangeSchedule(w http.ResponseWriter, r *http.Request){
 
 func (h Handler) MangeSchedulePost(w http.ResponseWriter, r *http.Request){
 	id := chi.URLParam(r,"id")
-	fmt.Println(id)
 	UId ,err := strconv.Atoi(id)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -81,8 +80,8 @@ func (h Handler) MangeSchedulePost(w http.ResponseWriter, r *http.Request){
 	}
 	_ , err = h.usermgmService.DoctorScheduleRegister(r.Context(),&doctorpb.DoctorScheduleRegisterRequest{
 		DoctorDetailsID: u.ID,
-		StartAt:         timestamppb.New(user.StartAt),
-		EndAt:           timestamppb.New(user.EndAt),
+		StartAt:         timestamppb.New(h.StringToDate(user.StartAt)),
+		EndAt:           timestamppb.New(h.StringToDate(user.EndAt)),
 		WorkDays:        user.WorkDays,
 		Address:         user.Address,
 		Phone:           user.Phone,
@@ -91,7 +90,7 @@ func (h Handler) MangeSchedulePost(w http.ResponseWriter, r *http.Request){
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
-	http.Redirect(w, r, fmt.Sprintln("/admin/home"), http.StatusSeeOther)
+	http.Redirect(w, r, fmt.Sprintf("/doctor/%v/home",id), http.StatusSeeOther)
 }
 func (u Load) ValidateDoctorSchedule() error {
 	return validation.ValidateStruct(&u, validation.Field(&u.StartAt,
@@ -119,4 +118,12 @@ func(h Handler) ParseManageScheduleTemplate(w http.ResponseWriter, data any) {
 	if err := t.Execute(w, data); err != nil {
 		http.Error(w,"Internal Server Error",http.StatusInternalServerError)
 	}
+}
+func (h *Handler) StringToDate(date string) time.Time {
+	layout := "2006-01-02 "
+	fdate, err := time.Parse(layout, date)
+	if err != nil {
+		log.Println(err)
+	}
+	return fdate
 }

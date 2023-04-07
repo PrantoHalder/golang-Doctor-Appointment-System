@@ -58,7 +58,6 @@ func TestRegisterDoctorDeatils(t *testing.T) {
 				Degree:       "MBBS",
 				Gender:       "MALE",
 			},
-			wantErr: false,
 		},
 	}
 	for _, tt := range tests {
